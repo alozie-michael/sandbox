@@ -3,7 +3,7 @@
     <div class="main-panel" [ngClass]="{ 'main-panel-alt':isAuthenticated() == false }">
         <router-outlet name="navbar"></router-outlet>
             <div class="content">
-                <div class="card router-outlet-wrapper">
+                <div class="router-outlet-wrapper">
                      <router-outlet></router-outlet>
                 </div>
                 <router-outlet name="popup"></router-outlet>

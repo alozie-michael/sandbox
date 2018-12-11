@@ -32,7 +32,7 @@ export class SidebarComponent implements OnInit {
         private router: Router
     ) {
         this.version = VERSION ? 'v' + VERSION : '';
-        this.isNavbarCollapsed = true;
+        this.isNavbarCollapsed = false;
     }
 
     ngOnInit() {

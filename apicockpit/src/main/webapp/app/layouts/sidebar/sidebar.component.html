@@ -25,9 +25,10 @@
             <p>Projects</p>
           </a>
         </li>
+
         <li>
             <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="isAuthenticated()">
-            <ul class="nav" >
+            <ul class="nav" *ngSwitchCase="true">
                 <li ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                     <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="admin-menu">
                         <i class="nc-icon nc-single-02"></i>
