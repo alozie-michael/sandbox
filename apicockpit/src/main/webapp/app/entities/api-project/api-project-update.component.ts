@@ -81,6 +81,14 @@ export class ApiProjectUpdateComponent implements OnInit, UnsavedChangesGuard {
         window.history.back();
     }
 
+    resetApiKeys() {
+        console.log('reseting api key');
+    }
+
+    toggleApiKeyState() {
+        console.log('toggling api key state');
+    }
+
     save() {
         this.isSaving = true;
         if (this.apiProject.id !== undefined) {

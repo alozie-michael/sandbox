@@ -31,10 +31,16 @@
                   <p>Users</p>
               </a>
           </li>
+          <li>
+              <a routerLink="api-project-service">
+                  <i class="nc-icon nc-settings-gear-65"></i>
+                  <p>Settings</p>
+              </a>
+          </li>
             <li>
-                <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="isAuthenticated()">
+                <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="isAuthenticated()" *jhiHasAnyAuthority="'ROLE_ADMIN'">
                 <ul class="nav" *ngSwitchCase="true">
-                    <li ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"  *jhiHasAnyAuthority="'ROLE_ADMIN'">
+                    <li ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                         <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="admin-menu">
                             <i class="nc-icon nc-settings-gear-65"></i>
                             <p jhiTranslate="global.menu.admin.main">Administration</p>
@@ -52,36 +58,37 @@
                                         <span jhiTranslate="global.menu.entities.platformUser">Users</span>
                                     </a>
                                 </li>
-                                <li>
+                                <li *jhiHasAnyAuthority="'ROLE_ADMIN'">
                                     <a class="dropdown-item" routerLink="admin/jhi-metrics" routerLinkActive="active" (click)="collapseNavbar()">
                                         <fa-icon [icon]="'tachometer-alt'" [fixedWidth]="true"></fa-icon>
                                         <span jhiTranslate="global.menu.admin.metrics">Metrics</span>
                                     </a>
                                 </li>
-                                <li>
+                                <li *jhiHasAnyAuthority="'ROLE_ADMIN'">
                                     <a class="dropdown-item" routerLink="admin/jhi-health" routerLinkActive="active" (click)="collapseNavbar()">
                                         <fa-icon [icon]="'heart'" [fixedWidth]="true"></fa-icon>
                                         <span jhiTranslate="global.menu.admin.health">Health</span>
                                     </a>
                                 </li>
-                                <li>
+                                <li *jhiHasAnyAuthority="'ROLE_ADMIN'">
                                     <a class="dropdown-item" routerLink="admin/jhi-configuration" routerLinkActive="active" (click)="collapseNavbar()">
                                         <fa-icon [icon]="'list'" [fixedWidth]="true"></fa-icon>
                                         <span jhiTranslate="global.menu.admin.configuration">Configuration</span>
                                     </a>
                                 </li>
-                                <li>
+                                <li *jhiHasAnyAuthority="'ROLE_ADMIN'">
                                     <a class="dropdown-item" routerLink="admin/audits" routerLinkActive="active" (click)="collapseNavbar()">
                                         <fa-icon [icon]="'bell'" [fixedWidth]="true"></fa-icon>
                                         <span jhiTranslate="global.menu.admin.audits">Audits</span>
                                     </a>
                                 </li>
-                                <li>
+                                <li *jhiHasAnyAuthority="'ROLE_ADMIN'">
                                     <a class="dropdown-item" routerLink="admin/logs" routerLinkActive="active" (click)="collapseNavbar()">
                                         <fa-icon [icon]="'tasks'" [fixedWidth]="true"></fa-icon>
                                         <span jhiTranslate="global.menu.admin.logs">Logs</span>
                                     </a>
                                 </li>
+                                <ng-template *jhiHasAnyAuthority="'ROLE_ADMIN'" >
                                     <li *ngIf="swaggerEnabled">
                                         <a class="dropdown-item" routerLink="admin/docs" routerLinkActive="active" (click)="collapseNavbar()">
                                             <fa-icon [icon]="'book'" [fixedWidth]="true"></fa-icon>
@@ -95,8 +102,11 @@
                                             <span jhiTranslate="global.menu.admin.database">Database</span>
                                         </a>
                                     </li>
+                                </ng-template>
+
                             </ul>
                     </li>
+                    <ng-template *jhiHasAnyAuthority="'ROLE_ADMIN'" >
                         <li ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                             <li ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu">
@@ -179,6 +189,7 @@
                    </ul>
                 </div>
             </li>
+          </ng-template>
       </ul>
     </div>
   </div>
