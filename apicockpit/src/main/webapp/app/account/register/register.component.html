@@ -3,8 +3,10 @@
         <div class="col-md-12">
             <h1 jhiTranslate="register.title">Registration</h1>
 
-            <div class="alert alert-success" *ngIf="success" jhiTranslate="register.messages.success">
-                <strong>Registration saved!</strong> Please check your email for confirmation.
+            <div class="" *ngIf="success">
+                <h2 jhiTranslate="register.messages.success.title">Verify your email</h2>
+                <p jhiTranslate="register.messages.success">Please visit the verification link sent to <strong>{{registerAccount.email}}</strong></p>
+                <p jhiTranslate="register.messages.success.tag">Didn’t receive an email? <a href="#">Click here to resend it</a></p>
             </div>
 
             <div class="alert alert-danger" *ngIf="error" jhiTranslate="register.messages.error.fail">
