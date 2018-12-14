@@ -16,6 +16,7 @@ import { IApiConsumerProfile } from 'app/shared/model/api-consumer-profile.model
 import { ApiConsumerProfileService } from 'app/entities/api-consumer-profile';
 
 import { UnsavedChangesGuard } from 'app/shared/guard/unsavedChangesGuard';
+import { count } from 'rxjs/operators';
 
 @Component({
     selector: 'jhi-api-project-update',
@@ -151,5 +152,13 @@ export class ApiProjectUpdateComponent implements OnInit, UnsavedChangesGuard {
         } else {
             this.confirmChangesPrompt.show();
         }
+    }
+
+    groupBy(item) {
+        return item['serviceGroupName'];
+    }
+
+    groupByValueFn(_: string, children: any[]) {
+        return { name: children[0].serviceGroupName, length: children.length };
     }
 }

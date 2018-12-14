@@ -5,6 +5,7 @@ import com.apifuze.cockpit.ApicockpitApp;
 import com.apifuze.cockpit.domain.ApiProjectService;
 import com.apifuze.cockpit.repository.ApiProjectServiceRepository;
 import com.apifuze.cockpit.service.ApiProjectServiceService;
+import com.apifuze.cockpit.service.ApiServiceConfigService;
 import com.apifuze.cockpit.service.dto.ApiProjectServiceDTO;
 import com.apifuze.cockpit.service.mapper.ApiProjectServiceMapper;
 import com.apifuze.cockpit.web.rest.errors.ExceptionTranslator;
@@ -78,10 +79,13 @@ public class ApiProjectServiceResourceIntTest {
 
     private ApiProjectService apiProjectService;
 
+
+
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final ApiProjectServiceResource apiProjectServiceResource = new ApiProjectServiceResource(apiProjectServiceService);
+        ApiServiceConfigService apiServiceConfigService=null;
+        final ApiProjectServiceResource apiProjectServiceResource = new ApiProjectServiceResource(apiProjectServiceService, apiServiceConfigService);
         this.restApiProjectServiceMockMvc = MockMvcBuilders.standaloneSetup(apiProjectServiceResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

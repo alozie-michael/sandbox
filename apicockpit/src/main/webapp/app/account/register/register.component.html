@@ -1,15 +1,13 @@
 <div class="main">
     <div class="row justify-content-center">
         <div class="col-md-12">
-            <h1 jhiTranslate="register.title">Registration</h1>
-
             <div class="" *ngIf="success">
                 <h2 jhiTranslate="register.messages.success.title">Verify your email</h2>
-                <p jhiTranslate="register.messages.success">Please visit the verification link sent to <strong>{{registerAccount.email}}</strong></p>
-                <p jhiTranslate="register.messages.success.tag">Didn’t receive an email? <a href="#">Click here to resend it</a></p>
+                <p jhiTranslate="register.messages.success.text1" translateValues="{email: '{{registerAccount.email}}'}">Please visit the verification link sent to <strong>{{registerAccount.email}}</strong></p>
+                <p jhiTranslate="register.messages.success.tag" translateValues="{url: '{{registerAccount.email}}'}">Didn’t receive an email? <a href="#">Click here to resend it</a></p>
             </div>
-
             <div class="alert alert-danger" *ngIf="error" jhiTranslate="register.messages.error.fail">
+                <h1 jhiTranslate="register.title">Registration</h1>
                 <strong>Registration failed!</strong> Please try again later.
             </div>
 

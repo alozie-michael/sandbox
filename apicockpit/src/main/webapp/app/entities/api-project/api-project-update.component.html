@@ -1,5 +1,5 @@
-
-        <div class="col-8 card">
+<div class="row">
+    <div class="col-8 card">
             <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
                 <h2 id="jhi-api-project-heading" jhiTranslate="apicockpitApp.apiProject.home.createOrEditLabel">New Project</h2>
                 <div>
@@ -50,9 +50,18 @@
                                         [multiple]="true"
                                         [closeOnSelect]="false"
                                         [searchable]="false"
+                                        [groupBy]="groupBy"
+                                        [groupValue]="groupByValueFn"
+                                        [selectableGroup]="true"
+                                        [selectableGroupAsModel]="false"
+                                        [hideSelected]="true"
                                         bindLabel="name"
                                         placeholder="Select Api"
                                         [(ngModel)]="apiProject.apis">
+                                        <ng-template ng-optgroup-tmp let-item="item">
+                                            <span style="vertical-align: middle;">{{item.name}}</span>
+                                            <span class="ml-2 badge badge-secondary ">{{item.length}}</span>
+                                        </ng-template>
                                     </ng-select>
                                 </div>
                         </div>
@@ -77,8 +86,9 @@
             </form>
         </div>
 
+    <div class="col-4">
+        <div class="card padding-15">
 
-    <div class="col-4 card">
         <h2 jhiTranslate="apicockpitApp.apiProject.apiKey">API Key</h2>
         <div class="form-group">
             <h5 class="form-control-label" jhiTranslate="apicockpitApp.apiProject.apiKey" for="field_active">Client Id</h5>
@@ -96,4 +106,7 @@
         <button type="button" id="reset-keys" class="btn btn-secondary"  (click)="resetApiKeys()">
             <fa-icon [icon]="'reset'"></fa-icon>&nbsp;<span jhiTranslate="apicockpitApp.apiProject.resetApikey">Cancel</span>
         </button>
+        </div>
+
     </div>
+</div>
