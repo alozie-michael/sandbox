@@ -1,4 +1,5 @@
-import { Component, OnInit, AfterViewInit, Renderer, ElementRef } from '@angular/core';
+import { Router } from '@angular/router';
+import { Component, OnInit, AfterViewInit, Renderer, ElementRef, ViewChild } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiLanguageService } from 'ng-jhipster';
@@ -21,13 +22,16 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     registerAccount: any;
     success: boolean;
     modalRef: NgbModalRef;
+    @ViewChild('successModal')
+    successModal;
 
     constructor(
         private languageService: JhiLanguageService,
         private loginModalService: LoginModalService,
         private registerService: Register,
         private elementRef: ElementRef,
-        private renderer: Renderer
+        private renderer: Renderer,
+        private router: Router
     ) {}
 
     ngOnInit() {
@@ -52,6 +56,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
                 this.registerService.save(this.registerAccount).subscribe(
                     () => {
                         this.success = true;
+                        this.successModal.show();
                     },
                     response => this.processError(response)
                 );
@@ -61,6 +66,11 @@ export class RegisterComponent implements OnInit, AfterViewInit {
 
     openLogin() {
         this.modalRef = this.loginModalService.open();
+    }
+
+    redirectToHome() {
+        this.router.navigateByUrl('/');
+        this.registerService.attemptLogin();
     }
 
     private processError(response: HttpErrorResponse) {

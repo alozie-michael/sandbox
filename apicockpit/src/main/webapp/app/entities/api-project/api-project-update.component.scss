@@ -74,3 +74,8 @@ input:checked + .slider:before {
 .slider.round:before {
     border-radius: 50%;
 }
+
+.card {
+    padding: 3rem;
+    border-radius: 12px;
+}

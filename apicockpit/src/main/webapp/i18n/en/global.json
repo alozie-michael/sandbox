@@ -55,7 +55,12 @@
             "confirmpassword": "New password confirmation",
             "confirmpassword.placeholder": "Confirm the new password",
             "email": "Email",
-            "email.placeholder": "Your email"
+            "email.placeholder": "Your email",
+            "company": "Company",
+            "company.placeholder": "Your company",
+            "building": "What are you building",
+            "building.placeholder": "What are you building",
+            "termsAndConditions": "I agree to Open Banking Nigeria's Terms of Use and consent to Open Banking Nigeria's Privacy Statement."
         },
         "messages": {
             "info": {
@@ -66,7 +71,7 @@
                 },
                 "register": {
                     "noaccount": "You don't have an account yet?",
-                    "link": "Register a new account"
+                    "link": "Create a free account"
                 }
             },
             "error": {
