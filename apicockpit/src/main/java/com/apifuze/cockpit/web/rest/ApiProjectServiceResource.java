@@ -95,7 +95,7 @@ public class ApiProjectServiceResource {
      * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of apiProjectServices in body
      */
-    @GetMapping("/api-project-services")
+    @GetMapping("/api-project-services/old")
     @Timed
     public ResponseEntity<List<ApiProjectServiceDTO>> getAllApiProjectServicesOld(Pageable pageable) {
         log.debug("REST request to get a page of ApiProjectServices");
