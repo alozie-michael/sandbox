@@ -15,7 +15,8 @@ import { UserMgmtDeleteDialogComponent } from 'app/admin';
 import { ApiProjectDeleteDialogComponent } from 'app/entities/api-project/api-project-delete-dialog.component';
 @Component({
     selector: 'jhi-api-project',
-    templateUrl: './api-project.component.html'
+    templateUrl: './api-project.component.html',
+    styleUrls: ['./api-project.component.scss']
 })
 export class ApiProjectComponent implements OnInit, OnDestroy {
     currentAccount: any;

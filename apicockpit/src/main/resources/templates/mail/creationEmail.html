@@ -23,3 +23,83 @@
         </p>
     </body>
 </html>
+
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Welcome to Open Banking Nigeria API Sandbox! Confirm Your Email</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="shortcut icon" th:href="@{|${baseUrl}/favicon.ico|}"/>
+</head>
+
+<body style="background-color: #ececec">
+<table width="100%" border="0" cellspacing="0" cellpadding="10" align="center" style="background-color: #ececec">
+    <tbody>
+    <tr>
+        <td>
+            <table width="600" border="0" cellspacing="0" cellpadding="10" align="center"
+                   style="font-family:HelveticaNeue-Light,'Helvetica Neue Light','Helvetica Regular',Arial,sans-serif; font-size:12px;line-height: 21px;">
+                <tbody>
+                <tr>
+                </tr>
+                <tr th:replace="mail/header :: header">
+                <tr>
+
+                </tr>
+                <tr>
+                    <td style="background:#fff;padding-left: 8%;padding-right: 8%;padding-bottom: 7% !important;padding-top: 5%;">
+
+
+                        <p class="reveiver"
+                           style="margin:0;margin-bottom:30px;color:#294661;font-family:'Open Sans','Helvetica Neue','Helvetica',Helvetica,Arial,sans-serif;font-size:16px;font-weight:300" th:text="#{email.greeting(${user.login})}">
+                            Hello</p>
+
+                        <p style="margin:0;margin-bottom:30px;color:#294661;font-family:'Open Sans','Helvetica Neue','Helvetica',Helvetica,Arial,sans-serif;font-size:16px;font-weight:300" th:text="#{email.creation.text1}"></p>
+
+
+
+                        <p style="margin:0;margin-bottom:30px;color:#294661;font-family:'Open Sans','Helvetica Neue','Helvetica',Helvetica,Arial,sans-serif;font-size:16px;font-weight:300">
+                            <a
+                                th:with="url=(@{|${baseUrl}/#/reset/finish?key=${user.resetKey}|})"
+                                th:href="${url}"
+                                style="box-sizing:border-box;border-color:#348eda;font-weight:400;text-decoration:none;display:inline-block;margin:0;color:#ffffff;background-color:#348eda;border:solid 1px #348eda;border-radius:2px;font-size:14px;padding:12px 45px"
+                                target="_blank"
+                                data-saferedirecturl="">Login link</a>
+                        </p>
+
+                        <p class="reveiver"
+                           style="margin:0;margin-bottom:30px;color:#294661;font-family:'Open Sans','Helvetica Neue','Helvetica',Helvetica,Arial,sans-serif;font-size:16px;font-weight:300" th:text="#{email.signature1}">Thank you</p>
+
+                        <p class="reveiver"
+                           style="margin:0;margin-bottom:30px;color:#294661;font-family:'Open Sans','Helvetica Neue','Helvetica',Helvetica,Arial,sans-serif;font-size:16px;font-weight:300" th:text="#{email.signature}"></p>
+
+
+                    </td>
+                </tr>
+                <tr>
+                    <td style="background:#F4F4F4;">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0"
+                               style="font-size:10px;line-height:18px;">
+                            <tbody>
+                            <tr th:replace="mail/footer :: footer">
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center" style="font-size:10px;line-height:18px;">
+                        <!--p>Connect with us on social media</p-->
+                        <table width="70%" border="0" cellspacing="0" cellpadding="0">
+
+                        </table>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

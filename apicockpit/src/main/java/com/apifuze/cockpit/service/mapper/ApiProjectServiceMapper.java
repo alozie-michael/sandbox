@@ -13,6 +13,7 @@ public interface ApiProjectServiceMapper extends EntityMapper<ApiProjectServiceD
 
     @Mapping(source = "serviceConfig.id", target = "serviceConfigId")
     @Mapping(source = "serviceConfig.name", target = "serviceConfigName")
+    @Mapping(source = "serviceConfig.serviceGroup.name", target = "serviceGroupName")
     ApiProjectServiceDTO toDto(ApiProjectService apiProjectService);
 
     @Mapping(source = "serviceConfigId", target = "serviceConfig")

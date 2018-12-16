@@ -16,6 +16,7 @@ export class ApiProjectService implements IApiProjectService {
         public name?: string,
         public dateCreated?: Moment,
         public serviceConfigName?: string,
+        public groupName?: string,
         public serviceConfigId?: number
     ) {
         this.active = this.active || false;

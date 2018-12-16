@@ -8,11 +8,11 @@
     -->
     <changeSet id="20181124182210-2" author="jhipster">
         
-        <addForeignKeyConstraint baseColumnNames="users_id"
-                                 baseTableName="api_publisher_profile"
-                                 constraintName="fk_api_publisher_profile_users_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="platform_user"/>
+        <!--<addForeignKeyConstraint baseColumnNames="users_id"-->
+                                 <!--baseTableName="api_publisher_profile"-->
+                                 <!--constraintName="fk_api_publisher_profile_users_id"-->
+                                 <!--referencedColumnNames="id"-->
+                                 <!--referencedTableName="platform_user"/>-->
 
     </changeSet>
 </databaseChangeLog>

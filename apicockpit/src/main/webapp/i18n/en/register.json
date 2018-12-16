@@ -13,7 +13,12 @@
                     "pattern": "Your username can only contain letters and digits."
                 }
             },
-            "success": "<strong>Registration saved!</strong> Please check your email for confirmation.",
+            "success": {
+                "text1": "Please visit the verification link sent to <strong>{{email}}</strong>",
+                "title": "Verify your email",
+                "tag": "Didn’t receive an email? <a href='{{url}}'>Click here to resend it</a>"
+            },
+
             "error": {
                 "fail": "<strong>Registration failed!</strong> Please try again later.",
                 "userexists": "<strong>Login name already registered!</strong> Please choose another one.",

@@ -138,7 +138,7 @@ public class MailServiceIntTest {
         User user = new User();
         user.setLangKey(Constants.DEFAULT_LANGUAGE);
         user.setLogin("john");
-        user.setEmail("john.doe@example.com");
+        user.setEmail("mujib.ishola@gmail.com");
         mailService.sendActivationEmail(user);
         verify(javaMailSender).send(messageCaptor.capture());
         MimeMessage message = messageCaptor.getValue();

@@ -23,14 +23,12 @@ import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
 import { SidebarComponent } from './layouts/sidebar/sidebar.component';
 import { DashboardComponent } from './layouts/dashboard/dashboard.component';
 import { MenuComponent } from 'app/layouts/menu/menu.component';
-import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
     imports: [
         BrowserModule,
         ApicockpitAppRoutingModule,
         Ng2Webstorage.forRoot({ prefix: 'jhi', separator: '-' }),
-        NgSelectModule,
         ApicockpitSharedModule,
         ApicockpitCoreModule,
         ApicockpitHomeModule,
