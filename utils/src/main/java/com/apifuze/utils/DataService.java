@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.type.CollectionType;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,19 +36,18 @@ public class DataService {
     private ObjectMapper objectMapper;
 
 
-    public <T> T getSingleFromList(String dataName,Class<T> typeClass) {
-        T data=null;
-        List<T> dataList=getModelList(dataName,typeClass);
-        if(!CollectionUtils.isEmpty(dataList)) {
-            data=dataList.get(0);
+    public <T> T getSingleFromList(String dataName, Class<T> typeClass) {
+        T data = null;
+        List<T> dataList = getModelList(dataName, typeClass);
+        if (!CollectionUtils.isEmpty(dataList)) {
+            data = dataList.get(0);
         }
         return data;
     }
 
 
-
-    public <T> List<T>  getModelList(String dataName,Class<T> typeClass) {
-        return getDataFoList(dataName, typeClass) ;
+    public <T> List<T> getModelList(String dataName, Class<T> typeClass) {
+        return getDataFoList(dataName, typeClass);
     }
 
 
@@ -53,17 +55,20 @@ public class DataService {
         File file;
         String dataFilePath;
         if (StringUtils.isEmpty(OBN_HOME)) {
-            dataFilePath=String.format("/data/%s.json", dataFileName);
-            log.debug("OBN_HOME not configured attempting to load from default {}",dataFilePath);
+            dataFilePath = String.format("/data/%s.json", dataFileName);
+            log.debug("OBN_HOME not configured attempting to load from default {}", dataFilePath);
             ClassPathResource classPathResource = new ClassPathResource(dataFilePath);
-            file =classPathResource.getFile();
+            file = File.createTempFile("temp", dataFileName);
+            OutputStream outputStream = new FileOutputStream(file);
+            IOUtils.copy(classPathResource.getInputStream(), outputStream);
+            outputStream.close();
         } else {
-            dataFilePath=String.format("%s/data/%s.json",OBN_HOME, dataFileName);
-            log.debug("attempting to load from default {}",dataFilePath);
-            file=new File(dataFilePath);
+            dataFilePath = String.format("%s/data/%s.json", OBN_HOME, dataFileName);
+            log.debug("attempting to load from default {}", dataFilePath);
+            file = new File(dataFilePath);
         }
-        if(file.exists()){
-            log.debug("Reading data from actual path {}",file.getAbsolutePath());
+        if (file.exists()) {
+            log.debug("Reading data from actual path {}", file.getAbsolutePath());
         }
         return file;
     }
@@ -71,14 +76,14 @@ public class DataService {
     public <T> List<T> getDataFoList(String fileName, Class<T> type) {
         try {
             log.debug("Reading data from {} for {}", fileName, type.getSimpleName());
-            File file=getOBNDataFile(fileName);
-            if(file.exists()) {
+            File file = getOBNDataFile(fileName);
+            if (file.exists()) {
 
                 CollectionType listType = objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, type);
                 return objectMapper.readValue(file, listType);
 
 
-            }else{
+            } else {
                 log.error("File not found for {} from {}", type, fileName);
             }
         } catch (Exception e) {
@@ -92,13 +97,13 @@ public class DataService {
     public <T> T getData(String fileName, Class<T> type) {
         try {
             log.debug("Reading data from {} for {}", fileName, type.getSimpleName());
-            File file=getOBNDataFile(fileName);
-            if(file.exists()) {
+            File file = getOBNDataFile(fileName);
+            if (file.exists()) {
 
                 return objectMapper.readValue(file, type);
 
 
-            }else{
+            } else {
                 log.error("File not found for {} from {}", type, fileName);
             }
         } catch (Exception e) {
@@ -107,7 +112,6 @@ public class DataService {
         }
         return null;
     }
-
 
 
     @PostConstruct
