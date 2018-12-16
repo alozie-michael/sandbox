@@ -21,7 +21,6 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     errorUserExists: string;
     registerAccount: any;
     company: string;
-    typeOfProject: string = '';
     phoneNumber: string;
     success: boolean;
     modalRef: NgbModalRef;
