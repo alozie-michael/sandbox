@@ -97,13 +97,14 @@ public class ApiProjectServiceResource {
      */
     @GetMapping("/api-project-services")
     @Timed
-    public ResponseEntity<List<ApiProjectServiceDTO>> getAllApiProjectServices(Pageable pageable) {
+    public ResponseEntity<List<ApiProjectServiceDTO>> getAllApiProjectServicesOld(Pageable pageable) {
         log.debug("REST request to get a page of ApiProjectServices");
 
         Page<ApiServiceConfigDTO> page = apiServiceConfigService.findAll(pageable);
         List apis=page.getContent().stream().map(s->{
             ApiProjectServiceDTO apiDto=new ApiProjectServiceDTO();
             BeanUtils.copyProperties(s,apiDto);
+            apiDto.setId(null);
             return apiDto;
 
         }).collect(Collectors.toList());
@@ -111,7 +112,25 @@ public class ApiProjectServiceResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/api-service-configs");
 
 
+
         return ResponseEntity.ok().headers(headers).body(apis);
+    }
+
+
+
+    /**
+     * GET  /api-project-services : get all the apiProjectServices.
+     *
+     * @param pageable the pagination information
+     * @return the ResponseEntity with status 200 (OK) and the list of apiProjectServices in body
+     */
+    @GetMapping("/api-project-services")
+    @Timed
+    public ResponseEntity<List<ApiProjectServiceDTO>> getAllApiProjectServices(Pageable pageable) {
+        log.debug("REST request to get a page of ApiProjectServices");
+        Page<ApiProjectServiceDTO> page = apiProjectServiceService.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/api-project-services");
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     /**

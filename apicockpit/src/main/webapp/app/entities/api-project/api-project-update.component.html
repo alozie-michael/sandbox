@@ -1,6 +1,7 @@
 <div class="row">
-    <div class="col-8 card">
-            <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+    <div class="col-8">
+        <div class="card">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
                 <h2 id="jhi-api-project-heading" jhiTranslate="apicockpitApp.apiProject.home.createOrEditLabel">New Project</h2>
                 <div>
                     <jhi-alert-error></jhi-alert-error>
@@ -52,7 +53,7 @@
                                         [searchable]="false"
                                         [groupBy]="groupBy"
                                         [groupValue]="groupByValueFn"
-                                        [selectableGroup]="true"
+                                        [selectableGroup]="false"
                                         [selectableGroupAsModel]="false"
                                         [hideSelected]="true"
                                         bindLabel="name"
@@ -85,8 +86,9 @@
                 </div>
             </form>
         </div>
+    </div>
 
-    <div class="col-4">
+    <div class="col-4" *ngIf="apiProject.id">
         <div class="card padding-15">
 
         <h2 jhiTranslate="apicockpitApp.apiProject.apiKey">API Key</h2>
