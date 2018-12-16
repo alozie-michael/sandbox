@@ -14,6 +14,14 @@ const LAYOUT_ROUTES = [navbarRoute, sidebarRoute, menuRoute, dashboardRoute, ...
             [
                 ...LAYOUT_ROUTES,
                 {
+                    path: 'toc',
+                    loadChildren: './toc/toc.module#TocModule'
+                },
+                {
+                    path: 'privacy',
+                    loadChildren: './privacy/privacy.module#PrivacyModule'
+                },
+                {
                     path: 'admin',
                     loadChildren: './admin/admin.module#ApicockpitAdminModule'
                 }

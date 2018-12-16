@@ -32,6 +32,8 @@ public class ApiConsumerProfile implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
+    private String company;
+
     @Column(name = "active")
     private Boolean active;
 
@@ -178,5 +180,13 @@ public class ApiConsumerProfile implements Serializable {
             ", active='" + isActive() + "'" +
             ", dateCreated='" + getDateCreated() + "'" +
             "}";
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
     }
 }

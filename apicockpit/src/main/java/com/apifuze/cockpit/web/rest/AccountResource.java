@@ -1,5 +1,6 @@
 package com.apifuze.cockpit.web.rest;
 
+import com.apifuze.cockpit.service.ApiPublisherProfileService;
 import com.codahale.metrics.annotation.Timed;
 
 import com.apifuze.cockpit.domain.User;
@@ -39,10 +40,13 @@ public class AccountResource {
 
     private final MailService mailService;
 
-    public AccountResource(UserRepository userRepository, UserService userService, MailService mailService) {
+    private final ApiPublisherProfileService apiPublisherProfileService;
+
+    public AccountResource(UserRepository userRepository, UserService userService,ApiPublisherProfileService apiPublisherProfileService, MailService mailService) {
 
         this.userRepository = userRepository;
         this.userService = userService;
+        this.apiPublisherProfileService=apiPublisherProfileService;
         this.mailService = mailService;
     }
 
@@ -62,6 +66,7 @@ public class AccountResource {
             throw new InvalidPasswordException();
         }
         User user = userService.registerUser(managedUserVM, managedUserVM.getPassword());
+        apiPublisherProfileService.resolveUserData(user,managedUserVM);
         mailService.sendActivationEmail(user);
     }
 

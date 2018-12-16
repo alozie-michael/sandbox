@@ -23,6 +23,8 @@ import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
 import { SidebarComponent } from './layouts/sidebar/sidebar.component';
 import { DashboardComponent } from './layouts/dashboard/dashboard.component';
 import { MenuComponent } from 'app/layouts/menu/menu.component';
+import { TocModule } from 'app/toc/toc.module';
+import { PrivacyModule } from 'app/privacy/privacy.module';
 
 @NgModule({
     imports: [
@@ -32,6 +34,8 @@ import { MenuComponent } from 'app/layouts/menu/menu.component';
         ApicockpitSharedModule,
         ApicockpitCoreModule,
         ApicockpitHomeModule,
+        TocModule,
+        PrivacyModule,
         ApicockpitAccountModule,
         // jhipster-needle-angular-add-module JHipster will add new module here
         ApicockpitEntityModule,
