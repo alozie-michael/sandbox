@@ -20,6 +20,9 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     errorEmailExists: string;
     errorUserExists: string;
     registerAccount: any;
+    company: string;
+    typeOfProject: string = '';
+    phoneNumber: string;
     success: boolean;
     modalRef: NgbModalRef;
     @ViewChild('successModal')
@@ -36,7 +39,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         this.success = false;
-        this.registerAccount = {};
+        this.registerAccount = { typeOfProject: '' };
     }
 
     ngAfterViewInit() {
@@ -44,24 +47,21 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     }
 
     register() {
-        if (this.registerAccount.password !== this.confirmPassword) {
-            this.doNotMatch = 'ERROR';
-        } else {
-            this.doNotMatch = null;
-            this.error = null;
-            this.errorUserExists = null;
-            this.errorEmailExists = null;
-            this.languageService.getCurrent().then(key => {
-                this.registerAccount.langKey = key;
-                this.registerService.save(this.registerAccount).subscribe(
-                    () => {
-                        this.success = true;
-                        this.successModal.show();
-                    },
-                    response => this.processError(response)
-                );
-            });
-        }
+        this.registerAccount.login = this.registerAccount.email;
+        this.doNotMatch = null;
+        this.error = null;
+        this.errorUserExists = null;
+        this.errorEmailExists = null;
+        this.languageService.getCurrent().then(key => {
+            this.registerAccount.langKey = key;
+            this.registerService.save(this.registerAccount).subscribe(
+                () => {
+                    this.success = true;
+                    this.successModal.show();
+                },
+                response => this.processError(response)
+            );
+        });
     }
 
     openLogin() {

@@ -15,9 +15,41 @@ public class ManagedUserVM extends UserDTO {
     @Size(min = PASSWORD_MIN_LENGTH, max = PASSWORD_MAX_LENGTH)
     private String password;
 
+    private  String phoneNumber;
+
+    private  String typeOfProject;
+
+    private  String company;
+
     public ManagedUserVM() {
         // Empty constructor needed for Jackson.
     }
+
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getTypeOfProject() {
+        return typeOfProject;
+    }
+
+    public void setTypeOfProject(String typeOfProject) {
+        this.typeOfProject = typeOfProject;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
 
     public String getPassword() {
         return password;

@@ -1,17 +1,23 @@
 package com.apifuze.cockpit.service;
 
+import com.apifuze.cockpit.domain.ApiConsumerProfile;
 import com.apifuze.cockpit.domain.ApiPublisherProfile;
+import com.apifuze.cockpit.domain.PlatformUser;
+import com.apifuze.cockpit.domain.User;
+import com.apifuze.cockpit.repository.ApiConsumerProfileRepository;
 import com.apifuze.cockpit.repository.ApiPublisherProfileRepository;
+import com.apifuze.cockpit.repository.PlatformUserRepository;
 import com.apifuze.cockpit.service.dto.ApiPublisherProfileDTO;
 import com.apifuze.cockpit.service.mapper.ApiPublisherProfileMapper;
+import com.apifuze.cockpit.web.rest.vm.ManagedUserVM;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -31,9 +37,14 @@ public class ApiPublisherProfileService {
 
     private final ApiPublisherProfileMapper apiPublisherProfileMapper;
 
-    public ApiPublisherProfileService(ApiPublisherProfileRepository apiPublisherProfileRepository, ApiPublisherProfileMapper apiPublisherProfileMapper) {
+    private final PlatformUserRepository platformUserRepository;
+    private final ApiConsumerProfileRepository apiConsumerProfileRepository;
+
+    public ApiPublisherProfileService(ApiPublisherProfileRepository apiPublisherProfileRepository,PlatformUserRepository platformUserRepository,ApiConsumerProfileRepository apiConsumerProfileRepository, ApiPublisherProfileMapper apiPublisherProfileMapper) {
         this.apiPublisherProfileRepository = apiPublisherProfileRepository;
         this.apiPublisherProfileMapper = apiPublisherProfileMapper;
+        this.platformUserRepository=platformUserRepository;
+        this.apiConsumerProfileRepository=apiConsumerProfileRepository;
     }
 
     /**
@@ -100,5 +111,25 @@ public class ApiPublisherProfileService {
     public void delete(Long id) {
         log.debug("Request to delete ApiPublisherProfile : {}", id);
         apiPublisherProfileRepository.deleteById(id);
+    }
+
+    public void resolveUserData(User user, ManagedUserVM managedUserVM) {
+        Instant created = Instant.now();
+        ApiPublisherProfile publisher = apiPublisherProfileRepository.findAll().get(0);
+        PlatformUser platformUser = new PlatformUser();
+        platformUser.setPhoneNumber(managedUserVM.getPhoneNumber());
+        platformUser.setUser(user);
+        platformUser = platformUserRepository.save(platformUser);
+        ApiConsumerProfile consumerProfile = new ApiConsumerProfile();
+        consumerProfile.setDateCreated(created);
+        consumerProfile.setCompany(managedUserVM.getCompany());
+        consumerProfile.setActive(Boolean.TRUE);
+        consumerProfile.setOwner(publisher);
+        consumerProfile.setName(user.getLogin());
+        consumerProfile.setPlatformUser(platformUser);
+        consumerProfile = apiConsumerProfileRepository.save(consumerProfile);
+        platformUser.setApiConsumerProfile(consumerProfile);
+        platformUserRepository.save(platformUser);
+
     }
 }
