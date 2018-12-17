@@ -1,12 +1,32 @@
-.nav-link.dropdown-toggle {
-}
-
-.dropdown-menu {
-    // left: 0 !important;
-    // width: 100%;
-    // display: block;
-}
-
 .logo-image-big {
-    width: 177px;
+    width: 100%;
+
+    img {
+        display: block;
+        margin: 0 auto;
+        height: 3rem;
+    }
+}
+
+.sidebar-wrapper {
+    .nav-link.dropdown-toggle {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    ul.module-wrapper {
+        list-style-type: none;
+        padding-left: 0px;
+        padding-right: 0px;
+        display: none;
+        transition: all 1s;
+
+        &.open {
+            display: block;
+        }
+
+        a.dropdown-item {
+            margin: 10px 0 0;
+        }
+    }
 }

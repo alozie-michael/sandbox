@@ -1,8 +1,8 @@
 package com.apifuze.cockpit.service.dto;
 
-import java.time.Instant;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Objects;
 
 /**
@@ -22,6 +22,10 @@ public class ApiProjectServiceDTO implements Serializable {
     private Long serviceConfigId;
 
     private String serviceConfigName;
+
+
+
+    private String serviceGroupName;
 
     public Long getId() {
         return id;
@@ -71,6 +75,14 @@ public class ApiProjectServiceDTO implements Serializable {
         this.serviceConfigName = apiServiceConfigName;
     }
 
+    public String getServiceGroupName() {
+        return serviceGroupName;
+    }
+
+    public void setServiceGroupName(String serviceGroupName) {
+        this.serviceGroupName = serviceGroupName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -98,6 +110,7 @@ public class ApiProjectServiceDTO implements Serializable {
             "id=" + getId() +
             ", active='" + isActive() + "'" +
             ", name='" + getName() + "'" +
+            ", groupName='" + getServiceGroupName() + "'" +
             ", dateCreated='" + getDateCreated() + "'" +
             ", serviceConfig=" + getServiceConfigId() +
             ", serviceConfig='" + getServiceConfigName() + "'" +

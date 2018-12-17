@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
 
 import { LoginModalService, Principal, Account } from 'app/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 @Component({
     selector: 'jhi-home',
@@ -13,13 +14,28 @@ export class HomeComponent implements OnInit {
     account: Account;
     modalRef: NgbModalRef;
 
-    constructor(private principal: Principal, private loginModalService: LoginModalService, private eventManager: JhiEventManager) {}
+    constructor(
+        private principal: Principal,
+        private loginModalService: LoginModalService,
+        private eventManager: JhiEventManager,
+        private route: ActivatedRoute,
+        private router: Router
+    ) {}
 
     ngOnInit() {
         this.principal.identity().then(account => {
             this.account = account;
         });
         this.registerAuthenticationSuccess();
+        // this.initLoginModal();
+    }
+
+    initLoginModal() {
+        this.route.queryParams.subscribe((params: Params) => {
+            if (params['attemptLogin']) {
+                setTimeout(() => this.login(), 0);
+            }
+        });
     }
 
     registerAuthenticationSuccess() {

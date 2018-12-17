@@ -17,7 +17,7 @@ Navbar
         color: #66615b !important;
     }
 
-    background-color: #fff;
+    background-color: transparent;
     border-bottom: 1px solid #ddd;
     padding-bottom: 0 !important;
     margin-bottom: 0 !important;
@@ -80,22 +80,13 @@ Navbar
 /* ==========================================================================
 Logo styles
 ========================================================================== */
-.navbar-brand {
-    &.logo {
-        padding: 5px 15px;
-        .logo-img {
-            height: 45px;
-            width: 150px;
-            display: inline-block;
-            vertical-align: middle;
-            background: url('../../../content/images/logo.png') no-repeat center center;
-            background-size: contain;
-        }
-    }
-}
 
 .search-field {
     color: #66615b;
     background-color: rgba(222, 222, 222, 0.3);
     border: none;
+}
+
+.jh-navbar-alt {
+    background-color: #fff;
 }

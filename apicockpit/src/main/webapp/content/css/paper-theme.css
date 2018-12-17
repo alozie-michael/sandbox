@@ -21,6 +21,14 @@ Licensed under the MIT license - http://opensource.org/licenses/MIT
 
 Copyright (c) 2015 Daniel Eden
 */
+div.swal2-popup.swal2-modal.swal2-show {
+    opacity: 0.8;
+}
+
+div.modal-dialog {
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+}
 
 .animated {
     -webkit-animation-duration: 1s;

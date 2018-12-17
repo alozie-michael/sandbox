@@ -57,16 +57,16 @@ spring:
     liquibase:
         contexts: dev
     mail:
-        host: smtp.gmail.com
+        host: smtp.sendgrid.net
         port: 587
-        username: payfuzeoss@gmail.com
-        password: payfuzeoss.12
+        username:  #Replace this field with your Gmail username.
+        password:
         protocol: smtp
         tls: true
         properties.mail.smtp:
             auth: true
             starttls.enable: true
-            ssl.trust: smtp.gmail.com
+            ssl.trust: smtp.sendgrid.net
     messages:
         cache-duration: PT1S # 1 second, see the ISO 8601 standard
     thymeleaf:
@@ -105,8 +105,8 @@ jhipster:
                 token-validity-in-seconds: 86400
                 token-validity-in-seconds-for-remember-me: 2592000
     mail: # specific JHipster mail property, for standard properties see MailProperties
-        from: apicockpit@localhost
-        base-url: http://127.0.0.1:8080
+        from: api@openbanking.ng
+        base-url: https://sandbox.openbanking.ng
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx:
             enabled: true
@@ -130,5 +130,9 @@ jhipster:
 # More documentation is available at:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
-
-# application:
+application:
+    recaptcha :
+        url : https://www.google.com/recaptcha/api/siteverify
+        key : 6LeJdEsUAAAAAAdlmZTMzUd4ACF1rjPGelUDQafp
+        secret : 6LeJdEsUAAAAAAUGLygvWU051KYQB7Bv6yZde2tR
+        enabled : true

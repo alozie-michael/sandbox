@@ -75,6 +75,19 @@ public class ApiProjectService {
             apiProjectDTO.setOwnerId(consumer.getId());
         }
         ApiProject apiProject = apiProjectMapper.toEntity(apiProjectDTO);
+//        List<com.apifuze.cockpit.domain.ApiProjectService> apis = apiProjectDTO.getApis() .stream().map(s -> {
+//
+//            com.apifuze.cockpit.domain.ApiProjectService apiProjectService = new com.apifuze.cockpit.domain.ApiProjectService();
+//            apiProjectService.setActive(Boolean.TRUE);
+//            apiProjectService.setDateCreated(created);
+//            apiProjectService.setServiceConfig(s);
+//            apiProjectService.setName(s.getName());
+//            apiProjectService.setId(s.getId());
+//
+//            return apiProjectService;
+//        }).collect(Collectors.toList());
+//
+//        apiProject.setApis(new HashSet<>(apiProjectServiceRepository.saveAll(apis)));
         apiProject = apiProjectRepository.save(apiProject);
         return apiProjectMapper.toDto(apiProject);
     }

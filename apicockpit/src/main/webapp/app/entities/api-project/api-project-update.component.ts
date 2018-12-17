@@ -16,6 +16,7 @@ import { IApiConsumerProfile } from 'app/shared/model/api-consumer-profile.model
 import { ApiConsumerProfileService } from 'app/entities/api-consumer-profile';
 
 import { UnsavedChangesGuard } from 'app/shared/guard/unsavedChangesGuard';
+import { count } from 'rxjs/operators';
 
 @Component({
     selector: 'jhi-api-project-update',
@@ -25,19 +26,13 @@ import { UnsavedChangesGuard } from 'app/shared/guard/unsavedChangesGuard';
 export class ApiProjectUpdateComponent implements OnInit, UnsavedChangesGuard {
     apiProject: IApiProject;
     isSaving: boolean;
-
-    apis: any;
     apikeys: IApiProjectAuthConfig[];
-
     apiprojectservices: IApiProjectService[];
-
     apiconsumerprofiles: IApiConsumerProfile[];
     dateCreated: string;
 
     @ViewChild('confirmUnsavedChanges')
     confirmChangesPrompt;
-
-    selectedApis = [];
 
     constructor(
         private jhiAlertService: JhiAlertService,
@@ -49,7 +44,6 @@ export class ApiProjectUpdateComponent implements OnInit, UnsavedChangesGuard {
     ) {}
 
     ngOnInit() {
-        this.apis = [];
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ apiProject }) => {
             this.apiProject = apiProject;
@@ -82,16 +76,21 @@ export class ApiProjectUpdateComponent implements OnInit, UnsavedChangesGuard {
             },
             (res: HttpErrorResponse) => this.onError(res.message)
         );
-        console.log('apis = ', this.apiProject.apis);
-        console.log('api project= ', this.apiProject);
     }
 
     previousState() {
         window.history.back();
     }
 
+    resetApiKeys() {
+        console.log('reseting api key');
+    }
+
+    toggleApiKeyState() {
+        console.log('toggling api key state');
+    }
+
     save() {
-        console.log('Saved apis', this.apis);
         this.isSaving = true;
         if (this.apiProject.id !== undefined) {
             this.subscribeToSaveResponse(this.apiProjectService.update(this.apiProject));
@@ -139,8 +138,6 @@ export class ApiProjectUpdateComponent implements OnInit, UnsavedChangesGuard {
             }
         }
         this.apiProject.apis.push(option);
-        this.selectedApis.push(option);
-        console.log(this.apiProject.apis);
         return option;
     }
 
@@ -155,5 +152,13 @@ export class ApiProjectUpdateComponent implements OnInit, UnsavedChangesGuard {
         } else {
             this.confirmChangesPrompt.show();
         }
+    }
+
+    groupBy(item) {
+        return item['serviceGroupName'];
+    }
+
+    groupByValueFn(_: string, children: any[]) {
+        return { name: children[0].serviceGroupName, length: children.length };
     }
 }

@@ -4,9 +4,11 @@ import com.apifuze.cockpit.ApicockpitApp;
 import com.apifuze.cockpit.config.Constants;
 import com.apifuze.cockpit.domain.Authority;
 import com.apifuze.cockpit.domain.User;
+import com.apifuze.cockpit.initializer.service.CaptchaService;
 import com.apifuze.cockpit.repository.AuthorityRepository;
 import com.apifuze.cockpit.repository.UserRepository;
 import com.apifuze.cockpit.security.AuthoritiesConstants;
+import com.apifuze.cockpit.service.ApiPublisherProfileService;
 import com.apifuze.cockpit.service.MailService;
 import com.apifuze.cockpit.service.UserService;
 import com.apifuze.cockpit.service.dto.PasswordChangeDTO;
@@ -14,6 +16,7 @@ import com.apifuze.cockpit.service.dto.UserDTO;
 import com.apifuze.cockpit.web.rest.errors.ExceptionTranslator;
 import com.apifuze.cockpit.web.rest.vm.KeyAndPasswordVM;
 import com.apifuze.cockpit.web.rest.vm.ManagedUserVM;
+import com.apifuze.utils.EncryptionHelper;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import org.junit.Before;
@@ -73,21 +76,31 @@ public class AccountResourceIntTest {
     private UserService mockUserService;
 
     @Mock
+    private  ApiPublisherProfileService mockApiPublisherProfileService;
+
+    @Mock
+    private  CaptchaService mockCaptchaService;
+
+
+    @Mock
     private MailService mockMailService;
 
     private MockMvc restMvc;
 
     private MockMvc restUserMockMvc;
 
+    @Mock
+    private  EncryptionHelper encryptionHelper;
+
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
         doNothing().when(mockMailService).sendActivationEmail(any());
         AccountResource accountResource =
-            new AccountResource(userRepository, userService, mockMailService);
+            new AccountResource(userRepository, userService,mockApiPublisherProfileService,mockCaptchaService, encryptionHelper,mockMailService);
 
         AccountResource accountUserMockResource =
-            new AccountResource(userRepository, mockUserService, mockMailService);
+            new AccountResource(userRepository, mockUserService,mockApiPublisherProfileService, mockCaptchaService,encryptionHelper,mockMailService);
         this.restMvc = MockMvcBuilders.standaloneSetup(accountResource)
             .setMessageConverters(httpMessageConverters)
             .setControllerAdvice(exceptionTranslator)

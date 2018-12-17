@@ -112,8 +112,8 @@ jhipster:
                 token-validity-in-seconds: 86400
                 token-validity-in-seconds-for-remember-me: 2592000
     mail: # specific JHipster mail property, for standard properties see MailProperties
-        from: apicockpit@localhost
-        base-url: http://my-server-url-to-change # Modify according to your server's URL
+        from: api@openbanking.ng
+        base-url: https://sandbox.openbanking.ng
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx:
             enabled: true
@@ -138,4 +138,9 @@ jhipster:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-# application:
+application:
+    recaptcha :
+        url : https://www.google.com/recaptcha/api/siteverify
+        key : 6LeJdEsUAAAAAAdlmZTMzUd4ACF1rjPGelUDQafp
+        secret : 6LeJdEsUAAAAAAUGLygvWU051KYQB7Bv6yZde2tR
+        enabled : true

@@ -1,6 +1,7 @@
-<div class="row justify-content-center">
-        <div class="col-10 card apiProject--container">
-            <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+<div class="row">
+    <div class="col-8">
+        <div class="card">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
                 <h2 id="jhi-api-project-heading" jhiTranslate="apicockpitApp.apiProject.home.createOrEditLabel">New Project</h2>
                 <div>
                     <jhi-alert-error></jhi-alert-error>
@@ -45,13 +46,23 @@
                                 <div class="col-12">
                                     <ng-select
                                         name="apis"
+                                        ngDefaultControl
                                         [items]="apiprojectservices"
                                         [multiple]="true"
                                         [closeOnSelect]="false"
                                         [searchable]="false"
+                                        [groupBy]="groupBy"
+                                        [groupValue]="groupByValueFn"
+                                        [selectableGroup]="false"
+                                        [selectableGroupAsModel]="false"
+                                        [hideSelected]="true"
                                         bindLabel="name"
                                         placeholder="Select Api"
                                         [(ngModel)]="apiProject.apis">
+                                        <ng-template ng-optgroup-tmp let-item="item">
+                                            <span style="vertical-align: middle;">{{item.name}}</span>
+                                            <span class="ml-2 badge badge-secondary ">{{item.length}}</span>
+                                        </ng-template>
                                     </ng-select>
                                 </div>
                         </div>
@@ -75,15 +86,29 @@
                 </div>
             </form>
         </div>
-
     </div>
 
-    <swal
-        #confirmUnsavedChanges
-        title="Confirm"
-        text="You have unsaved changes. Leaving this page means losing those changes. Do you want to continue?"
-        type="info"
-        [showCancelButton]="true"
-        [focusCancel]="true"
-        (confirm)="leavePage()">
-    ></swal>
+    <div class="col-4" *ngIf="apiProject.id">
+        <div class="card padding-15">
+
+        <h2 jhiTranslate="apicockpitApp.apiProject.apiKey">API Key</h2>
+        <div class="form-group">
+            <h5 class="form-control-label" jhiTranslate="apicockpitApp.apiProject.apiKey" for="field_active">Client Id</h5>
+            <label class="form-control-label">{{apikeys[0].clientId}}</label>
+            <br/>
+            <h5 class="form-control-label" jhiTranslate="apicockpitApp.apiProject.apiSecret" for="field_active">Client Secret</h5>
+            <label class="form-control-label">{{apikeys[0].clientSecret}}</label>
+            <br/>
+            <label class="switch">
+                Active
+                <input type="checkbox" jhiTranslate="apicockpitApp.apiProject.apikey-active" name="apikeys[0].active" id="field_api_active" [(ngModel)]="apikeys[0].active" >
+                <span class="slider round"></span>
+            </label>
+        </div>
+        <button type="button" id="reset-keys" class="btn btn-secondary"  (click)="resetApiKeys()">
+            <fa-icon [icon]="'reset'"></fa-icon>&nbsp;<span jhiTranslate="apicockpitApp.apiProject.resetApikey">Cancel</span>
+        </button>
+        </div>
+
+    </div>
+</div>
