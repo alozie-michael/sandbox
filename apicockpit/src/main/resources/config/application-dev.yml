@@ -59,8 +59,10 @@ spring:
     mail:
         host: smtp.sendgrid.net
         port: 587
-        username: apikey
-        password: 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
+#        username: apikey
+#        password: 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
+        username: payfuzeoss@gmail.com  #Replace this field with your Gmail username.
+        password: payfuzeoss.12
         protocol: smtp
         tls: true
         properties.mail.smtp:

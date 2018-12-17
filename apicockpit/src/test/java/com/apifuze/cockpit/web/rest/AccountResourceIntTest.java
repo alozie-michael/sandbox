@@ -16,6 +16,7 @@ import com.apifuze.cockpit.service.dto.UserDTO;
 import com.apifuze.cockpit.web.rest.errors.ExceptionTranslator;
 import com.apifuze.cockpit.web.rest.vm.KeyAndPasswordVM;
 import com.apifuze.cockpit.web.rest.vm.ManagedUserVM;
+import com.apifuze.utils.EncryptionHelper;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import org.junit.Before;
@@ -88,15 +89,18 @@ public class AccountResourceIntTest {
 
     private MockMvc restUserMockMvc;
 
+    @Mock
+    private  EncryptionHelper encryptionHelper;
+
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
         doNothing().when(mockMailService).sendActivationEmail(any());
         AccountResource accountResource =
-            new AccountResource(userRepository, userService,mockApiPublisherProfileService,mockCaptchaService, mockMailService);
+            new AccountResource(userRepository, userService,mockApiPublisherProfileService,mockCaptchaService, encryptionHelper,mockMailService);
 
         AccountResource accountUserMockResource =
-            new AccountResource(userRepository, mockUserService,mockApiPublisherProfileService, mockCaptchaService,mockMailService);
+            new AccountResource(userRepository, mockUserService,mockApiPublisherProfileService, mockCaptchaService,encryptionHelper,mockMailService);
         this.restMvc = MockMvcBuilders.standaloneSetup(accountResource)
             .setMessageConverters(httpMessageConverters)
             .setControllerAdvice(exceptionTranslator)

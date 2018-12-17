@@ -3,6 +3,7 @@ import com.apifuze.cockpit.config.Constants;
 
 import com.apifuze.cockpit.ApicockpitApp;
 import com.apifuze.cockpit.domain.User;
+import com.apifuze.utils.EncryptionHelper;
 import io.github.jhipster.config.JHipsterProperties;
 import org.junit.Before;
 import org.junit.Test;
@@ -45,6 +46,9 @@ public class MailServiceIntTest {
     @Spy
     private JavaMailSenderImpl javaMailSender;
 
+    @Autowired
+    EncryptionHelper encryptionHelper;
+
     @Captor
     private ArgumentCaptor<MimeMessage> messageCaptor;
 
@@ -54,7 +58,7 @@ public class MailServiceIntTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
         doNothing().when(javaMailSender).send(any(MimeMessage.class));
-        mailService = new MailService(jHipsterProperties, javaMailSender, messageSource, templateEngine);
+        mailService = new MailService(jHipsterProperties, javaMailSender,encryptionHelper, messageSource, templateEngine);
     }
 
     @Test
