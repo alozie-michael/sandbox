@@ -7,16 +7,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
 
 import { SidebarDropdownDirective } from 'app/shared/directives/sidebar-dropdown.directive';
-import { ShowHidePasswordModule } from 'ngx-show-hide-password';
 
 @NgModule({
-    imports: [
-        ApicockpitSharedLibsModule,
-        ApicockpitSharedCommonModule,
-        NgSelectModule,
-        SweetAlert2Module,
-        ShowHidePasswordModule.forRoot()
-    ],
+    imports: [ApicockpitSharedLibsModule, ApicockpitSharedCommonModule, NgSelectModule, SweetAlert2Module],
     declarations: [JhiLoginModalComponent, HasAnyAuthorityDirective, SidebarDropdownDirective],
     providers: [{ provide: NgbDateAdapter, useClass: NgbDateMomentAdapter }],
     entryComponents: [JhiLoginModalComponent],
@@ -26,8 +19,7 @@ import { ShowHidePasswordModule } from 'ngx-show-hide-password';
         HasAnyAuthorityDirective,
         NgSelectModule,
         SidebarDropdownDirective,
-        SweetAlert2Module,
-        ShowHidePasswordModule
+        SweetAlert2Module
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

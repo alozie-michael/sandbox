@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 
 import { SERVER_API_URL } from 'app/app.constants';
+import { map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class Register {

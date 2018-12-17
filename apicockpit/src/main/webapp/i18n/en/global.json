@@ -50,8 +50,8 @@
             "username.placeholder": "Your username",
             "currentpassword": "Current password",
             "currentpassword.placeholder": "Current password",
-            "newpassword": "Password",
-            "newpassword.placeholder": "Password",
+            "newpassword": "New password",
+            "newpassword.placeholder": "New password",
             "confirmpassword": "New password confirmation",
             "confirmpassword.placeholder": "Confirm the new password",
             "email": "Email",
@@ -59,10 +59,8 @@
             "company": "Company",
             "company.placeholder": "Your company",
             "building": "What are you building",
-            "termsAndConditions": "I agree to Open Banking Nigeria's Terms of Use and consent to Open Banking Nigeria's Privacy Statement.",
-            "phoneNumber": "Phone Number",
-            "phoneNumber.placeholder": "Phone Number",
-            "building.placeholder": "Select an option"
+            "building.placeholder": "What are you building",
+            "termsAndConditions": "I agree to Open Banking Nigeria's Terms of Use and consent to Open Banking Nigeria's Privacy Statement."
         },
         "messages": {
             "info": {
