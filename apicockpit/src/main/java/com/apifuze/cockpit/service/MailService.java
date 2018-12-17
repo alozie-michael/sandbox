@@ -1,6 +1,7 @@
 package com.apifuze.cockpit.service;
 
 import com.apifuze.cockpit.domain.User;
+import com.apifuze.utils.EncryptionHelper;
 import io.github.jhipster.config.JHipsterProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +15,6 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import javax.mail.internet.MimeMessage;
 import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 import java.util.Locale;
 
 /**
@@ -39,14 +39,16 @@ public class MailService {
 
     private final SpringTemplateEngine templateEngine;
 
-    public MailService(JHipsterProperties jHipsterProperties, JavaMailSender
-        javaMailSender,
+    private final EncryptionHelper encryptionHelper;
+
+    public MailService(JHipsterProperties jHipsterProperties, JavaMailSender javaMailSender,EncryptionHelper encryptionHelper,
             MessageSource messageSource, SpringTemplateEngine templateEngine) {
 
         this.jHipsterProperties = jHipsterProperties;
         this.javaMailSender = javaMailSender;
         this.messageSource = messageSource;
         this.templateEngine = templateEngine;
+        this.encryptionHelper=encryptionHelper;
     }
 
     @Async
@@ -88,7 +90,7 @@ public class MailService {
     @Async
     public void sendActivationEmail(User user) {
         log.debug("Sending activation email to '{}'", user.getEmail());
-        user.setActivationKey(Base64.getEncoder().encodeToString(user.getActivationKey().getBytes()));
+        user.setActivationKey(encryptionHelper.encrypt (user.getActivationKey()));
         sendEmailFromTemplate(user, "mail/activationEmail", "email.activation.title");
     }
 
@@ -101,7 +103,7 @@ public class MailService {
     @Async
     public void sendPasswordResetMail(User user) {
         log.debug("Sending password reset email to '{}'", user.getEmail());
-        user.setActivationKey(Base64.getEncoder().encodeToString(user.getResetKey() .getBytes()));
+        user.setActivationKey(encryptionHelper.encrypt (user.getResetKey()));
         sendEmailFromTemplate(user, "mail/passwordResetEmail", "email.reset.title");
     }
 }

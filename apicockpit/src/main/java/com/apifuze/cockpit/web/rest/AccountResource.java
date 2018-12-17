@@ -12,6 +12,7 @@ import com.apifuze.cockpit.service.dto.UserDTO;
 import com.apifuze.cockpit.web.rest.errors.*;
 import com.apifuze.cockpit.web.rest.vm.KeyAndPasswordVM;
 import com.apifuze.cockpit.web.rest.vm.ManagedUserVM;
+import com.apifuze.utils.EncryptionHelper;
 import com.codahale.metrics.annotation.Timed;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -21,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.Base64;
 import java.util.Optional;
 
 
@@ -44,13 +44,16 @@ public class AccountResource {
 
     private final ApiPublisherProfileService apiPublisherProfileService;
 
-    public AccountResource(UserRepository userRepository, UserService userService, ApiPublisherProfileService apiPublisherProfileService, CaptchaService captchaService, MailService mailService) {
+    private final EncryptionHelper encryptionHelper;
+
+    public AccountResource(UserRepository userRepository, UserService userService, ApiPublisherProfileService apiPublisherProfileService, CaptchaService captchaService,EncryptionHelper encryptionHelper, MailService mailService) {
 
         this.userRepository = userRepository;
         this.userService = userService;
         this.apiPublisherProfileService=apiPublisherProfileService;
         this.captchaService=captchaService;
         this.mailService = mailService;
+        this.encryptionHelper=encryptionHelper;
     }
 
     /**
@@ -88,7 +91,7 @@ public class AccountResource {
     @GetMapping("/activate")
     @Timed
     public void activateAccount(@RequestParam(value = "key") String key) {
-        Optional<User> user = userService.activateRegistration(new String(Base64.getDecoder().decode(key.getBytes())));
+        Optional<User> user = userService.activateRegistration(encryptionHelper.decrypt( key));
         if (!user.isPresent()) {
             throw new InternalServerErrorException("No user was found for this activation key");
         }
@@ -188,7 +191,7 @@ public class AccountResource {
             throw new InvalidPasswordException();
         }
         Optional<User> user =
-            userService.completePasswordReset(keyAndPassword.getNewPassword(),new String(Base64.getDecoder().decode( keyAndPassword.getKey().getBytes())));
+            userService.completePasswordReset(keyAndPassword.getNewPassword(),encryptionHelper.decrypt( keyAndPassword.getKey()));
 
         if (!user.isPresent()) {
             throw new InternalServerErrorException("No user was found for this reset key");

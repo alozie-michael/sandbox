@@ -8,11 +8,20 @@ import { menuRoute } from 'app/layouts/menu/menu.route';
 
 const LAYOUT_ROUTES = [navbarRoute, sidebarRoute, menuRoute, dashboardRoute, ...errorRoute];
 
+// @ts-ignore
 @NgModule({
     imports: [
         RouterModule.forRoot(
             [
                 ...LAYOUT_ROUTES,
+                {
+                    path: 'toc',
+                    loadChildren: './toc/toc.module#TocModule'
+                },
+                {
+                    path: 'privacy',
+                    loadChildren: './privacy/privacy.module#PrivacyModule'
+                },
                 {
                     path: 'admin',
                     loadChildren: './admin/admin.module#ApicockpitAdminModule'
@@ -23,4 +32,4 @@ const LAYOUT_ROUTES = [navbarRoute, sidebarRoute, menuRoute, dashboardRoute, ...
     ],
     exports: [RouterModule]
 })
-export class ApicockpitAppRoutingModule {}
+export class AppRoutingModule {}
