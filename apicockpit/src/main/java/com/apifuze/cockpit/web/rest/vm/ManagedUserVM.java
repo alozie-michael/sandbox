@@ -1,6 +1,7 @@
 package com.apifuze.cockpit.web.rest.vm;
 
 import com.apifuze.cockpit.service.dto.UserDTO;
+
 import javax.validation.constraints.Size;
 
 /**
@@ -20,6 +21,9 @@ public class ManagedUserVM extends UserDTO {
     private  String typeOfProject;
 
     private  String company;
+
+
+    private String recaptchaResponse;
 
     public ManagedUserVM() {
         // Empty constructor needed for Jackson.
@@ -57,6 +61,14 @@ public class ManagedUserVM extends UserDTO {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRecaptchaResponse() {
+        return recaptchaResponse;
+    }
+
+    public void setRecaptchaResponse(String recaptchaResponse) {
+        this.recaptchaResponse = recaptchaResponse;
     }
 
     @Override

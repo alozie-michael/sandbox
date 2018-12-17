@@ -1,11 +1,10 @@
 package com.apifuze.cockpit.web.rest;
 
-import com.apifuze.cockpit.service.ApiPublisherProfileService;
-import com.codahale.metrics.annotation.Timed;
-
 import com.apifuze.cockpit.domain.User;
+import com.apifuze.cockpit.initializer.service.CaptchaService;
 import com.apifuze.cockpit.repository.UserRepository;
 import com.apifuze.cockpit.security.SecurityUtils;
+import com.apifuze.cockpit.service.ApiPublisherProfileService;
 import com.apifuze.cockpit.service.MailService;
 import com.apifuze.cockpit.service.UserService;
 import com.apifuze.cockpit.service.dto.PasswordChangeDTO;
@@ -13,7 +12,7 @@ import com.apifuze.cockpit.service.dto.UserDTO;
 import com.apifuze.cockpit.web.rest.errors.*;
 import com.apifuze.cockpit.web.rest.vm.KeyAndPasswordVM;
 import com.apifuze.cockpit.web.rest.vm.ManagedUserVM;
-
+import com.codahale.metrics.annotation.Timed;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.*;
+import java.util.Optional;
 
 
 /**
@@ -38,15 +37,18 @@ public class AccountResource {
 
     private final UserService userService;
 
+    private final  CaptchaService captchaService;
+
     private final MailService mailService;
 
     private final ApiPublisherProfileService apiPublisherProfileService;
 
-    public AccountResource(UserRepository userRepository, UserService userService,ApiPublisherProfileService apiPublisherProfileService, MailService mailService) {
+    public AccountResource(UserRepository userRepository, UserService userService, ApiPublisherProfileService apiPublisherProfileService, CaptchaService captchaService, MailService mailService) {
 
         this.userRepository = userRepository;
         this.userService = userService;
         this.apiPublisherProfileService=apiPublisherProfileService;
+        this.captchaService=captchaService;
         this.mailService = mailService;
     }
 
@@ -62,9 +64,15 @@ public class AccountResource {
     @Timed
     @ResponseStatus(HttpStatus.CREATED)
     public void registerAccount(@Valid @RequestBody ManagedUserVM managedUserVM) {
+
+        boolean captchaVerified = captchaService.verify(managedUserVM.getRecaptchaResponse());
+        if(!captchaVerified) {
+            throw new InvalidReCaptchaException();
+        }
         if (!checkPasswordLength(managedUserVM.getPassword())) {
             throw new InvalidPasswordException();
         }
+
         User user = userService.registerUser(managedUserVM, managedUserVM.getPassword());
         apiPublisherProfileService.resolveUserData(user,managedUserVM);
         mailService.sendActivationEmail(user);

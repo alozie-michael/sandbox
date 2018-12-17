@@ -4,6 +4,7 @@ import com.apifuze.cockpit.ApicockpitApp;
 import com.apifuze.cockpit.config.Constants;
 import com.apifuze.cockpit.domain.Authority;
 import com.apifuze.cockpit.domain.User;
+import com.apifuze.cockpit.initializer.service.CaptchaService;
 import com.apifuze.cockpit.repository.AuthorityRepository;
 import com.apifuze.cockpit.repository.UserRepository;
 import com.apifuze.cockpit.security.AuthoritiesConstants;
@@ -73,7 +74,12 @@ public class AccountResourceIntTest {
     @Mock
     private UserService mockUserService;
 
-    @Mock ApiPublisherProfileService mockApiPublisherProfileService;
+    @Mock
+    private  ApiPublisherProfileService mockApiPublisherProfileService;
+
+    @Mock
+    private  CaptchaService mockCaptchaService;
+
 
     @Mock
     private MailService mockMailService;
@@ -87,10 +93,10 @@ public class AccountResourceIntTest {
         MockitoAnnotations.initMocks(this);
         doNothing().when(mockMailService).sendActivationEmail(any());
         AccountResource accountResource =
-            new AccountResource(userRepository, userService,mockApiPublisherProfileService, mockMailService);
+            new AccountResource(userRepository, userService,mockApiPublisherProfileService,mockCaptchaService, mockMailService);
 
         AccountResource accountUserMockResource =
-            new AccountResource(userRepository, mockUserService,mockApiPublisherProfileService, mockMailService);
+            new AccountResource(userRepository, mockUserService,mockApiPublisherProfileService, mockCaptchaService,mockMailService);
         this.restMvc = MockMvcBuilders.standaloneSetup(accountResource)
             .setMessageConverters(httpMessageConverters)
             .setControllerAdvice(exceptionTranslator)

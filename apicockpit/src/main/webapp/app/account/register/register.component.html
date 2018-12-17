@@ -146,6 +146,12 @@
 
                                     </div>
 
+
+                                    <div class="form-group mt-4" *ngIf="captchaEnabled">
+                                        <div class="g-recaptcha" [attr.data-sitekey]="gCaptchaKey"></div>
+                                        <div *ngIf="captchaError"  class="error">Recaptcha not verified.</div>
+                                    </div>
+
                                     <button type="submit" [disabled]="registerForm.form.invalid" class="btn btn-primary" jhiTranslate="register.form.button">Register</button>
                                 </form>
                                 <p></p>

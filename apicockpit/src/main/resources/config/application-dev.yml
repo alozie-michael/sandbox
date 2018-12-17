@@ -130,5 +130,9 @@ jhipster:
 # More documentation is available at:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
-
-# application:
+application:
+    recaptcha :
+        url : https://www.google.com/recaptcha/api/siteverify
+        key : 6LeJdEsUAAAAAAdlmZTMzUd4ACF1rjPGelUDQafp
+        secret : 6LeJdEsUAAAAAAUGLygvWU051KYQB7Bv6yZde2tR
+        enabled : true
