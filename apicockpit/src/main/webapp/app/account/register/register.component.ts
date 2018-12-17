@@ -24,7 +24,6 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     captchaError: boolean = false;
     registerAccount: any;
     company: string;
-    typeOfProject: string = '';
     phoneNumber: string;
     gCaptchaKey: string;
     captchaEnabled: boolean;
