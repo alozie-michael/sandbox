@@ -14,6 +14,7 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import javax.mail.internet.MimeMessage;
 import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.Locale;
 
 /**
@@ -87,6 +88,7 @@ public class MailService {
     @Async
     public void sendActivationEmail(User user) {
         log.debug("Sending activation email to '{}'", user.getEmail());
+        user.setActivationKey(Base64.getEncoder().encodeToString(user.getActivationKey().getBytes()));
         sendEmailFromTemplate(user, "mail/activationEmail", "email.activation.title");
     }
 
@@ -99,6 +101,7 @@ public class MailService {
     @Async
     public void sendPasswordResetMail(User user) {
         log.debug("Sending password reset email to '{}'", user.getEmail());
+        user.setActivationKey(Base64.getEncoder().encodeToString(user.getResetKey() .getBytes()));
         sendEmailFromTemplate(user, "mail/passwordResetEmail", "email.reset.title");
     }
 }

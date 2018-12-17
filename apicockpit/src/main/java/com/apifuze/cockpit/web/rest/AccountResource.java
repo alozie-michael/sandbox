@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Base64;
 import java.util.Optional;
 
 
@@ -87,7 +88,7 @@ public class AccountResource {
     @GetMapping("/activate")
     @Timed
     public void activateAccount(@RequestParam(value = "key") String key) {
-        Optional<User> user = userService.activateRegistration(key);
+        Optional<User> user = userService.activateRegistration(new String(Base64.getDecoder().decode(key.getBytes())));
         if (!user.isPresent()) {
             throw new InternalServerErrorException("No user was found for this activation key");
         }
@@ -187,7 +188,7 @@ public class AccountResource {
             throw new InvalidPasswordException();
         }
         Optional<User> user =
-            userService.completePasswordReset(keyAndPassword.getNewPassword(), keyAndPassword.getKey());
+            userService.completePasswordReset(keyAndPassword.getNewPassword(),new String(Base64.getDecoder().decode( keyAndPassword.getKey().getBytes())));
 
         if (!user.isPresent()) {
             throw new InternalServerErrorException("No user was found for this reset key");
