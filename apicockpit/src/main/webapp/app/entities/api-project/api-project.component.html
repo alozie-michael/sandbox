@@ -14,7 +14,6 @@
         <table class="table table-striped">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="name"><span jhiTranslate="apicockpitApp.apiProject.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="description"><span jhiTranslate="apicockpitApp.apiProject.description">Description</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="active"><span jhiTranslate="apicockpitApp.apiProject.active">Active</span> <fa-icon [icon]="'sort'"></fa-icon></th>
@@ -29,11 +28,15 @@
             </thead>
             <tbody>
             <tr *ngFor="let apiProject of apiProjects ;trackBy: trackId">
-                <td><a [routerLink]="['/api-project', apiProject.id, 'view' ]">{{apiProject.id}}</a></td>
-                <td>{{apiProject.name}}</td>
+                <td><a  [routerLink]="['/api-project', apiProject.id, 'view' ]">{{apiProject.name}}</a></td>
                 <td>{{apiProject.description}}</td>
-                <td>{{apiProject.active}}</td>
-                <td>{{apiProject.dateCreated | date:'medium'}}</td>
+                <td>
+                    <button class="btn btn-danger btn-sm" (click)="setActive(apiProject, true)" *ngIf="!apiProject.active"
+                            jhiTranslate="apicockpitApp.apiProject.inactive">In-Active</button>
+                    <button class="btn btn-success btn-sm" (click)="setActive(apiProject, false)" *ngIf="apiProject.active"
+                             jhiTranslate="apicockpitApp.apiProject.active">Activated</button>
+                </td>
+                <td>{{apiProject.dateCreated | date:'dd/MM/yy HH:mm'}}</td>
                 <!-- TODO: User Role admin condition for this -->
                 <ng-template *ngIf="false">
                     <td>

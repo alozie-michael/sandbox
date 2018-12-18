@@ -11,6 +11,13 @@ div.forgot-password-wrapper {
     padding-bottom: 1rem;
 
     a {
-        font-weight: normal;
+        transition: all 0.1s ease-out;
+        padding-bottom: 0.25rem;
+        border-bottom: 1px solid #3e8acc;
+        &:hover {
+            text-decoration: none;
+            border-bottom: none;
+            color: black;
+        }
     }
 }
