@@ -62,7 +62,7 @@
             "termsAndConditions": "I agree to Open Banking Nigeria's Terms of Use and consent to Open Banking Nigeria's Privacy Statement.",
             "phoneNumber": "Phone Number",
             "phoneNumber.placeholder": "Phone Number",
-            "building.placeholder": "Select an option"
+            "building.placeholder": "What are you building?"
         },
         "messages": {
             "info": {

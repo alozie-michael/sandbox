@@ -50,7 +50,7 @@
                                 <!--</div>-->
                                 <!--</div>-->
                                 <div class="form-group">
-                                    <label class="form-control-label" for="email" jhiTranslate="global.form.email">Email</label>
+                                    <!--<label class="form-control-label" for="email" jhiTranslate="global.form.email">Email</label>-->
                                     <input type="email" class="form-control" id="email" name="email" #email="ngModel" placeholder="{{'global.form.email.placeholder' | translate}}"
                                            [(ngModel)]="registerAccount.email" minlength=5 maxlength=254 email required>
                                     <div *ngIf="email.dirty && email.invalid">
@@ -73,7 +73,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-control-label password" for="password" jhiTranslate="global.form.newpassword">New password</label>
+                                    <!--label class="form-control-label password" for="password" jhiTranslate="global.form.newpassword">New password</label>-->
                                     <show-hide-password size="nothing" icon="fontawesome" [btnOutline]="false">
                                         <input type="password" class="form-control" id="password" name="password" #password="ngModel" placeholder="{{'global.form.newpassword.placeholder' | translate}}"
                                                [(ngModel)]="registerAccount.password" minlength=4 maxlength=50 required>
@@ -116,20 +116,20 @@
                                 <!--</div>-->
 
                                 <div class="form-group">
-                                    <label class="form-control-label" for="phoneNumber" jhiTranslate="global.form.phoneNumber">Phone Number</label>
+                                    <!--<label class="form-control-label" for="phoneNumber" jhiTranslate="global.form.phoneNumber">Phone Number</label>-->
                                     <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" #phoneNumber="ngModel" placeholder="{{'global.form.phoneNumber.placeholder' | translate}}"
                                            [(ngModel)]="registerAccount.phoneNumber" minlength=10 maxlength=15 required>
                                 </div>
 
 
                                 <div class="form-group">
-                                    <label class="form-control-label" for="company" jhiTranslate="global.form.company">Company</label>
+                                    <!--<label class="form-control-label" for="company" jhiTranslate="global.form.company">Company</label>-->
                                     <input type="text" class="form-control" id="company" name="company" #company="ngModel" placeholder="{{'global.form.company.placeholder' | translate}}"
                                            [(ngModel)]="registerAccount.company">
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="form-control-label" for="company" jhiTranslate="global.form.building">What are you Building</label>
+                                    <!--<label class="form-control-label" for="company" jhiTranslate="global.form.building">What are you Building</label>-->
                                     <select type="text" class="form-control" id="typeOfProject" name="typeOfProject" ngModel #typeOfProject="ngModel"
                                             [(ngModel)]="registerAccount.typeOfProject" required>
                                         <option value="">{{'global.form.building.placeholder' | translate}}</option>
