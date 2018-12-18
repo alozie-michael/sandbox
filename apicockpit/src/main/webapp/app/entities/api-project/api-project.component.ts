@@ -145,6 +145,8 @@ export class ApiProjectComponent implements OnInit, OnDestroy {
         );
     }
 
+    setActive(apiProject: IApiProject, active: boolean) {}
+
     private getDismissReason(reason: any): string {
         if (reason === ModalDismissReasons.ESC) {
             return 'by pressing ESC';

@@ -12,7 +12,6 @@ import { ErrorHandlerInterceptor } from './blocks/interceptor/errorhandler.inter
 import { NotificationInterceptor } from './blocks/interceptor/notification.interceptor';
 import { ApicockpitSharedModule } from 'app/shared';
 import { ApicockpitCoreModule } from 'app/core';
-import { ApicockpitAppRoutingModule } from './app-routing.module';
 import { ApicockpitHomeModule } from './home/home.module';
 import { ApicockpitAccountModule } from './account/account.module';
 import { ApicockpitEntityModule } from './entities/entity.module';
@@ -23,16 +22,21 @@ import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
 import { SidebarComponent } from './layouts/sidebar/sidebar.component';
 import { DashboardComponent } from './layouts/dashboard/dashboard.component';
 import { MenuComponent } from 'app/layouts/menu/menu.component';
+import { AppRoutingModule } from 'app/app-routing.module';
+import { TocModule } from 'app/toc/toc.module';
+import { PrivacyModule } from 'app/privacy/privacy.module';
 
 @NgModule({
     imports: [
         BrowserModule,
-        ApicockpitAppRoutingModule,
+        AppRoutingModule,
         Ng2Webstorage.forRoot({ prefix: 'jhi', separator: '-' }),
         ApicockpitSharedModule,
         ApicockpitCoreModule,
         ApicockpitHomeModule,
         ApicockpitAccountModule,
+        TocModule,
+        PrivacyModule,
         // jhipster-needle-angular-add-module JHipster will add new module here
         ApicockpitEntityModule,
         SweetAlert2Module.forRoot()

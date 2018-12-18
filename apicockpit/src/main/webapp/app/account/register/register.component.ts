@@ -8,6 +8,8 @@ import { EMAIL_ALREADY_USED_TYPE, LOGIN_ALREADY_USED_TYPE } from 'app/shared';
 import { LoginModalService } from 'app/core';
 import { Register } from './register.service';
 
+declare var grecaptcha: any;
+
 @Component({
     selector: 'jhi-register',
     templateUrl: './register.component.html',
@@ -19,7 +21,12 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     error: string;
     errorEmailExists: string;
     errorUserExists: string;
+    captchaError: boolean = false;
     registerAccount: any;
+    company: string;
+    phoneNumber: string;
+    gCaptchaKey: string;
+    captchaEnabled: boolean;
     success: boolean;
     modalRef: NgbModalRef;
     @ViewChild('successModal')
@@ -36,7 +43,9 @@ export class RegisterComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         this.success = false;
-        this.registerAccount = {};
+        this.registerAccount = { typeOfProject: '' };
+        this.captchaEnabled = true;
+        this.gCaptchaKey = '6LeJdEsUAAAAAAdlmZTMzUd4ACF1rjPGelUDQafp';
     }
 
     ngAfterViewInit() {
@@ -44,24 +53,27 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     }
 
     register() {
-        if (this.registerAccount.password !== this.confirmPassword) {
-            this.doNotMatch = 'ERROR';
-        } else {
-            this.doNotMatch = null;
-            this.error = null;
-            this.errorUserExists = null;
-            this.errorEmailExists = null;
-            this.languageService.getCurrent().then(key => {
-                this.registerAccount.langKey = key;
-                this.registerService.save(this.registerAccount).subscribe(
-                    () => {
-                        this.success = true;
-                        this.successModal.show();
-                    },
-                    response => this.processError(response)
-                );
-            });
+        const response = grecaptcha.getResponse();
+        if (response.length === 0) {
+            this.captchaError = true;
+            return;
         }
+        this.registerAccount.recaptchaResponse = response;
+        this.registerAccount.login = this.registerAccount.email;
+        this.doNotMatch = null;
+        this.error = null;
+        this.errorUserExists = null;
+        this.errorEmailExists = null;
+        this.languageService.getCurrent().then(key => {
+            this.registerAccount.langKey = key;
+            this.registerService.save(this.registerAccount).subscribe(
+                () => {
+                    this.success = true;
+                    this.successModal.show();
+                },
+                response => this.processError(response)
+            );
+        });
     }
 
     openLogin() {

@@ -5045,7 +5045,7 @@ img {
 }
 
 .main-panel > .content {
-    padding: 0 30px 30px;
+    padding: 0 10px 10px;
     min-height: calc(100vh);
     margin-top: 10px;
 }

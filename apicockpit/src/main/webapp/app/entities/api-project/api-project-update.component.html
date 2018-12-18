@@ -1,114 +1,117 @@
-<div class="row">
-    <div class="col-8">
-        <div class="card">
-        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
-                <h2 id="jhi-api-project-heading" jhiTranslate="apicockpitApp.apiProject.home.createOrEditLabel">New Project</h2>
-                <div>
-                    <jhi-alert-error></jhi-alert-error>
-                    <div class="form-group" hidden>
-                        <label for="id" jhiTranslate="global.field.id">ID</label>
-                        <input type="text" class="form-control" id="id" name="id"
-                            [(ngModel)]="apiProject.id" readonly />
-                    </div>
-                    <div class="form-group">
-                        <label class="form-control-label" jhiTranslate="apicockpitApp.apiProject.name" for="field_name">Name</label>
-                        <input type="text" class="form-control" name="name" id="field_name"
-                            [(ngModel)]="apiProject.name" required/>
-                        <div [hidden]="!(editForm.controls.name?.dirty && editForm.controls.name?.invalid)">
-                            <small class="form-text text-danger"
-                            [hidden]="!editForm.controls.name?.errors?.required" jhiTranslate="entity.validation.required">
-                            This field is required.
-                            </small>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-control-label" jhiTranslate="apicockpitApp.apiProject.description" for="field_description">Description</label>
-                        <textarea class="form-control" name="description" id="field_description"
-                            [(ngModel)]="apiProject.description"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <!-- <label class="form-control-label" jhiTranslate="apicockpitApp.apiProject.active" for="field_active">Active -->
+<div class="main row" >
+    <div class="container">
+        <div class="row">
+            <div class="col-md-7">
+                <div class="main form-wrapper">
+                    <div class="row justify-content-center">
+                        <div class="col-md-12">
 
-                        <!-- </label> -->
-
-                        <!-- <input type="checkbox" class="form-control" name="active" id="field_active"
-                            [(ngModel)]="apiProject.active" /> -->
-                            <label class="form-control-label" jhiTranslate="apicockpitApp.apiProject.active" for="field_active">Active</label>
-                            <label class="switch">
-                                Active
-                                <input type="checkbox" name="active" id="field_active" [(ngModel)]="apiProject.active" >
-                                <span class="slider round"></span>
-                            </label>
-                    </div>
-                    <div class="form-group">
-                        <label jhiTranslate="apicockpitApp.apiProject.api" for="field_api">Selected Api</label>
-                        <div class="row">
-                                <div class="col-12">
-                                    <ng-select
-                                        name="apis"
-                                        ngDefaultControl
-                                        [items]="apiprojectservices"
-                                        [multiple]="true"
-                                        [closeOnSelect]="false"
-                                        [searchable]="false"
-                                        [groupBy]="groupBy"
-                                        [groupValue]="groupByValueFn"
-                                        [selectableGroup]="false"
-                                        [selectableGroupAsModel]="false"
-                                        [hideSelected]="true"
-                                        bindLabel="name"
-                                        placeholder="Select Api"
-                                        [(ngModel)]="apiProject.apis">
-                                        <ng-template ng-optgroup-tmp let-item="item">
-                                            <span style="vertical-align: middle;">{{item.name}}</span>
-                                            <span class="ml-2 badge badge-secondary ">{{item.length}}</span>
-                                        </ng-template>
-                                    </ng-select>
+                            <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+                            <h2 id="jhi-api-project-heading" jhiTranslate="apicockpitApp.apiProject.home.createOrEditLabel">New Project</h2>
+                            <div>
+                                <jhi-alert-error></jhi-alert-error>
+                                <div class="form-group" hidden>
+                                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                                    <input type="text" class="form-control" id="id" name="id"
+                                           [(ngModel)]="apiProject.id" readonly />
                                 </div>
+                                <div class="form-group">
+                                    <label class="form-control-label" jhiTranslate="apicockpitApp.apiProject.name" for="field_name">Name</label>
+                                    <input type="text" class="form-control" name="name" id="field_name"
+                                           [(ngModel)]="apiProject.name" required/>
+                                    <div [hidden]="!(editForm.controls.name?.dirty && editForm.controls.name?.invalid)">
+                                        <small class="form-text text-danger"
+                                               [hidden]="!editForm.controls.name?.errors?.required" jhiTranslate="entity.validation.required">
+                                            This field is required.
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-label" jhiTranslate="apicockpitApp.apiProject.description" for="field_description">Description</label>
+                                    <textarea class="form-control" name="description" id="field_description"
+                                              [(ngModel)]="apiProject.description"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <!-- <label class="form-control-label" jhiTranslate="apicockpitApp.apiProject.active" for="field_active">Active -->
+
+                                    <!-- </label> -->
+
+                                    <!-- <input type="checkbox" class="form-control" name="active" id="field_active"
+                                        [(ngModel)]="apiProject.active" /> -->
+                                    <label class="form-control-label" jhiTranslate="apicockpitApp.apiProject.active" for="field_active">Active</label>
+                                    <label class="switch">
+                                        Active
+                                        <input type="checkbox" name="active" id="field_active" [(ngModel)]="apiProject.active" >
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label jhiTranslate="apicockpitApp.apiProject.api" for="field_api">Selected Api</label>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <ng-select
+                                                name="apis"
+                                                ngDefaultControl
+                                                [items]="apiprojectservices"
+                                                [multiple]="true"
+                                                [closeOnSelect]="false"
+                                                [searchable]="false"
+                                                [groupBy]="groupBy"
+                                                [groupValue]="groupByValueFn"
+                                                [selectableGroup]="false"
+                                                [selectableGroupAsModel]="false"
+                                                [hideSelected]="true"
+                                                bindLabel="name"
+                                                placeholder="Select Api"
+                                                [(ngModel)]="apiProject.apis">
+                                                <ng-template ng-optgroup-tmp let-item="item">
+                                                    <span style="vertical-align: middle;">{{item.name}}</span>
+                                                    <span class="ml-2 badge badge-secondary ">{{item.length}}</span>
+                                                </ng-template>
+                                            </ng-select>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-label" jhiTranslate="apicockpitApp.apiProject.owner" for="field_owner">Owner</label>
+                                    <select class="form-control" id="field_owner" name="owner" [(ngModel)]="apiProject.ownerId" >
+                                        <option [ngValue]="null"></option>
+                                        <option [ngValue]="apiConsumerProfileOption.id" *ngFor="let apiConsumerProfileOption of apiconsumerprofiles; trackBy: trackApiConsumerProfileById">{{apiConsumerProfileOption.name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div>
+                                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                                </button>
+                                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                                </button>
+                            </div>
+                            </form>
+
+                            <p></p>
+
                         </div>
-
                     </div>
+                </div>
+            </div>
+            <div class="col-md-5" *ngIf="apiProject.id">
+                <div class="info-wrapper">
                     <div class="form-group">
-                        <label class="form-control-label" jhiTranslate="apicockpitApp.apiProject.owner" for="field_owner">Owner</label>
-                        <select class="form-control" id="field_owner" name="owner" [(ngModel)]="apiProject.ownerId" >
-                            <option [ngValue]="null"></option>
-                            <option [ngValue]="apiConsumerProfileOption.id" *ngFor="let apiConsumerProfileOption of apiconsumerprofiles; trackBy: trackApiConsumerProfileById">{{apiConsumerProfileOption.name}}</option>
-                        </select>
+                        <h5 class="form-control-label" jhiTranslate="apicockpitApp.apiProject.apiKey" for="field_active">Client Id</h5>
+                        <label class="form-control-label">{{apikeys[0].clientId}}</label>
+                        <br/>
+                        <h5 class="form-control-label" jhiTranslate="apicockpitApp.apiProject.apiSecret" for="field_active">Client Secret</h5>
+                        <label class="form-control-label">{{apikeys[0].clientSecret}}</label>
                     </div>
+                    <!--<button type="button" id="reset-keys" class="btn btn-secondary"  (click)="resetApiKeys()">-->
+                        <!--<fa-icon [icon]="'reset'"></fa-icon>&nbsp;<span jhiTranslate="apicockpitApp.apiProject.resetApikey">Cancel</span>-->
+                    <!--</button>-->
                 </div>
-                <div>
-                    <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
-                        <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
-                    </button>
-                    <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
-                        <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
-                    </button>
-                </div>
-            </form>
+            </div>
         </div>
-    </div>
-
-    <div class="col-4" *ngIf="apiProject.id">
-        <div class="card padding-15">
-
-        <h2 jhiTranslate="apicockpitApp.apiProject.apiKey">API Key</h2>
-        <div class="form-group">
-            <h5 class="form-control-label" jhiTranslate="apicockpitApp.apiProject.apiKey" for="field_active">Client Id</h5>
-            <label class="form-control-label">{{apikeys[0].clientId}}</label>
-            <br/>
-            <h5 class="form-control-label" jhiTranslate="apicockpitApp.apiProject.apiSecret" for="field_active">Client Secret</h5>
-            <label class="form-control-label">{{apikeys[0].clientSecret}}</label>
-            <br/>
-            <label class="switch">
-                Active
-                <input type="checkbox" jhiTranslate="apicockpitApp.apiProject.apikey-active" name="apikeys[0].active" id="field_api_active" [(ngModel)]="apikeys[0].active" >
-                <span class="slider round"></span>
-            </label>
-        </div>
-        <button type="button" id="reset-keys" class="btn btn-secondary"  (click)="resetApiKeys()">
-            <fa-icon [icon]="'reset'"></fa-icon>&nbsp;<span jhiTranslate="apicockpitApp.apiProject.resetApikey">Cancel</span>
-        </button>
-        </div>
-
     </div>
 </div>
+
