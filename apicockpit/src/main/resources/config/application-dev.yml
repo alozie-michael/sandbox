@@ -59,7 +59,7 @@ spring:
     mail:
         host: smtp.sendgrid.net
         port: 587
-        username:
+        username:  #Replace this field with your Gmail username.
         password:
         protocol: smtp
         tls: true
@@ -105,8 +105,8 @@ jhipster:
                 token-validity-in-seconds: 86400
                 token-validity-in-seconds-for-remember-me: 2592000
     mail: # specific JHipster mail property, for standard properties see MailProperties
-        from: hello@openbanking.ng
-        base-url: http://localhost:8081
+        from: api@openbanking.ng
+        base-url: https://sandbox.openbanking.ng
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx:
             enabled: true
@@ -130,5 +130,9 @@ jhipster:
 # More documentation is available at:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
-
-# application:
+application:
+    recaptcha :
+        url : https://www.google.com/recaptcha/api/siteverify
+        key :
+        secret :
+        enabled : true
