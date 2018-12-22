@@ -21,7 +21,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     error: string;
     errorEmailExists: string;
     errorUserExists: string;
-    captchaError: boolean = false;
+    captchaError: boolean;
     registerAccount: any;
     company: string;
     phoneNumber: string;
@@ -53,12 +53,14 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     }
 
     register() {
-        const response = grecaptcha.getResponse();
-        if (response.length === 0) {
-            this.captchaError = true;
-            return;
+        if (this.captchaEnabled) {
+            const response = grecaptcha.getResponse();
+            if (response.length === 0) {
+                this.captchaError = true;
+                return;
+            }
+            this.registerAccount.recaptchaResponse = response;
         }
-        this.registerAccount.recaptchaResponse = response;
         this.registerAccount.login = this.registerAccount.email;
         this.doNotMatch = null;
         this.error = null;

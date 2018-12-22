@@ -4,15 +4,14 @@ import com.apifuze.cockpit.domain.ApiConsumerProfile;
 import com.apifuze.cockpit.domain.ApiProject;
 import com.apifuze.cockpit.domain.ApiProjectAuthConfig;
 import com.apifuze.cockpit.domain.User;
-import com.apifuze.cockpit.repository.ApiConsumerProfileRepository;
-import com.apifuze.cockpit.repository.ApiProjectAuthConfigRepository;
-import com.apifuze.cockpit.repository.ApiProjectRepository;
-import com.apifuze.cockpit.repository.UserRepository;
+import com.apifuze.cockpit.repository.*;
 import com.apifuze.cockpit.security.AuthoritiesConstants;
 import com.apifuze.cockpit.security.SecurityUtils;
 import com.apifuze.cockpit.service.dto.ApiProjectDTO;
 import com.apifuze.cockpit.service.mapper.ApiProjectMapper;
+import com.apifuze.cockpit.service.mapper.ApiProjectServiceMapper;
 import com.apifuze.cockpit.service.util.RandomUtil;
+import com.apifuze.cockpit.web.rest.errors.ResourceAuthorizationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -21,7 +20,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing ApiProject.
@@ -42,12 +44,18 @@ public class ApiProjectService {
 
     private final ApiProjectMapper apiProjectMapper;
 
-    public ApiProjectService(ApiProjectRepository apiProjectRepository, ApiProjectAuthConfigRepository apiProjectAuthConfigRepository, UserRepository userRepository,ApiConsumerProfileRepository apiConsumerProfileRepository,ApiProjectMapper apiProjectMapper) {
+    private final ApiProjectServiceMapper apiProjectServiceMapper;
+
+    private final ApiProjectServiceRepository apiProjectServiceRepository;
+
+    public ApiProjectService(ApiProjectRepository apiProjectRepository, ApiProjectAuthConfigRepository apiProjectAuthConfigRepository, UserRepository userRepository,ApiConsumerProfileRepository apiConsumerProfileRepository,ApiProjectServiceRepository apiProjectServiceRepository,ApiProjectMapper apiProjectMapper,ApiProjectServiceMapper apiProjectServiceMapper) {
         this.apiProjectRepository = apiProjectRepository;
         this.apiProjectAuthConfigRepository=apiProjectAuthConfigRepository;
         this.apiProjectMapper = apiProjectMapper;
         this.userRepository=userRepository;
         this.apiConsumerProfileRepository=apiConsumerProfileRepository;
+        this.apiProjectServiceRepository=apiProjectServiceRepository;
+        this.apiProjectServiceMapper=apiProjectServiceMapper;
     }
 
     /**
@@ -56,38 +64,45 @@ public class ApiProjectService {
      * @param apiProjectDTO the entity to save
      * @return the persisted entity
      */
-    public ApiProjectDTO save(ApiProjectDTO apiProjectDTO) {
+    public ApiProjectDTO save(ApiProjectDTO apiProjectDTO) throws ResourceAuthorizationException{
         log.debug("Request to save ApiProject : {}", apiProjectDTO);
-        ApiProjectAuthConfig apiKey=new ApiProjectAuthConfig();
-        apiKey.setActive(Boolean.TRUE);
-        apiKey.setDateCreated(Instant.now());
-        apiKey.setClientSecret(RandomUtil.generatePassword());
-        apiKey.setClientId(RandomUtil.generateActivationKey());
-        apiKey=apiProjectAuthConfigRepository.save(apiKey);
-        apiProjectDTO.setApiKeyId(apiKey.getId());
-        if(apiProjectDTO.getDateCreated()==null) {
-            apiProjectDTO.setDateCreated(Instant.now());
-        }
+        Instant created = Instant.now();
         if(SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN)) {
         }else{
             User user=userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin().get()).get();
             ApiConsumerProfile consumer = apiConsumerProfileRepository.findByPlatformUserUserId(user.getId());
             apiProjectDTO.setOwnerId(consumer.getId());
         }
+        if(apiProjectDTO.getApiKeyId()==null) {
+            ApiProjectAuthConfig apiKey = new ApiProjectAuthConfig();
+            apiKey.setActive(Boolean.TRUE);
+            apiKey.setDateCreated(Instant.now());
+            apiKey.setClientSecret(RandomUtil.generatePassword());
+            apiKey.setClientId(RandomUtil.generateActivationKey());
+            apiKey = apiProjectAuthConfigRepository.save(apiKey);
+            apiProjectDTO.setApiKeyId(apiKey.getId());
+        }else{
+
+            ApiProjectAuthConfig apiKey;
+            Optional<ApiProjectAuthConfig> key = apiProjectAuthConfigRepository.findById(apiProjectDTO.getApiKeyId());
+            if(key.isPresent()){
+                apiKey=key.get();
+                if(apiKey.getProject().getOwner().getId()!=apiProjectDTO.getOwnerId()){
+                    throw new ResourceAuthorizationException();
+                }
+            }
+        }
+        if(apiProjectDTO.getDateCreated()==null) {
+            apiProjectDTO.setDateCreated(Instant.now());
+        }
         ApiProject apiProject = apiProjectMapper.toEntity(apiProjectDTO);
-//        List<com.apifuze.cockpit.domain.ApiProjectService> apis = apiProjectDTO.getApis() .stream().map(s -> {
-//
-//            com.apifuze.cockpit.domain.ApiProjectService apiProjectService = new com.apifuze.cockpit.domain.ApiProjectService();
-//            apiProjectService.setActive(Boolean.TRUE);
-//            apiProjectService.setDateCreated(created);
-//            apiProjectService.setServiceConfig(s);
-//            apiProjectService.setName(s.getName());
-//            apiProjectService.setId(s.getId());
-//
-//            return apiProjectService;
-//        }).collect(Collectors.toList());
-//
-//        apiProject.setApis(new HashSet<>(apiProjectServiceRepository.saveAll(apis)));
+        List<com.apifuze.cockpit.domain.ApiProjectService> apis = apiProjectDTO.getApis() .stream().map(s -> {
+            com.apifuze.cockpit.domain.ApiProjectService service = apiProjectServiceMapper.toEntity(s);
+            service.setActive(Boolean.TRUE);
+            service.setDateCreated(created);
+            return service;
+        }).collect(Collectors.toList());
+        apiProject.setApis(new HashSet<>(apiProjectServiceRepository.saveAll(apis)));
         apiProject = apiProjectRepository.save(apiProject);
         return apiProjectMapper.toDto(apiProject);
     }
