@@ -27,6 +27,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     phoneNumber: string;
     gCaptchaKey: string;
     captchaEnabled: boolean;
+    hide = true;
     success: boolean;
     modalRef: NgbModalRef;
     @ViewChild('successModal')
@@ -48,9 +49,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
         this.gCaptchaKey = '6LeJdEsUAAAAAAdlmZTMzUd4ACF1rjPGelUDQafp';
     }
 
-    ngAfterViewInit() {
-        this.renderer.invokeElementMethod(this.elementRef.nativeElement.querySelector('#login'), 'focus', []);
-    }
+    ngAfterViewInit() {}
 
     register() {
         if (this.captchaEnabled) {
