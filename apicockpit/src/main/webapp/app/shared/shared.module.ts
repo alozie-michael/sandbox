@@ -7,9 +7,10 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
 
 import { SidebarDropdownDirective } from 'app/shared/directives/sidebar-dropdown.directive';
+import { JhMaterialModule } from 'app/shared/jh-material.module';
 
 @NgModule({
-    imports: [ApicockpitSharedLibsModule, ApicockpitSharedCommonModule, NgSelectModule, SweetAlert2Module],
+    imports: [ApicockpitSharedLibsModule, ApicockpitSharedCommonModule, NgSelectModule, SweetAlert2Module, JhMaterialModule],
     declarations: [JhiLoginModalComponent, HasAnyAuthorityDirective, SidebarDropdownDirective],
     providers: [{ provide: NgbDateAdapter, useClass: NgbDateMomentAdapter }],
     entryComponents: [JhiLoginModalComponent],
@@ -19,7 +20,8 @@ import { SidebarDropdownDirective } from 'app/shared/directives/sidebar-dropdown
         HasAnyAuthorityDirective,
         NgSelectModule,
         SidebarDropdownDirective,
-        SweetAlert2Module
+        SweetAlert2Module,
+        JhMaterialModule
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

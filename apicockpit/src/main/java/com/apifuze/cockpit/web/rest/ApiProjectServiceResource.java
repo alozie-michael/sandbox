@@ -95,9 +95,9 @@ public class ApiProjectServiceResource {
      * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of apiProjectServices in body
      */
-    @GetMapping("/api-project-services/old")
+    @GetMapping("/api-project-services")
     @Timed
-    public ResponseEntity<List<ApiProjectServiceDTO>> getAllApiProjectServicesOld(Pageable pageable) {
+    public ResponseEntity<List<ApiProjectServiceDTO>> getAllApiProjectServices(Pageable pageable) {
         log.debug("REST request to get a page of ApiProjectServices");
 
         Page<ApiServiceConfigDTO> page = apiServiceConfigService.findAll(pageable);
@@ -105,6 +105,8 @@ public class ApiProjectServiceResource {
             ApiProjectServiceDTO apiDto=new ApiProjectServiceDTO();
             BeanUtils.copyProperties(s,apiDto);
             apiDto.setId(null);
+            apiDto.setServiceConfigId(s.getId());
+            apiDto.setServiceConfigName(s.getName());
             return apiDto;
 
         }).collect(Collectors.toList());
@@ -116,22 +118,6 @@ public class ApiProjectServiceResource {
         return ResponseEntity.ok().headers(headers).body(apis);
     }
 
-
-
-    /**
-     * GET  /api-project-services : get all the apiProjectServices.
-     *
-     * @param pageable the pagination information
-     * @return the ResponseEntity with status 200 (OK) and the list of apiProjectServices in body
-     */
-    @GetMapping("/api-project-services")
-    @Timed
-    public ResponseEntity<List<ApiProjectServiceDTO>> getAllApiProjectServices(Pageable pageable) {
-        log.debug("REST request to get a page of ApiProjectServices");
-        Page<ApiProjectServiceDTO> page = apiProjectServiceService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/api-project-services");
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
-    }
 
     /**
      * GET  /api-project-services/:id : get the "id" apiProjectService.

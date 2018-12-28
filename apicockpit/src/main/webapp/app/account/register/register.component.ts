@@ -21,12 +21,13 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     error: string;
     errorEmailExists: string;
     errorUserExists: string;
-    captchaError: boolean = false;
+    captchaError: boolean;
     registerAccount: any;
     company: string;
     phoneNumber: string;
     gCaptchaKey: string;
     captchaEnabled: boolean;
+    hide = true;
     success: boolean;
     modalRef: NgbModalRef;
     @ViewChild('successModal')
@@ -48,17 +49,17 @@ export class RegisterComponent implements OnInit, AfterViewInit {
         this.gCaptchaKey = '6LeJdEsUAAAAAAdlmZTMzUd4ACF1rjPGelUDQafp';
     }
 
-    ngAfterViewInit() {
-        this.renderer.invokeElementMethod(this.elementRef.nativeElement.querySelector('#email'), 'focus', []);
-    }
+    ngAfterViewInit() {}
 
     register() {
-        const response = grecaptcha.getResponse();
-        if (response.length === 0) {
-            this.captchaError = true;
-            return;
+        if (this.captchaEnabled) {
+            const response = grecaptcha.getResponse();
+            if (response.length === 0) {
+                this.captchaError = true;
+                return;
+            }
+            this.registerAccount.recaptchaResponse = response;
         }
-        this.registerAccount.recaptchaResponse = response;
         this.registerAccount.login = this.registerAccount.email;
         this.doNotMatch = null;
         this.error = null;

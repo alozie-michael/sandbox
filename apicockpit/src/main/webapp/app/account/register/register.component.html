@@ -27,32 +27,11 @@
                     <div class="row justify-content-center">
                         <div class="col-md-12">
                             <form name="form" role="form" (ngSubmit)="register()" #registerForm="ngForm" *ngIf="!success">
-                                <!--<div class="form-group">-->
-                                <!--<label class="form-control-label" for="login" jhiTranslate="global.form.username">Username</label>-->
-                                <!--<input type="text" class="form-control" [(ngModel)]="registerAccount.login" id="login" name="login" #login="ngModel" placeholder="{{'global.form.username.placeholder' | translate}}"-->
-                                <!--required minlength="1" maxlength="50" pattern="^[_.@A-Za-z0-9-]*$">-->
-                                <!--<div *ngIf="login.dirty && login.invalid">-->
-                                <!--<small class="form-text text-danger" *ngIf="login.errors.required" jhiTranslate="register.messages.validate.login.required">-->
-                                <!--Your username is required.-->
-                                <!--</small>-->
-                                <!--<small class="form-text text-danger" *ngIf="login.errors.minlength"-->
-                                <!--jhiTranslate="register.messages.validate.login.minlength">-->
-                                <!--Your username is required to be at least 1 character.-->
-                                <!--</small>-->
-                                <!--<small class="form-text text-danger" *ngIf="login.errors.maxlength"-->
-                                <!--jhiTranslate="register.messages.validate.login.maxlength">-->
-                                <!--Your username cannot be longer than 50 characters.-->
-                                <!--</small>-->
-                                <!--<small class="form-text text-danger" *ngIf="login.errors.pattern"-->
-                                <!--jhiTranslate="register.messages.validate.login.pattern">-->
-                                <!--Your username can only contain letters and digits.-->
-                                <!--</small>-->
-                                <!--</div>-->
-                                <!--</div>-->
-                                <div class="form-group">
-                                    <!--<label class="form-control-label" for="email" jhiTranslate="global.form.email">Email</label>-->
-                                    <input type="email" class="form-control" id="email" name="email" #email="ngModel" placeholder="{{'global.form.email.placeholder' | translate}}"
+                                <div >
+                                    <mat-form-field>
+                                    <input matInput type="email"  id="email" name="email" #email="ngModel" placeholder="{{'global.form.email.placeholder' | translate}}"
                                            [(ngModel)]="registerAccount.email" minlength=5 maxlength=254 email required>
+                                    </mat-form-field>
                                     <div *ngIf="email.dirty && email.invalid">
                                         <small class="form-text text-danger" *ngIf="email?.errors.required"
                                                jhiTranslate="global.messages.validate.email.required">
@@ -68,6 +47,7 @@
                                         </small>
                                     </div>
                                 </div>
+<<<<<<< HEAD
                                 <div class="form-group">
                                     <!--label class="form-control-label password" for="password" jhiTranslate="global.form.newpassword">New password</label>-->
                                     <show-hide-password size="nothing" icon="fontawesome" [btnOutline]="false">
@@ -75,6 +55,13 @@
                                                [(ngModel)]="registerAccount.password" minlength=4 maxlength=50 required >
                                     </show-hide-password>
 
+=======
+                                <div >
+                                        <mat-form-field>
+                                            <input matInput id="password" name="password" #password="ngModel"  [(ngModel)]="registerAccount.password" minlength=4 maxlength=50 required  placeholder="{{'global.form.newpassword.placeholder' | translate}}"  [type]="hide ? 'password' : 'text'">
+                                            <mat-icon class="password-eye" matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                                        </mat-form-field>
+>>>>>>> 393d0097d8fac38acf150b7c4e408928b2ab95a1
                                     <div *ngIf="password.dirty && password.invalid">
                                         <small class="form-text text-danger" *ngIf="password?.errors.required"
                                                jhiTranslate="global.messages.validate.newpassword.required">
@@ -85,58 +72,30 @@
                                             Your password is required to be at least 4 characters.
                                         </small>
                                     </div>
-                                    <!--<jhi-password-strength-bar [passwordToCheck]="registerAccount.password"></jhi-password-strength-bar>-->
                                 </div>
-                                <!--<div class="form-group">-->
-                                <!--<label class="form-control-label" for="confirmPassword" jhiTranslate="global.form.confirmpassword">New password confirmation</label>-->
-                                <!--<input type="password" class="form-control" id="confirmPassword" name="confirmPassword" #confirmPasswordInput="ngModel" placeholder="{{'global.form.confirmpassword.placeholder' | translate}}"-->
-                                <!--[(ngModel)]="confirmPassword" minlength=4 maxlength=50 required>-->
-                                <!--<div *ngIf="confirmPasswordInput.dirty && confirmPasswordInput.invalid">-->
-                                <!--<small class="form-text text-danger" *ngIf="confirmPasswordInput.errors.required"-->
-                                <!--jhiTranslate="global.messages.validate.confirmpassword.required">-->
-                                <!--Your confirmation password is required.-->
-                                <!--</small>-->
-                                <!--<small class="form-text text-danger" *ngIf="confirmPasswordInput.errors.minlength"-->
-                                <!--jhiTranslate="global.messages.validate.confirmpassword.minlength">-->
-                                <!--Your confirmation password is required to be at least 4 characters.-->
-                                <!--</small>-->
-                                <!--<small class="form-text text-danger" *ngIf="confirmPasswordInput.errors.maxlength"-->
-                                <!--jhiTranslate="global.messages.validate.confirmpassword.maxlength">-->
-                                <!--Your confirmation password cannot be longer than 50 characters.-->
-                                <!--</small>-->
-                                <!--</div>-->
-                                <!--</div>-->
 
-                                <div class="form-group">
-                                    <!--<label class="form-control-label" for="phoneNumber" jhiTranslate="global.form.phoneNumber">Phone Number</label>-->
-                                    <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" #phoneNumber="ngModel" placeholder="{{'global.form.phoneNumber.placeholder' | translate}}"
+                                <mat-form-field>
+                                    <input  matInput type="text"  id="phoneNumber" name="phoneNumber" #phoneNumber="ngModel" placeholder="{{'global.form.phoneNumber.placeholder' | translate}}"
                                            [(ngModel)]="registerAccount.phoneNumber" minlength=10 maxlength=15 required>
-                                </div>
+                                </mat-form-field>
 
+                                <mat-form-field>
+                                     <input matInput type="text"  id="company" name="company" #company="ngModel" placeholder="{{'global.form.company.placeholder' | translate}}"
+                                       [(ngModel)]="registerAccount.company">
+                                </mat-form-field>
 
-                                <div class="form-group">
-                                    <!--<label class="form-control-label" for="company" jhiTranslate="global.form.company">Company</label>-->
-                                    <input type="text" class="form-control" id="company" name="company" #company="ngModel" placeholder="{{'global.form.company.placeholder' | translate}}"
-                                           [(ngModel)]="registerAccount.company">
-                                </div>
+                                <mat-form-field>
+                                    <mat-select placeholder="What are you building ?" name="typeOfProject" ngModel #typeOfProject="ngModel">
+                                        <mat-option *ngFor="let project of ['Personal finances', 'Consumer Payments','Lending','Banking','Business financial management','Other']" [value]="project">
+                                            {{project}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
 
-                                <div class="form-group">
-                                    <!--<label class="form-control-label" for="company" jhiTranslate="global.form.building">What are you Building</label>-->
-                                    <select type="text" class="form-control" id="typeOfProject" name="typeOfProject" ngModel #typeOfProject="ngModel"
-                                            [(ngModel)]="registerAccount.typeOfProject" required>
-                                        <option value="">{{'global.form.building.placeholder' | translate}}</option>
-                                        <option *ngFor="let project of ['Personal finances', 'Consumer Payments','Lending','Banking','Business financial management','Other']" [value]="project">{{project}}</option>
-                                    </select>
-                                </div>
+                                <mat-checkbox name="termsAndConditions" checked ngModel required>
+                                    <span class="terms-use">I agree to Open Banking Nigeria's <a routerLink="/toc">Terms of Use</a> and consent to <br/> Open Banking Nigeria's <a routerLink="/privacy">Privacy Statement.</a></span>
+                                </mat-checkbox>
 
-                                <div class="form-check d-flex">
-                                    <label class="form-check-label" for="termsAndConditions">
-                                        <input class="form-check-input" type="checkbox" name="termsAndConditions" id="termsAndConditions" checked ngModel required>
-                                    </label>
-                                    <!--<span jhiTranslate="global.form.termsAndConditions">I agree to Open Banking Nigeria's <a href="/tou.html">Terms of Use</a> and consent to Open Banking Nigeria's <a href="/privacy.html">Privacy Statement.</a></span>-->
-                                    <span class="terms-use">I agree to Open Banking Nigeria's <a routerLink="/toc">Terms of Use</a> and consent to Open Banking Nigeria's <a routerLink="/privacy">Privacy Statement.</a></span>
-
-                                </div>
 
 
                                 <div class="form-group mt-4" *ngIf="captchaEnabled">
@@ -144,7 +103,7 @@
                                     <div *ngIf="captchaError"  class="error" >Recaptcha not verified.</div>
                                 </div>
 
-                                <button type="submit" [disabled]="registerForm.form.invalid" class="btn btn-primary" jhiTranslate="register.form.button">Register</button>
+                                <button mat-raised-button color="primary" [disabled]="registerForm.form.invalid">Register</button>
                             </form>
                             <p></p>
 
