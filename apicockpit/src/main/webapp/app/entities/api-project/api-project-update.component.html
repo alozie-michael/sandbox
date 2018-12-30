@@ -5,7 +5,6 @@
                 <div class="main form-wrapper">
                     <div class="row justify-content-center">
                         <div class="col-md-12">
-
                             <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
                             <h2 id="jhi-api-project-heading" jhiTranslate="apicockpitApp.apiProject.home.createOrEditLabel">New Project</h2>
                             <div>
@@ -15,38 +14,26 @@
                                     <input type="text" class="form-control" id="id" name="id"
                                            [(ngModel)]="apiProject.id" readonly />
                                 </div>
-                                <div class="form-group">
-                                    <label class="form-control-label" jhiTranslate="apicockpitApp.apiProject.name" for="field_name">Name</label>
-                                    <input type="text" class="form-control" name="name" id="field_name"
-                                           [(ngModel)]="apiProject.name" required/>
+                                <mat-form-field>
+                                    <input type="text" matInput placeholder="Project Name" name="name"  [(ngModel)]="apiProject.name" required/>
                                     <div [hidden]="!(editForm.controls.name?.dirty && editForm.controls.name?.invalid)">
                                         <small class="form-text text-danger"
                                                [hidden]="!editForm.controls.name?.errors?.required" jhiTranslate="entity.validation.required">
                                             This field is required.
                                         </small>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-control-label" jhiTranslate="apicockpitApp.apiProject.description" for="field_description">Description</label>
-                                    <textarea class="form-control" name="description" id="field_description"
-                                              [(ngModel)]="apiProject.description"></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <!-- <label class="form-control-label" jhiTranslate="apicockpitApp.apiProject.active" for="field_active">Active -->
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <textarea matInput name="description"  [(ngModel)]="apiProject.description"></textarea>
+                                </mat-form-field>
 
-                                    <!-- </label> -->
+                                <mat-form-field>
+                                    <mat-slide-toggle name="active" [(ngModel)]="apiProject.active">Enabled</mat-slide-toggle>
+                                </mat-form-field>
 
-                                    <!-- <input type="checkbox" class="form-control" name="active" id="field_active"
-                                        [(ngModel)]="apiProject.active" /> -->
-                                    <label class="form-control-label" jhiTranslate="apicockpitApp.apiProject.active" for="field_active">Active</label>
-                                    <label class="switch">
-                                        Active
-                                        <input type="checkbox" name="active" id="field_active" [(ngModel)]="apiProject.active" >
-                                        <span class="slider round"></span>
-                                    </label>
-                                </div>
+
                                 <div class="form-group">
-                                    <label jhiTranslate="apicockpitApp.apiProject.api" for="field_api">Selected Api</label>
+                                    <label jhiTranslate="apicockpitApp.apiProject.api">Selected Api</label>
                                     <div class="row">
                                         <div class="col-12">
                                             <ng-select
@@ -73,21 +60,22 @@
                                     </div>
 
                                 </div>
-                                <div class="form-group">
-                                    <label class="form-control-label" jhiTranslate="apicockpitApp.apiProject.owner" for="field_owner">Owner</label>
-                                    <select class="form-control" id="field_owner" name="owner" [(ngModel)]="apiProject.ownerId" >
-                                        <option [ngValue]="null"></option>
-                                        <option [ngValue]="apiConsumerProfileOption.id" *ngFor="let apiConsumerProfileOption of apiconsumerprofiles; trackBy: trackApiConsumerProfileById">{{apiConsumerProfileOption.name}}</option>
-                                    </select>
-                                </div>
-                            </div>
+
+                                <mat-form-field>
+                                    <mat-select placeholder="Project Owner" name="owner" [(ngModel)]="apiProject.ownerId">
+                                        <mat-option [ngValue]="apiConsumerProfileOption.id" *ngFor="let apiConsumerProfileOption of apiconsumerprofiles; trackBy: trackApiConsumerProfileById">{{apiConsumerProfileOption.name}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
                             <div>
-                                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
-                                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+
+                                <button mat-raised-button color="primary"  [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                                    <span jhiTranslate="entity.action.save">Save</span>
                                 </button>
-                                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
-                                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
-                                </button>
+
+                                <!--<button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">-->
+                                    <!--<fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>-->
+                                <!--</button>-->
+                            </div>
                             </div>
                             </form>
 

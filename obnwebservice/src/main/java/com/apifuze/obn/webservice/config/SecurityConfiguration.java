@@ -25,7 +25,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final SecurityProblemSupport problemSupport;
 
-    @Value("{obn.api.url.prefix:api}")
+    @Value("{obn.api.url.prefix:/api}")
     final  static String apiPrefix="/api";
 
     public SecurityConfiguration(TokenProvider tokenProvider, SecurityProblemSupport problemSupport) {

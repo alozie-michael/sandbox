@@ -7,6 +7,31 @@ label.form-check-label {
     padding-left: 0;
 }
 
+.forgot-password-wrapper,
+.signup-wrapper {
+    font-size: 0.875rem;
+}
+
+a.alert-link {
+    transition: all 0.1s ease-out;
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid #3e8acc;
+    color: #3e8acc;
+    background-color: transparent;
+    cursor: pointer;
+    font-weight: normal;
+
+    &:hover {
+        text-decoration: none;
+        border-bottom: none;
+        color: black;
+    }
+}
+
+.mat-raised-button.mat-primary {
+    margin-top: 1rem;
+    display: block;
+}
 div.forgot-password-wrapper {
     padding-bottom: 1rem;
 

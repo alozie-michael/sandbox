@@ -13,9 +13,11 @@ import {
     SettingsComponent,
     accountState
 } from './';
+import { RecaptchaFormsModule } from 'ng-recaptcha/forms';
+import { RecaptchaModule } from 'ng-recaptcha';
 
 @NgModule({
-    imports: [ApicockpitSharedModule, RouterModule.forChild(accountState)],
+    imports: [ApicockpitSharedModule, RecaptchaModule, RecaptchaFormsModule, RouterModule.forChild(accountState)],
     declarations: [
         ActivateComponent,
         RegisterComponent,

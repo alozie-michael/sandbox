@@ -51,10 +51,16 @@ spring:
     liquibase:
         contexts: prod
     mail:
-        host: localhost
-        port: 25
-        username:
+        host: smtp.sendgrid.net
+        port: 587
+        username:  #Replace this field with your Gmail username.
         password:
+        protocol: smtp
+        tls: true
+        properties.mail.smtp:
+            auth: true
+            starttls.enable: true
+            ssl.trust: smtp.sendgrid.net
     thymeleaf:
         cache: true
 

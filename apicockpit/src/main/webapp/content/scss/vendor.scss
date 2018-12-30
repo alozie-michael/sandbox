@@ -11,3 +11,5 @@ eg $input-color: red;
 
 @import './theme';
 /* jhipster-needle-scss-add-vendor JHipster will add new css style */
+
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
