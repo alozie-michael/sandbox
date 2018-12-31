@@ -27,6 +27,6 @@ export class ApiProject implements IApiProject {
         public ownerName?: string,
         public ownerId?: number
     ) {
-        this.active = this.active || false;
+        this.active = this.active || true;
     }
 }

@@ -52,11 +52,11 @@ public class ApiProjectResource {
     public ResponseEntity<ApiProjectDTO> createApiProject(@Valid @RequestBody ApiProjectDTO apiProjectDTO) throws URISyntaxException {
         log.debug("REST request to save ApiProject : {}", apiProjectDTO);
         if (apiProjectDTO.getId() != null) {
-            throw new BadRequestAlertException("A new apiProject cannot already have an ID", ENTITY_NAME, "idexists");
+            throw new BadRequestAlertException("A new Project cannot already have an ID", ENTITY_NAME, "idexists");
         }
         ApiProjectDTO result = apiProjectService.save(apiProjectDTO);
         return ResponseEntity.created(new URI("/api/api-projects/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getName()))
             .body(result);
     }
 
@@ -78,7 +78,7 @@ public class ApiProjectResource {
         }
         ApiProjectDTO result = apiProjectService.save(apiProjectDTO);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, apiProjectDTO.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, result.getName()))
             .body(result);
     }
 
@@ -127,7 +127,13 @@ public class ApiProjectResource {
     @Timed
     public ResponseEntity<Void> deleteApiProject(@PathVariable Long id) {
         log.debug("REST request to delete ApiProject : {}", id);
-        apiProjectService.delete(id);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+        Optional<ApiProjectDTO> apiProjectDTO = apiProjectService.findOne(id);
+        if(apiProjectDTO.isPresent()){
+            apiProjectService.delete(id);
+            return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, apiProjectDTO.get().getName())).build();
+        }else{
+            return ResponseUtil.wrapOrNotFound(null);
+        }
+
     }
 }

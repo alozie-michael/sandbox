@@ -6,9 +6,9 @@
                 "createLabel": "New Project",
                 "createOrEditLabel": "Project"
             },
-            "created": "A new Project is created with identifier {{ param }}",
-            "updated": "A Project is updated with identifier {{ param }}",
-            "deleted": "A Project is deleted with identifier {{ param }}",
+            "created": "A new Project is created with name {{ param }}",
+            "updated": "A Project is updated with name {{ param }}",
+            "deleted": "A Project is deleted with name {{ param }}",
             "delete": {
                 "question": "Are you sure you want to delete Project {{ name }}?"
             },
