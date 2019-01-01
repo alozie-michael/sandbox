@@ -27,7 +27,7 @@
             </thead>
             <tbody>
             <tr *ngFor="let apiProject of apiProjects ;trackBy: trackId">
-                <td><a  [routerLink]="['/api-project', apiProject.id, 'view' ]">{{apiProject.name}}</a></td>
+                <td>{{apiProject.name}}</td>
                 <td>{{apiProject.description}}</td>
                 <td>
                     <button class="btn btn-danger btn-sm" (click)="setActive(apiProject, true)" *ngIf="!apiProject.active"

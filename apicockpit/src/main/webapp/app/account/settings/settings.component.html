@@ -1,63 +1,64 @@
-<div>
-	<div class="row">
-		<div class="col-md-8">
-			<h2 jhiTranslate="settings.title" translateValues="{username: '{{settingsAccount.login}}'}" *ngIf="settingsAccount">User settings for [<b>{{settingsAccount.login}}</b>]</h2>
-			
-			<div class="alert alert-success" *ngIf="success" jhiTranslate="settings.messages.success">
-				<strong>Settings saved!</strong>
-			</div>
-			
-			<jhi-alert-error></jhi-alert-error>
-			
-			<form name="form" role="form" (ngSubmit)="save()" #settingsForm="ngForm" *ngIf="settingsAccount" novalidate>
-				
-				<div >
-					<mat-form-field>
-						<input matInput type="text"  id="firstName" name="firstName" #firstNameInput="ngModel" placeholder="{{'settings.form.firstname.placeholder' | translate}}"
-						[(ngModel)]="settingsAccount.firstName" minlength=1 maxlength=50 required>
-						<mat-error *ngIf="firstNameInput.hasError('required')">   Your first name is required.</mat-error>
-						<mat-error *ngIf="firstNameInput.hasError('minlength') "> Your first name is required to be at least 1 character.</mat-error>
-						<mat-error *ngIf="firstNameInput.hasError('maxlength') ">  Your first name cannot be longer than 50 characters.</mat-error>
-						
-					</mat-form-field>
-					
-				</div>  
-				
-				<div >
-					<mat-form-field>
-						<input matInput type="text"  id="lastName" name="lastName" #lastNameInput="ngModel" placeholder="{{'settings.form.lastname.placeholder' | translate}}"
-						[(ngModel)]="settingsAccount.lastName" minlength=1 maxlength=50 required>
-						<mat-error *ngIf="firstNameInput.hasError('required')">   Your last name is required.</mat-error>
-						<mat-error *ngIf="firstNameInput.hasError('minlength') "> Your last name is required to be at least 1 character.</mat-error>
-						<mat-error *ngIf="firstNameInput.hasError('maxlength') ">  Your last name cannot be longer than 50 characters.</mat-error>
-						
-					</mat-form-field>
-					
-				</div>
-				
-				<div >
-					<mat-form-field>
-						<input matInput type="email"  id="email" name="email" #emailInput="ngModel" placeholder="{{'global.form.email.placeholder' | translate}}"
-						[(ngModel)]="settingsAccount.email" minlength=5 maxlength=254 email required>
-						<mat-error *ngIf="emailInput.hasError('required')"> Your email is required.</mat-error>
-						<mat-error *ngIf="emailInput.hasError('email') ">  Your email is invalid.</mat-error>
-						<mat-error *ngIf="emailInput.hasError('minlength') ">  Your email is required to be at least 5 characters.</mat-error>
-						<mat-error *ngIf="emailInput.hasError('maxlength') ">    Your email cannot be longer than 100 characters.</mat-error>
-					</mat-form-field>
-					
-				</div>
-				<div *ngIf="languages && languages.length > 0">
-					<mat-form-field>
-						<mat-select placeholder="Language" name="langKey" [(ngModel)]="settingsAccount.langKey">
-							<mat-option *ngFor="let language of languages" [value]="language">
-								{{language | findLanguageFromKey}}
-							</mat-option>
-						</mat-select>
-					</mat-form-field>
-				</div>
-				<button mat-raised-button color="primary" [disabled]="settingsForm.form.invalid">Save</button>
-			</form>
-		</div>
-	</div>
-	
+<div class="container">
+    <div class=" row" >
+        <div class="main col-md-8">
+            <div class="main form-wrapper">
+                <h2 jhiTranslate="settings.title" translateValues="{username: '{{settingsAccount.login}}'}" *ngIf="settingsAccount">User settings for [<b>{{settingsAccount.login}}</b>]</h2>
+
+                <div class="alert alert-success" *ngIf="success" jhiTranslate="settings.messages.success">
+                    <strong>Settings saved!</strong>
+                </div>
+
+                <jhi-alert-error></jhi-alert-error>
+
+                <form name="form" role="form" (ngSubmit)="save()" #settingsForm="ngForm" *ngIf="settingsAccount" novalidate>
+
+                    <div >
+                        <mat-form-field>
+                            <input matInput type="text"  id="firstName" name="firstName" #firstNameInput="ngModel" placeholder="{{'settings.form.firstname.placeholder' | translate}}"
+                                   [(ngModel)]="settingsAccount.firstName" minlength=1 maxlength=50 required>
+                            <mat-error *ngIf="firstNameInput.hasError('required')">   Your first name is required.</mat-error>
+                            <mat-error *ngIf="firstNameInput.hasError('minlength') "> Your first name is required to be at least 1 character.</mat-error>
+                            <mat-error *ngIf="firstNameInput.hasError('maxlength') ">  Your first name cannot be longer than 50 characters.</mat-error>
+
+                        </mat-form-field>
+
+                    </div>
+
+                    <div >
+                        <mat-form-field>
+                            <input matInput type="text"  id="lastName" name="lastName" #lastNameInput="ngModel" placeholder="{{'settings.form.lastname.placeholder' | translate}}"
+                                   [(ngModel)]="settingsAccount.lastName" minlength=1 maxlength=50 required>
+                            <mat-error *ngIf="firstNameInput.hasError('required')">   Your last name is required.</mat-error>
+                            <mat-error *ngIf="firstNameInput.hasError('minlength') "> Your last name is required to be at least 1 character.</mat-error>
+                            <mat-error *ngIf="firstNameInput.hasError('maxlength') ">  Your last name cannot be longer than 50 characters.</mat-error>
+
+                        </mat-form-field>
+
+                    </div>
+
+                    <div >
+                        <mat-form-field>
+                            <input matInput type="email"  id="email" name="email" #emailInput="ngModel" placeholder="{{'global.form.email.placeholder' | translate}}"
+                                   [(ngModel)]="settingsAccount.email" minlength=5 maxlength=254 email required>
+                            <mat-error *ngIf="emailInput.hasError('required')"> Your email is required.</mat-error>
+                            <mat-error *ngIf="emailInput.hasError('email') ">  Your email is invalid.</mat-error>
+                            <mat-error *ngIf="emailInput.hasError('minlength') ">  Your email is required to be at least 5 characters.</mat-error>
+                            <mat-error *ngIf="emailInput.hasError('maxlength') ">    Your email cannot be longer than 100 characters.</mat-error>
+                        </mat-form-field>
+
+                    </div>
+                    <div *ngIf="languages && languages.length > 0">
+                        <mat-form-field>
+                            <mat-select placeholder="Language" name="langKey" [(ngModel)]="settingsAccount.langKey">
+                                <mat-option *ngFor="let language of languages" [value]="language">
+                                    {{language | findLanguageFromKey}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <button mat-raised-button color="primary" [disabled]="settingsForm.form.invalid">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
