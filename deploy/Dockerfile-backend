@@ -22,8 +22,8 @@ RUN sh -c "mvn clean install -Dmaven.test.skip=true -f$CLONE_DIR/utils/pom.xml" 
 
 #COPY $CLONE_DIR/apicockpit/target/cockpit-0.0.1-SNAPSHOT.war $HOME/app.war
 
-#clean up $CLONE_DIR
-RUN sh -c "rm -rf $CLONE_DIR"
+#clean up $CLONE_DIR & mvn dir
+RUN sh -c "rm -rf $CLONE_DIR" && sh -c "rm -rf $HOME/.m2"
 
 ENV SPRING_OUTPUT_ANSI_ENABLED=ALWAYS \
     JAVA_OPTS=""
