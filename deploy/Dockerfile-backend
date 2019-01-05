@@ -1,0 +1,35 @@
+FROM frolvlad/alpine-oraclejdk8:slim
+
+RUN apk update && apk upgrade && \
+    apk add --no-cache bash git openssh maven
+
+#Add obn user to run start app
+RUN adduser -D -s /bin/sh obn
+WORKDIR /home/obn
+
+USER obn
+
+ARG MVN_OPTS
+
+ENV JAVA_OPTS="" \
+    CLONE_DIR="/tmp/obn/sandbox"
+
+RUN mkdir -p $CLONE_DIR && chown obn:obn $CLONE_DIR
+
+RUN git clone https://github.com/openbankingnigeria/sandbox.git $CLONE_DIR
+
+RUN sh -c "mvn clean install $MVN_OPTS -f$CLONE_DIR/utils/pom.xml" && \
+    sh -c "mvn clean package $MVN_OPTS -P!webpack -f$CLONE_DIR/apicockpit/pom.xml" && \
+    sh -c "cp $CLONE_DIR/apicockpit/target/cockpit-0.0.1-SNAPSHOT.war $HOME/app.war"
+
+#COPY $CLONE_DIR/apicockpit/target/cockpit-0.0.1-SNAPSHOT.war $HOME/app.war
+
+#clean up $CLONE_DIR
+RUN sh -c "rm -rf $CLONE_DIR"
+
+ENV SPRING_OUTPUT_ANSI_ENABLED=ALWAYS \
+    JAVA_OPTS=""
+
+ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar $HOME/app.war" ]
+
+EXPOSE 8081
