@@ -9,8 +9,6 @@ WORKDIR /home/obn
 
 USER obn
 
-ARG MVN_OPTS
-
 ENV JAVA_OPTS="" \
     CLONE_DIR="/tmp/obn/sandbox"
 
@@ -18,8 +16,8 @@ RUN mkdir -p $CLONE_DIR && chown obn:obn $CLONE_DIR
 
 RUN git clone https://github.com/openbankingnigeria/sandbox.git $CLONE_DIR
 
-RUN sh -c "mvn clean install $MVN_OPTS -f$CLONE_DIR/utils/pom.xml" && \
-    sh -c "mvn clean package $MVN_OPTS -P!webpack -f$CLONE_DIR/apicockpit/pom.xml" && \
+RUN sh -c "mvn clean install -Dmaven.test.skip=true -f$CLONE_DIR/utils/pom.xml" && \
+    sh -c "mvn clean package -Dmaven.test.skip=true -P!webpack -f$CLONE_DIR/apicockpit/pom.xml" && \
     sh -c "cp $CLONE_DIR/apicockpit/target/cockpit-0.0.1-SNAPSHOT.war $HOME/app.war"
 
 #COPY $CLONE_DIR/apicockpit/target/cockpit-0.0.1-SNAPSHOT.war $HOME/app.war
