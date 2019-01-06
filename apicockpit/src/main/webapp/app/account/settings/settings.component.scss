@@ -1,0 +1,21 @@
+.main {
+    // padding: 40px;
+    padding: 2rem;
+    border-radius: 6px;
+    opacity: 0.9;
+
+    h1 {
+        margin-bottom: 1.5rem;
+    }
+
+    &.form-wrapper {
+        margin-top: 0;
+        padding-top: 0;
+        padding-left: 0;
+    }
+    .card {
+        border-radius: 6px;
+        padding: 2rem;
+        margin-top: 1rem;
+    }
+}

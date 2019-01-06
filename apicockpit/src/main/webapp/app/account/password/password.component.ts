@@ -5,7 +5,8 @@ import { PasswordService } from './password.service';
 
 @Component({
     selector: 'jhi-password',
-    templateUrl: './password.component.html'
+    templateUrl: './password.component.html',
+    styleUrls: ['password.component.scss']
 })
 export class PasswordComponent implements OnInit {
     doNotMatch: string;
@@ -15,6 +16,7 @@ export class PasswordComponent implements OnInit {
     currentPassword: string;
     newPassword: string;
     confirmPassword: string;
+    hide: boolean = true;
 
     constructor(private passwordService: PasswordService, private principal: Principal) {}
 
@@ -25,22 +27,15 @@ export class PasswordComponent implements OnInit {
     }
 
     changePassword() {
-        if (this.newPassword !== this.confirmPassword) {
-            this.error = null;
-            this.success = null;
-            this.doNotMatch = 'ERROR';
-        } else {
-            this.doNotMatch = null;
-            this.passwordService.save(this.newPassword, this.currentPassword).subscribe(
-                () => {
-                    this.error = null;
-                    this.success = 'OK';
-                },
-                () => {
-                    this.success = null;
-                    this.error = 'ERROR';
-                }
-            );
-        }
+        this.passwordService.save(this.newPassword, this.currentPassword).subscribe(
+            () => {
+                this.error = null;
+                this.success = 'OK';
+            },
+            () => {
+                this.success = null;
+                this.error = 'ERROR';
+            }
+        );
     }
 }

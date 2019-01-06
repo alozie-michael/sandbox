@@ -28,5 +28,7 @@ public interface ApiProjectRepository extends JpaRepository<ApiProject, Long> {
     @Query("select api_project from ApiProject api_project left join fetch api_project.apis where api_project.id =:id")
     Optional<ApiProject> findOneWithEagerRelationships(@Param("id") Long id);
 
-    Page<ApiProject>  findAllByOwnerId(Long id, Pageable pageable);
+    Page<ApiProject>  findAllByOwnerId(Long ownerId, Pageable pageable);
+
+    List<ApiProject>  findAllByOwnerId(Long ownerId);
 }

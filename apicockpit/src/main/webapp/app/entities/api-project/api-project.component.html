@@ -13,22 +13,21 @@
     <div class="table-responsive" *ngIf="apiProjects">
         <table class="table table-striped">
             <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-            <th jhiSortBy="name"><span jhiTranslate="apicockpitApp.apiProject.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="description"><span jhiTranslate="apicockpitApp.apiProject.description">Description</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="active"><span jhiTranslate="apicockpitApp.apiProject.active">Active</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="dateCreated"><span jhiTranslate="apicockpitApp.apiProject.dateCreated">Date Created</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <!-- TODO: User Role admin condition for this -->
-            <ng-template *ngIf="false">
-                <th jhiSortBy="apiKeyClientId"><span jhiTranslate="apicockpitApp.apiProject.apiKey">Api Key</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-                <th jhiSortBy="ownerName"><span jhiTranslate="apicockpitApp.apiProject.owner">Owner</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            </ng-template>
-            <th></th>
-            </tr>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+                    <th jhiSortBy="name"><span jhiTranslate="apicockpitApp.apiProject.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                    <th jhiSortBy="description"><span jhiTranslate="apicockpitApp.apiProject.description">Description</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                    <th jhiSortBy="active"><span jhiTranslate="apicockpitApp.apiProject.active">Active</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                    <th jhiSortBy="dateCreated"><span jhiTranslate="apicockpitApp.apiProject.dateCreated">Date Created</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+
+                    <ng-container *jhiHasAnyAuthority="'ROLE_ADMIN'">
+                        <th jhiSortBy="ownerName"><span jhiTranslate="apicockpitApp.apiProject.owner">Owner</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+                    </ng-container>
+                    <th></th>
+                </tr>
             </thead>
             <tbody>
             <tr *ngFor="let apiProject of apiProjects ;trackBy: trackId">
-                <td><a  [routerLink]="['/api-project', apiProject.id, 'view' ]">{{apiProject.name}}</a></td>
+                <td>{{apiProject.name}}</td>
                 <td>{{apiProject.description}}</td>
                 <td>
                     <button class="btn btn-danger btn-sm" (click)="setActive(apiProject, true)" *ngIf="!apiProject.active"
@@ -38,26 +37,15 @@
                 </td>
                 <td>{{apiProject.dateCreated | date:'dd/MM/yy HH:mm'}}</td>
                 <!-- TODO: User Role admin condition for this -->
-                <ng-template *ngIf="false">
-                    <td>
-                        <div *ngIf="apiProject.apiKeyId">
-                            <a [routerLink]="['../api-project-auth-config', apiProject.apiKeyId , 'view' ]" >{{apiProject.apiKeyClientId}}</a>
-                        </div>
-                    </td>
+                <ng-container *jhiHasAnyAuthority="'ROLE_ADMIN'">
                     <td>
                         <div *ngIf="apiProject.ownerId">
                             <a [routerLink]="['../api-consumer-profile', apiProject.ownerId , 'view' ]" >{{apiProject.ownerName}}</a>
                         </div>
                     </td>
-                </ng-template>
+                </ng-container>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
-                        <button type="button"
-                            (click)="getApiProject(apiProject.id, content)"
-                                class="btn btn-info btn-sm">
-                            <fa-icon [icon]="'eye'"></fa-icon>
-                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
-                        </button>
                         <button type="submit"
                                 [routerLink]="['/api-project', apiProject.id, 'edit']"
                                 class="btn btn-primary btn-sm">
@@ -87,79 +75,3 @@
         </div>
     </div>
 </div>
-
-
-<!-- Project Modal -->
-
-
-<!-- Button trigger modal -->
-<ng-template #content let-modal>
-  <div class="modal-header">
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-        <div class="row justify-content-center">
-                <div class="col-8">
-                    <div *ngIf="apiProjectDetail">
-                        <h2><span jhiTranslate="apicockpitApp.apiProject.detail.title">Api Project</span> {{apiProjectDetail.id}}</h2>
-                        <hr>
-                        <jhi-alert-error></jhi-alert-error>
-                        <dl class="row-md jh-entity-details">
-                            <dt><span jhiTranslate="apicockpitApp.apiProject.name">Name</span></dt>
-                            <dd>
-                                <span>{{apiProjectDetail.name}}</span>
-                            </dd>
-                            <dt><span jhiTranslate="apicockpitApp.apiProject.description">Description</span></dt>
-                            <dd>
-                                <span>{{apiProjectDetail.description}}</span>
-                            </dd>
-                            <dt><span jhiTranslate="apicockpitApp.apiProject.active">Active</span></dt>
-                            <dd>
-                                <span>{{apiProjectDetail.active}}</span>
-                            </dd>
-                            <dt><span jhiTranslate="apicockpitApp.apiProject.dateCreated">Date Created</span></dt>
-                            <dd>
-                                <span>{{apiProjectDetail.dateCreated}}</span>
-                            </dd>
-                            <dt><span jhiTranslate="apicockpitApp.apiProject.apiKey">Api Key</span></dt>
-                            <dd>
-                                <div *ngIf="apiProjectDetail.apiKeyId">
-                                    <a [routerLink]="['/api-project-auth-config', apiProjectDetail.apiKeyId, 'view']">{{apiProjectDetail.apiKeyClientId}}</a>
-                                </div>
-                            </dd>
-                            <dt><span jhiTranslate="apicockpitApp.apiProject.api">Api</span></dt>
-                            <dd>
-                                <span *ngFor="let api of apiProjectDetail.apis; let last = last">
-                                    <a [routerLink]="['/api-project-service', api?.id, 'view' ]">{{api.name}}</a>{{last ? '' : ', '}}
-                                </span>
-                            </dd>
-                            <dt><span jhiTranslate="apicockpitApp.apiProject.owner">Owner</span></dt>
-                            <dd>
-                                <div *ngIf="apiProjectDetail.ownerId">
-                                    <a [routerLink]="['/api-consumer-profile', apiProjectDetail.ownerId, 'view']">{{apiProjectDetail.ownerName}}</a>
-                                </div>
-                            </dd>
-                        </dl>
-
-                        <!-- <button type="submit"
-                                (click)="previousState()"
-                                class="btn btn-info">
-                            <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
-                        </button>
-
-                        <button type="button"
-                                [routerLink]="['/api-project', apiProject.id, 'edit']"
-                                class="btn btn-primary">
-                            <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
-                        </button> -->
-                    </div>
-                </div>
-            </div>
-
-  </div>
-  <div class="modal-footer">
-    <!-- <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button> -->
-  </div>
-</ng-template>

@@ -1,6 +1,6 @@
 <div class="container">
     <div class=" row" >
-            <div class="main col-md-7 col-push-7">
+            <div class="main col-md-7">
                 <div class="main form-wrapper">
                     <div class="row justify-content-center">
                         <div class="col-md-12">
@@ -26,15 +26,16 @@
                                         <textarea matInput name="description" id="description"
                                                   [(ngModel)]="apiProject.description" #description="ngModel" placeholder="{{'apicockpitApp.apiProject.description' | translate}}"></textarea>
                                     </mat-form-field>
-
-                                    <mat-slide-toggle name="active" checked [(ngModel)]="apiProject.active">Active</mat-slide-toggle>
-
-                                    <div class="form-group mt-3">
+                                    <ng-container *ngIf="apiProject.id !=null">
+                                        <mat-slide-toggle name="active" checked class="mb-3" [(ngModel)]="apiProject.active">Active</mat-slide-toggle>
+                                    </ng-container>
+                                    <div class="form-group">
                                         <label jhiTranslate="apicockpitApp.apiProject.api" for="apis">Selected Api</label>
                                         <div class="row">
                                             <div class="col-12">
                                                 <ng-select
                                                     name="apis"
+                                                    required
                                                     ngDefaultControl
                                                     [items]="apiprojectservices"
                                                     [multiple]="true"

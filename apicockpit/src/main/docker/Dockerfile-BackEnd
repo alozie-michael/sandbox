@@ -1,0 +1,95 @@
+# Choose and name our temporary image.
+FROM openjdk:8-jre-alpine as obn-intermediate
+# Add metadata identifying these images as our build containers (this will be useful later!)
+LABEL stage=intermediate
+
+# Take an SSH key as a build argument.
+ARG SSH_PRIVATE_KEY
+
+ARG API_BRANCH
+
+ARG SANDBOX_BRANCH
+
+# Install dependencies required to git clone.
+RUN apk update && \
+    apk add --update git && \
+    apk add --update openssh
+
+# 1. Create the SSH directory.
+# 2. Populate the private key file.
+# 3. Set the required permissions.
+# 4. Add github to our list of known hosts for ssh.
+RUN mkdir -p /root/.ssh/ && \
+    echo "$SSH_KEY" > /root/.ssh/id_rsa && \
+    chmod -R 600 /root/.ssh/ && \
+    ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+
+# Add a jhipster user to run our application so that it doesn't need to run as root
+RUN adduser -D -s /bin/sh jhipster
+WORKDIR /home/jhipster
+
+USER jhipster
+
+RUN mkdir -p ~/project
+
+# Clone repository
+RUN git clone https://github.com/openbankingnigeria/api.git ~/project/api && cd ~/project/api && git checkout 0.0.6-SNAPSHOT
+RUN git clone https://github.com/openbankingnigeria/sandbox.git ~/project/sandbox
+
+# Choose the base image for our final image
+FROM openjdk:8-jdk-alpine
+LABEL stage=development
+
+ENV SPRING_OUTPUT_ANSI_ENABLED=ALWAYS \
+    JHIPSTER_SLEEP=0 \
+    JAVA_OPTS=""
+
+# include dependencies
+RUN apk add --update ca-certificates && rm -rf /var/cache/apk/* && \
+  find /usr/share/ca-certificates/mozilla/ -name "*.crt" -exec keytool -import -trustcacerts \
+  -keystore /usr/lib/jvm/java-1.8-openjdk/jre/lib/security/cacerts -storepass changeit -noprompt \
+  -file {} -alias {} \; && \
+  keytool -list -keystore /usr/lib/jvm/java-1.8-openjdk/jre/lib/security/cacerts --storepass changeit
+
+
+ENV MAVEN_VERSION 3.5.4
+ENV MAVEN_HOME /usr/lib/mvn
+ENV PATH $MAVEN_HOME/bin:$PATH
+
+RUN wget http://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz && \
+  tar -zxvf apache-maven-$MAVEN_VERSION-bin.tar.gz && \
+  rm apache-maven-$MAVEN_VERSION-bin.tar.gz && \
+  mv apache-maven-$MAVEN_VERSION /usr/lib/mvn
+
+# Add a jhipster user to run our application so that it doesn't need to run as root
+RUN adduser -D -s /bin/sh jhipster
+WORKDIR /home/jhipster
+
+RUN mkdir -p project
+
+# Copy across the files from our `intermediate` container
+COPY --from=obn-intermediate /home/jhipster/project/api project/api
+COPY --from=obn-intermediate /home/jhipster/project/sandbox project/sandbox
+
+
+USER root
+RUN chown -R jhipster:jhipster project
+USER jhipster
+
+WORKDIR /home/jhipster/project/api
+RUN mvn  clean install -DskipTests -e
+
+WORKDIR /home/jhipster/project/sandbox/utils
+RUN mvn clean install -DskipTests -e
+
+WORKDIR /home/jhipster/project/sandbox/apicockpit
+RUN mvn clean install -DskipTests -e
+
+WORKDIR /home/jhipster/project/sandbox/apicockpit
+
+
+ENTRYPOINT ["./mvnw"]
+
+EXPOSE 8080
+
+

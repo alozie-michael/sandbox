@@ -128,6 +128,24 @@ public class ApiProjectService {
     }
 
     /**
+     * Get all the apiProjects.
+     *
+     * @return the list of entities
+     */
+    @Transactional(readOnly = true)
+    public List<ApiProjectDTO> findAll() {
+        if(SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN)) {
+            log.debug("Request to get all ApiProjects");
+            return apiProjectRepository.findAll().stream().map(apiProjectMapper::toDto).collect(Collectors.toList());
+        }else{
+            log.debug("Request to get all ApiProjects for owner");
+            User user=userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin().get()).get();
+            ApiConsumerProfile consumer = apiConsumerProfileRepository.findByPlatformUserUserId(user.getId());
+            return apiProjectRepository.findAllByOwnerId(consumer.getId()).stream() .map(apiProjectMapper::toDto).collect(Collectors.toList());
+        }
+    }
+
+    /**
      * Get all the ApiProject with eager load of many-to-many relationships.
      *
      * @return the list of entities
