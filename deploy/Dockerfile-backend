@@ -19,9 +19,8 @@ ENV SPRING_OUTPUT_ANSI_ENABLED=ALWAYS \
 #Add obn user to run start app
 RUN adduser -D -s /bin/sh obn
 WORKDIR /home/obn
-USER obn
 
-COPY --from=build /sandbox/apicockpit/target/cockpit-0.0.1-SNAPSHOT.war $HOME/app.war
+COPY --from=build /sandbox/apicockpit/target/cockpit-0.0.1-SNAPSHOT.war /home/obn/app.war
 
 USER root
 RUN chown -R obn:obn /home/obn
