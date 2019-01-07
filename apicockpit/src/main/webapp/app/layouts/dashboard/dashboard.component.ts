@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DashboardService } from './dashboard.service';
 
 @Component({
     selector: 'jhi-dashboard',
@@ -6,7 +7,17 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-    constructor() {}
+    subscribedServices: any;
+    totalApiCalls: any;
+    totalApiErrorCalls: any;
 
-    ngOnInit() {}
+    constructor(private dashboardService: DashboardService) {}
+
+    ngOnInit() {
+        this.dashboardService.get().subscribe(response => {
+            this.subscribedServices = response.body.subscribedServices;
+            this.totalApiCalls = response.body.totalApiCalls;
+            this.totalApiErrorCalls = response.body.totalApiErrorCalls;
+        });
+    }
 }
