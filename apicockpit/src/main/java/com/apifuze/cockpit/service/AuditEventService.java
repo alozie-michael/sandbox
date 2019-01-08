@@ -2,9 +2,12 @@ package com.apifuze.cockpit.service;
 
 import com.apifuze.cockpit.config.audit.AuditEventConverter;
 import com.apifuze.cockpit.repository.PersistenceAuditEventRepository;
+import com.apifuze.cockpit.security.SecurityUtils;
 import org.springframework.boot.actuate.audit.AuditEvent;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,6 +37,12 @@ public class AuditEventService {
 
     public Page<AuditEvent> findAll(Pageable pageable) {
         return persistenceAuditEventRepository.findAll(pageable)
+            .map(auditEventConverter::convertToAuditEvent);
+    }
+
+    public Page<AuditEvent> findLastXUserEvent(int max) {
+        Pageable pageable=PageRequest.of(0, max, Sort.by("auditEventDate").descending());
+        return persistenceAuditEventRepository.findByPrincipal(SecurityUtils.getCurrentUserLogin().get(),pageable)
             .map(auditEventConverter::convertToAuditEvent);
     }
 
