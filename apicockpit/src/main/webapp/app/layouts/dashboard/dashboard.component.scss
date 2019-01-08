@@ -1,3 +1,18 @@
 .card {
     border-radius: 12px;
 }
+a {
+    font-size: 14px;
+
+    &:hover {
+        text-decoration: none;
+        color: #ef8157 !important;
+
+        i {
+            color: #ef8157 !important;
+        }
+    }
+}
+.card-category {
+    min-height: 44px;
+}
