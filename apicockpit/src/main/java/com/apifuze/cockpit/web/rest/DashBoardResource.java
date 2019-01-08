@@ -1,12 +1,15 @@
 package com.apifuze.cockpit.web.rest;
 
 import com.apifuze.cockpit.service.ApiProjectService;
+import com.apifuze.cockpit.service.AuditEventService;
 import com.apifuze.cockpit.service.dto.ApiProjectDTO;
 import com.apifuze.cockpit.service.dto.DashBoardSummaryDTO;
 import com.apifuze.cockpit.service.dto.DashBoardSummaryData;
 import com.codahale.metrics.annotation.Timed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.actuate.audit.AuditEvent;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,10 +29,13 @@ public class DashBoardResource {
 
     private final ApiProjectService apiProjectService;
 
+    private final AuditEventService auditEventService;
 
 
-    public DashBoardResource(ApiProjectService apiProjectService) {
+
+    public DashBoardResource(ApiProjectService apiProjectService,AuditEventService auditEventService) {
         this.apiProjectService = apiProjectService;
+        this.auditEventService=auditEventService;
     }
 
 
@@ -65,6 +71,8 @@ public class DashBoardResource {
         data.setDescription("Total Api Calls");
         data.setCount(0);
         summary.setTotalApiErrorCalls(data);
+        Page<AuditEvent> userEvent = auditEventService.findLastXUserEvent(10);
+        summary.setUserActivityDTOList(userEvent.getContent());
         return ResponseEntity.ok().body(summary);
     }
 
