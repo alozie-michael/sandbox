@@ -62,10 +62,12 @@ public class DashBoardResource {
         }
         summary.setSubscribedServices(data);
 
+        consumer_project_management
         int totalCall=RandomUtils.nextInt(10000,1000000);
         int totalError=totalCall-1000;
         List<DashBoardSummaryGraphDTO> apiCallGraphData=resolveForGraphData(services);
         summary.setApiCallGraph(apiCallGraphData);
+
         data=new DashBoardSummaryData();
         data.setName("serviceError");
         data.setDescription("Total Error Calls");
