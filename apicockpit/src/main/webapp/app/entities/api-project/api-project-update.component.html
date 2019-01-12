@@ -79,7 +79,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-5 mt-3" *ngIf="apiProject.id">
+            <div class="col-md-5" *ngIf="apiProject.id">
 
                 <mat-card class="api-card">
                     <mat-card-content>
@@ -90,7 +90,7 @@
                         <label class="form-control-label">{{apikeys[0].clientSecret}}</label>
                     </mat-card-content>
                     <mat-card-actions>
-                        <button mat-button  (click)="resetApiKeys()">{{'apicockpitApp.apiProject.resetApikey' | translate}}</button>
+                        <button mat-raised-button color="accent"  (click)="resetApiKeys()">{{'apicockpitApp.apiProject.resetApikey' | translate}}</button>
                     </mat-card-actions>
                 </mat-card>
 

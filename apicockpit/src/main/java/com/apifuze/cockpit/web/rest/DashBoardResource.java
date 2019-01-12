@@ -5,7 +5,7 @@ import com.apifuze.cockpit.service.AuditEventService;
 import com.apifuze.cockpit.service.dto.ApiProjectDTO;
 import com.apifuze.cockpit.service.dto.DashBoardSummaryDTO;
 import com.apifuze.cockpit.service.dto.DashBoardSummaryData;
-import com.apifuze.cockpit.service.dto.NameValueData;
+import com.apifuze.cockpit.service.dto.DashBoardSummaryGraphDTO;
 import com.codahale.metrics.annotation.Timed;
 import org.apache.commons.lang3.RandomUtils;
 import org.slf4j.Logger;
@@ -62,7 +62,7 @@ public class DashBoardResource {
         }
         summary.setSubscribedServices(data);
 
-        List<NameValueData> apiCallGraphData=resolveForGraphData(services);
+        List<DashBoardSummaryGraphDTO> apiCallGraphData=resolveForGraphData(services);
         data=new DashBoardSummaryData();
         data.setName("serviceError");
         data.setDescription("Total Error Calls");
@@ -79,10 +79,10 @@ public class DashBoardResource {
         return ResponseEntity.ok().body(summary);
     }
 
-    private List<NameValueData> resolveForGraphData(List<ApiProjectDTO> services) {
-        List<NameValueData> graphData=new ArrayList<>();
+    private List<DashBoardSummaryGraphDTO> resolveForGraphData(List<ApiProjectDTO> services) {
+        List<DashBoardSummaryGraphDTO> graphData=new ArrayList<>();
         for(ApiProjectDTO service:services){
-            NameValueData data=new NameValueData();
+            DashBoardSummaryGraphDTO data=new DashBoardSummaryGraphDTO();
             data.setName(service.getName());
             data.setDescription(service.getDescription());
             data.setCount(RandomUtils.nextInt());
