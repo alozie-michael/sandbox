@@ -10,6 +10,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Base64Utils;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
@@ -90,7 +91,7 @@ public class MailService {
     @Async
     public void sendActivationEmail(User user) {
         log.debug("Sending activation email to '{}'", user.getEmail());
-        user.setActivationKey(encryptionHelper.encrypt (user.getActivationKey()));
+        user.setActivationKey(Base64Utils.encodeToUrlSafeString(encryptionHelper.encrypt (user.getActivationKey()).getBytes()));
         sendEmailFromTemplate(user, "mail/activationEmail", "email.activation.title");
     }
 
@@ -103,7 +104,7 @@ public class MailService {
     @Async
     public void sendPasswordResetMail(User user) {
         log.debug("Sending password reset email to '{}'", user.getEmail());
-        user.setActivationKey(encryptionHelper.encrypt (user.getResetKey()));
+        user.setActivationKey(Base64Utils.encodeToUrlSafeString(encryptionHelper.encrypt (user.getResetKey()).getBytes()));
         sendEmailFromTemplate(user, "mail/passwordResetEmail", "email.reset.title");
     }
 }

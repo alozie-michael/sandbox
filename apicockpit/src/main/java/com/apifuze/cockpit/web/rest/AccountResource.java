@@ -18,6 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.util.Base64Utils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -91,7 +92,8 @@ public class AccountResource {
     @GetMapping("/activate")
     @Timed
     public void activateAccount(@RequestParam(value = "key") String key) {
-        Optional<User> user = userService.activateRegistration(encryptionHelper.decrypt( key));
+        String decodedKey= new String(Base64Utils.decodeFromUrlSafeString(key));
+        Optional<User> user = userService.activateRegistration(encryptionHelper.decrypt( decodedKey));
         if (!user.isPresent()) {
             throw new InternalServerErrorException("No user was found for this activation key");
         }
@@ -190,8 +192,9 @@ public class AccountResource {
         if (!checkPasswordLength(keyAndPassword.getNewPassword())) {
             throw new InvalidPasswordException();
         }
+        String decodedKey= new String(Base64Utils.decodeFromUrlSafeString(keyAndPassword.getKey()));
         Optional<User> user =
-            userService.completePasswordReset(keyAndPassword.getNewPassword(),encryptionHelper.decrypt( keyAndPassword.getKey()));
+            userService.completePasswordReset(keyAndPassword.getNewPassword(), encryptionHelper.decrypt( decodedKey));
 
         if (!user.isPresent()) {
             throw new InternalServerErrorException("No user was found for this reset key");
