@@ -1,5 +1,11 @@
 package com.apifuze.cockpit.web.rest;
 
+import com.apifuze.cockpit.domain.ApiConsumerProfile;
+import com.apifuze.cockpit.domain.User;
+import com.apifuze.cockpit.repository.ApiConsumerProfileRepository;
+import com.apifuze.cockpit.repository.UserRepository;
+import com.apifuze.cockpit.security.AuthoritiesConstants;
+import com.apifuze.cockpit.security.SecurityUtils;
 import com.apifuze.cockpit.service.ApiProjectService;
 import com.apifuze.cockpit.service.dto.ApiProjectDTO;
 import com.apifuze.cockpit.web.rest.errors.BadRequestAlertException;
@@ -34,10 +40,16 @@ public class ApiProjectResource {
 
     private final ApiProjectService apiProjectService;
 
+    private final UserRepository userRepository;
+
+    private final ApiConsumerProfileRepository apiConsumerProfileRepository;
 
 
-    public ApiProjectResource(ApiProjectService apiProjectService) {
+
+    public ApiProjectResource(ApiProjectService apiProjectService,UserRepository userRepository,ApiConsumerProfileRepository apiConsumerProfileRepository) {
         this.apiProjectService = apiProjectService;
+        this.userRepository=userRepository;
+        this.apiConsumerProfileRepository=apiConsumerProfileRepository;
     }
 
     /**
@@ -127,10 +139,26 @@ public class ApiProjectResource {
     @Timed
     public ResponseEntity<Void> deleteApiProject(@PathVariable Long id) {
         log.debug("REST request to delete ApiProject : {}", id);
+        boolean canDelete=false;
         Optional<ApiProjectDTO> apiProjectDTO = apiProjectService.findOne(id);
         if(apiProjectDTO.isPresent()){
-            apiProjectService.delete(id);
-            return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, apiProjectDTO.get().getName())).build();
+            if(SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN)) {
+                canDelete=true;
+            }else{
+                User user=userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin().get()).get();
+                ApiConsumerProfile consumer = apiConsumerProfileRepository.findByPlatformUserUserId(user.getId());
+
+                if(apiProjectDTO.get().getOwnerId()==consumer.getId() && !apiProjectDTO.get().isActive()){
+                    canDelete=true;
+                }
+            }
+            if(canDelete){
+                apiProjectService.delete(id);
+                return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, apiProjectDTO.get().getName())).build();
+            }else{
+                return ResponseEntity.badRequest().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, apiProjectDTO.get().getName())).build();
+            }
+
         }else{
             return ResponseUtil.wrapOrNotFound(null);
         }
