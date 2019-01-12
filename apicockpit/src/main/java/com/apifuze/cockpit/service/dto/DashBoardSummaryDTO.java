@@ -20,6 +20,16 @@ public class DashBoardSummaryDTO implements Serializable {
 
     List<AuditEvent> userActivityDTOList=new ArrayList<>();
 
+    List<DashBoardSummaryGraphDTO> apiCallGraph=new ArrayList<>();
+
+    public List<DashBoardSummaryGraphDTO> getApiCallGraph() {
+        return apiCallGraph;
+    }
+
+    public void setApiCallGraph(List<DashBoardSummaryGraphDTO> apiCallGraph) {
+        this.apiCallGraph = apiCallGraph;
+    }
+
     public List<AuditEvent> getUserActivityDTOList() {
         return userActivityDTOList;
     }

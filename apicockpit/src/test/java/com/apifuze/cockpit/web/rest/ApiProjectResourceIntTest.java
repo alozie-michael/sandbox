@@ -1,14 +1,14 @@
 package com.apifuze.cockpit.web.rest;
 
 import com.apifuze.cockpit.ApicockpitApp;
-
 import com.apifuze.cockpit.domain.ApiProject;
+import com.apifuze.cockpit.repository.ApiConsumerProfileRepository;
 import com.apifuze.cockpit.repository.ApiProjectRepository;
+import com.apifuze.cockpit.repository.UserRepository;
 import com.apifuze.cockpit.service.ApiProjectService;
 import com.apifuze.cockpit.service.dto.ApiProjectDTO;
 import com.apifuze.cockpit.service.mapper.ApiProjectMapper;
 import com.apifuze.cockpit.web.rest.errors.ExceptionTranslator;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +17,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -31,7 +30,6 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
-
 
 import static com.apifuze.cockpit.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -64,6 +62,12 @@ public class ApiProjectResourceIntTest {
     @Autowired
     private ApiProjectRepository apiProjectRepository;
 
+    @Autowired
+    private  UserRepository userRepository;
+
+    @Autowired
+    private  ApiConsumerProfileRepository apiConsumerProfileRepository;
+
     @Mock
     private ApiProjectRepository apiProjectRepositoryMock;
 
@@ -95,7 +99,7 @@ public class ApiProjectResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final ApiProjectResource apiProjectResource = new ApiProjectResource(apiProjectService);
+        final ApiProjectResource apiProjectResource = new ApiProjectResource(apiProjectService,userRepository,apiConsumerProfileRepository);
         this.restApiProjectMockMvc = MockMvcBuilders.standaloneSetup(apiProjectResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -222,7 +226,7 @@ public class ApiProjectResourceIntTest {
     
     @SuppressWarnings({"unchecked"})
     public void getAllApiProjectsWithEagerRelationshipsIsEnabled() throws Exception {
-        ApiProjectResource apiProjectResource = new ApiProjectResource(apiProjectServiceMock);
+        ApiProjectResource apiProjectResource = new ApiProjectResource(apiProjectServiceMock,userRepository,apiConsumerProfileRepository);
         when(apiProjectServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
 
         MockMvc restApiProjectMockMvc = MockMvcBuilders.standaloneSetup(apiProjectResource)
@@ -239,7 +243,7 @@ public class ApiProjectResourceIntTest {
 
     @SuppressWarnings({"unchecked"})
     public void getAllApiProjectsWithEagerRelationshipsIsNotEnabled() throws Exception {
-        ApiProjectResource apiProjectResource = new ApiProjectResource(apiProjectServiceMock);
+        ApiProjectResource apiProjectResource = new ApiProjectResource(apiProjectServiceMock,userRepository,apiConsumerProfileRepository);
             when(apiProjectServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
             MockMvc restApiProjectMockMvc = MockMvcBuilders.standaloneSetup(apiProjectResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
