@@ -5,7 +5,9 @@ import com.apifuze.cockpit.service.AuditEventService;
 import com.apifuze.cockpit.service.dto.ApiProjectDTO;
 import com.apifuze.cockpit.service.dto.DashBoardSummaryDTO;
 import com.apifuze.cockpit.service.dto.DashBoardSummaryData;
+import com.apifuze.cockpit.service.dto.DashBoardSummaryGraphDTO;
 import com.codahale.metrics.annotation.Timed;
+import org.apache.commons.lang3.RandomUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.actuate.audit.AuditEvent;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -59,7 +62,7 @@ public class DashBoardResource {
         }
         summary.setSubscribedServices(data);
 
-
+        List<DashBoardSummaryGraphDTO> apiCallGraphData=resolveForGraphData(services);
         data=new DashBoardSummaryData();
         data.setName("serviceError");
         data.setDescription("Total Error Calls");
@@ -74,6 +77,18 @@ public class DashBoardResource {
         Page<AuditEvent> userEvent = auditEventService.findLastXUserEvent(10);
         summary.setUserActivityDTOList(userEvent.getContent());
         return ResponseEntity.ok().body(summary);
+    }
+
+    private List<DashBoardSummaryGraphDTO> resolveForGraphData(List<ApiProjectDTO> services) {
+        List<DashBoardSummaryGraphDTO> graphData=new ArrayList<>();
+        for(ApiProjectDTO service:services){
+            DashBoardSummaryGraphDTO data=new DashBoardSummaryGraphDTO();
+            data.setName(service.getName());
+            data.setDescription(service.getDescription());
+            data.setCount(RandomUtils.nextInt());
+            graphData.add(data);
+        }
+        return graphData;
     }
 
 }

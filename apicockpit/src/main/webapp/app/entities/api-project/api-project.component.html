@@ -51,11 +51,12 @@
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
-                        </button>
+                        </button>&nbsp;
                         <button type="submit"
                                 [routerLink]="['/', { outlets: { popup: 'api-project/'+ apiProject.id + '/delete'} }]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"
+                                [disabled]="apiProject.active"
                                 class="btn btn-danger btn-sm">
                             <fa-icon [icon]="'times'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>

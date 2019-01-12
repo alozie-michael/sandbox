@@ -51,7 +51,7 @@
                                 [routerLink]="['/', { outlets: { popup: 'api-project-service/'+ apiProjectService.id + '/delete'} }]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"
-                                class="btn btn-danger btn-sm">
+                                class="btn btn-danger btn-sm" [disabled]="apiProjectService.active">
                             <fa-icon [icon]="'times'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
                         </button>
