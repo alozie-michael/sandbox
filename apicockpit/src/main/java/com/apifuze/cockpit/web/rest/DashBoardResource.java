@@ -58,21 +58,26 @@ public class DashBoardResource {
         data.setDescription("Subscribed Services");
         data.setCount(0);
         if(services!=null){
-            data.setCount(services.size());
+            data.setCount(services.get(0).getSelectedApiList().size());
         }
         summary.setSubscribedServices(data);
 
+        consumer_project_management
+        int totalCall=RandomUtils.nextInt(10000,1000000);
+        int totalError=totalCall-1000;
         List<DashBoardSummaryGraphDTO> apiCallGraphData=resolveForGraphData(services);
+        summary.setApiCallGraph(apiCallGraphData);
+
         data=new DashBoardSummaryData();
         data.setName("serviceError");
         data.setDescription("Total Error Calls");
-        data.setCount(0);
+        data.setCount(totalError);
         summary.setTotalApiCalls(data);
 
         data=new DashBoardSummaryData();
         data.setName("serviceCalls");
         data.setDescription("Total Api Calls");
-        data.setCount(0);
+        data.setCount(totalCall);
         summary.setTotalApiErrorCalls(data);
         Page<AuditEvent> userEvent = auditEventService.findLastXUserEvent(10);
         summary.setUserActivityDTOList(userEvent.getContent());
