@@ -16,7 +16,8 @@
                   ],
                   "scripts": [
                     "node_modules/jquery/dist/jquery.min.js",
-                    "node_modules/ng-selectize/selectize/selectize.standalone.js"
+						  "node_modules/ng-selectize/selectize/selectize.standalone.js",
+						  "node_modules/chart.js/src/chart.js"
                   ]
               }
           }

@@ -1,14 +1,22 @@
 #build image
 FROM frolvlad/alpine-oraclejdk8:slim AS build
 
+ARG BASE_SRC_PATH="/sandbox/apicockpit"
+ARG WEB_APP_PATH=$BASE_SRC_PATH"/src/main/webapp"
 
 RUN apk update && apk upgrade && \
-    apk add --no-cache bash git openssh maven
+    apk add --no-cache bash git maven
 
 RUN git clone https://github.com/openbankingnigeria/sandbox.git
 
-RUN sh -c "mvn clean install -Dmaven.test.skip=true -f/sandbox/utils/pom.xml" && \
-    sh -c "mvn clean package -Dmaven.test.skip=true -P\!webpack -f/sandbox/apicockpit/pom.xml"
+#remove the web app but leave swagger-ui
+RUN rm -rf $BASE_SRC_PATH/src/test && \
+    cd $WEB_APP_PATH/app && \
+    find -maxdepth 1 ! -name "polyfills.ts" -exec rm -rv {} \; && \
+    touch $WEB_APP_PATH/app/app.main.ts
+
+RUN sh -c "mvn clean install -q -Dmaven.test.skip=true -f/sandbox/utils/pom.xml" && \
+    sh -c "mvn clean package -Dmaven.test.skip=true -f$BASE_SRC_PATH/pom.xml"
 
 # final image
 FROM openjdk:8-jre-alpine
