@@ -21,6 +21,8 @@ import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent
 import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
 import { SidebarComponent } from './layouts/sidebar/sidebar.component';
 import { DashboardComponent } from './layouts/dashboard/dashboard.component';
+import { TimeAgoPipe } from 'time-ago-pipe';
+import { ChartsModule } from 'ng2-charts';
 import { MenuComponent } from 'app/layouts/menu/menu.component';
 import { AppRoutingModule } from 'app/app-routing.module';
 import { TocModule } from 'app/toc/toc.module';
@@ -39,7 +41,8 @@ import { PrivacyModule } from 'app/privacy/privacy.module';
         PrivacyModule,
         // jhipster-needle-angular-add-module JHipster will add new module here
         ApicockpitEntityModule,
-        SweetAlert2Module.forRoot()
+        SweetAlert2Module.forRoot(),
+        ChartsModule
     ],
     declarations: [
         JhiMainComponent,
@@ -50,7 +53,8 @@ import { PrivacyModule } from 'app/privacy/privacy.module';
         FooterComponent,
         SidebarComponent,
         DashboardComponent,
-        MenuComponent
+        MenuComponent,
+        TimeAgoPipe
     ],
     providers: [
         {
