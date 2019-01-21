@@ -1,0 +1,35 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="apiCallLogs">
+            <h2><span jhiTranslate="apicockpitApp.apiCallLogs.detail.title">Api Call Logs</span> {{apiCallLogs.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="apicockpitApp.apiCallLogs.name">Name</span></dt>
+                <dd>
+                    <span>{{apiCallLogs.name}}</span>
+                </dd>
+                <dt><span jhiTranslate="apicockpitApp.apiCallLogs.code">Code</span></dt>
+                <dd>
+                    <span>{{apiCallLogs.code}}</span>
+                </dd>
+                <dt><span jhiTranslate="apicockpitApp.apiCallLogs.status">Status</span></dt>
+                <dd>
+                    <span jhiTranslate="{{'apicockpitApp.ApiCallLogsStatus.' + apiCallLogs.status}}">{{apiCallLogs.status}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/api-call-logs', apiCallLogs.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

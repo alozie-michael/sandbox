@@ -64,6 +64,7 @@ public class CacheConfiguration {
             cm.createCache(com.apifuze.cockpit.domain.ApiProject.class.getName() + ".apiProjectServices", jcacheConfiguration);
             cm.createCache(com.apifuze.cockpit.domain.ApiProject.class.getName() + ".apis", jcacheConfiguration);
             cm.createCache(com.apifuze.cockpit.domain.ApiPublisherProfile.class.getName() + ".users", jcacheConfiguration);
+            cm.createCache(com.apifuze.cockpit.domain.ApiCallLogs.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

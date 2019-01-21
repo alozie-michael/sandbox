@@ -19,6 +19,7 @@
                 "apiSvcProcConfig": "Api Svc Proc Config",
                 "dbProcConfig": "Db Proc Config",
                 "grovyProcConfig": "Grovy Proc Config",
+                "apiCallLogs": "Api Call Logs",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
