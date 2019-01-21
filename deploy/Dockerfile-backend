@@ -1,5 +1,5 @@
 #build image
-FROM openjdk:8-jdk-alpine AS build
+FROM openbankingnigeria/alpine-oraclejdk8:slim AS build
 
 ARG BASE_SRC_PATH="/sandbox/apicockpit"
 ARG WEB_APP_PATH=$BASE_SRC_PATH"/src/main/webapp"
