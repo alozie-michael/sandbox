@@ -3,6 +3,7 @@ enum ApiCallLogsStatus {
     SUCESS,FAILED,ERROR,UNKNOWN
 }
 
+
 /** Holds the infor about call logs**/
 entity ApiCallLogs {
 	status ApiCallLogsStatus required,
