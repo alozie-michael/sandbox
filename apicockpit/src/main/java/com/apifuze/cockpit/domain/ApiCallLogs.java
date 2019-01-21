@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Objects;
 
 import com.apifuze.cockpit.domain.enumeration.ApiCallLogsStatus;
@@ -26,17 +27,29 @@ public class ApiCallLogs implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "name", nullable = false)
-    private String name;
-
-    @NotNull
-    @Column(name = "code", nullable = false)
-    private String code;
-
-    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private ApiCallLogsStatus status;
+
+    @NotNull
+    @Column(name = "project_name", nullable = false)
+    private String projectName;
+
+    @NotNull
+    @Column(name = "api_name", nullable = false)
+    private String apiName;
+
+    @NotNull
+    @Column(name = "jhi_profile", nullable = false)
+    private String profile;
+
+    @NotNull
+    @Column(name = "request_date", nullable = false)
+    private Instant requestDate;
+
+    @NotNull
+    @Column(name = "response_date", nullable = false)
+    private Instant responseDate;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -45,32 +58,6 @@ public class ApiCallLogs implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public ApiCallLogs name(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public ApiCallLogs code(String code) {
-        this.code = code;
-        return this;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public ApiCallLogsStatus getStatus() {
@@ -84,6 +71,71 @@ public class ApiCallLogs implements Serializable {
 
     public void setStatus(ApiCallLogsStatus status) {
         this.status = status;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public ApiCallLogs projectName(String projectName) {
+        this.projectName = projectName;
+        return this;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public String getApiName() {
+        return apiName;
+    }
+
+    public ApiCallLogs apiName(String apiName) {
+        this.apiName = apiName;
+        return this;
+    }
+
+    public void setApiName(String apiName) {
+        this.apiName = apiName;
+    }
+
+    public String getProfile() {
+        return profile;
+    }
+
+    public ApiCallLogs profile(String profile) {
+        this.profile = profile;
+        return this;
+    }
+
+    public void setProfile(String profile) {
+        this.profile = profile;
+    }
+
+    public Instant getRequestDate() {
+        return requestDate;
+    }
+
+    public ApiCallLogs requestDate(Instant requestDate) {
+        this.requestDate = requestDate;
+        return this;
+    }
+
+    public void setRequestDate(Instant requestDate) {
+        this.requestDate = requestDate;
+    }
+
+    public Instant getResponseDate() {
+        return responseDate;
+    }
+
+    public ApiCallLogs responseDate(Instant responseDate) {
+        this.responseDate = responseDate;
+        return this;
+    }
+
+    public void setResponseDate(Instant responseDate) {
+        this.responseDate = responseDate;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -111,9 +163,12 @@ public class ApiCallLogs implements Serializable {
     public String toString() {
         return "ApiCallLogs{" +
             "id=" + getId() +
-            ", name='" + getName() + "'" +
-            ", code='" + getCode() + "'" +
             ", status='" + getStatus() + "'" +
+            ", projectName='" + getProjectName() + "'" +
+            ", apiName='" + getApiName() + "'" +
+            ", profile='" + getProfile() + "'" +
+            ", requestDate='" + getRequestDate() + "'" +
+            ", responseDate='" + getResponseDate() + "'" +
             "}";
     }
 }

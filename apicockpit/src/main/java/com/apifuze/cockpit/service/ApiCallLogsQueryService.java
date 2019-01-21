@@ -89,14 +89,23 @@ public class ApiCallLogsQueryService extends QueryService<ApiCallLogs> {
             if (criteria.getId() != null) {
                 specification = specification.and(buildSpecification(criteria.getId(), ApiCallLogs_.id));
             }
-            if (criteria.getName() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getName(), ApiCallLogs_.name));
-            }
-            if (criteria.getCode() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getCode(), ApiCallLogs_.code));
-            }
             if (criteria.getStatus() != null) {
                 specification = specification.and(buildSpecification(criteria.getStatus(), ApiCallLogs_.status));
+            }
+            if (criteria.getProjectName() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getProjectName(), ApiCallLogs_.projectName));
+            }
+            if (criteria.getApiName() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getApiName(), ApiCallLogs_.apiName));
+            }
+            if (criteria.getProfile() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getProfile(), ApiCallLogs_.profile));
+            }
+            if (criteria.getRequestDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getRequestDate(), ApiCallLogs_.requestDate));
+            }
+            if (criteria.getResponseDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getResponseDate(), ApiCallLogs_.responseDate));
             }
         }
         return specification;

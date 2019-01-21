@@ -10,6 +10,7 @@ import io.github.jhipster.service.filter.FloatFilter;
 import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
+import io.github.jhipster.service.filter.InstantFilter;
 
 /**
  * Criteria class for the ApiCallLogs entity. This class is used in ApiCallLogsResource to
@@ -30,11 +31,17 @@ public class ApiCallLogsCriteria implements Serializable {
 
     private LongFilter id;
 
-    private StringFilter name;
-
-    private StringFilter code;
-
     private ApiCallLogsStatusFilter status;
+
+    private StringFilter projectName;
+
+    private StringFilter apiName;
+
+    private StringFilter profile;
+
+    private InstantFilter requestDate;
+
+    private InstantFilter responseDate;
 
     public ApiCallLogsCriteria() {
     }
@@ -47,28 +54,52 @@ public class ApiCallLogsCriteria implements Serializable {
         this.id = id;
     }
 
-    public StringFilter getName() {
-        return name;
-    }
-
-    public void setName(StringFilter name) {
-        this.name = name;
-    }
-
-    public StringFilter getCode() {
-        return code;
-    }
-
-    public void setCode(StringFilter code) {
-        this.code = code;
-    }
-
     public ApiCallLogsStatusFilter getStatus() {
         return status;
     }
 
     public void setStatus(ApiCallLogsStatusFilter status) {
         this.status = status;
+    }
+
+    public StringFilter getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(StringFilter projectName) {
+        this.projectName = projectName;
+    }
+
+    public StringFilter getApiName() {
+        return apiName;
+    }
+
+    public void setApiName(StringFilter apiName) {
+        this.apiName = apiName;
+    }
+
+    public StringFilter getProfile() {
+        return profile;
+    }
+
+    public void setProfile(StringFilter profile) {
+        this.profile = profile;
+    }
+
+    public InstantFilter getRequestDate() {
+        return requestDate;
+    }
+
+    public void setRequestDate(InstantFilter requestDate) {
+        this.requestDate = requestDate;
+    }
+
+    public InstantFilter getResponseDate() {
+        return responseDate;
+    }
+
+    public void setResponseDate(InstantFilter responseDate) {
+        this.responseDate = responseDate;
     }
 
 
@@ -83,18 +114,24 @@ public class ApiCallLogsCriteria implements Serializable {
         final ApiCallLogsCriteria that = (ApiCallLogsCriteria) o;
         return
             Objects.equals(id, that.id) &&
-            Objects.equals(name, that.name) &&
-            Objects.equals(code, that.code) &&
-            Objects.equals(status, that.status);
+            Objects.equals(status, that.status) &&
+            Objects.equals(projectName, that.projectName) &&
+            Objects.equals(apiName, that.apiName) &&
+            Objects.equals(profile, that.profile) &&
+            Objects.equals(requestDate, that.requestDate) &&
+            Objects.equals(responseDate, that.responseDate);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(
         id,
-        name,
-        code,
-        status
+        status,
+        projectName,
+        apiName,
+        profile,
+        requestDate,
+        responseDate
         );
     }
 
@@ -102,9 +139,12 @@ public class ApiCallLogsCriteria implements Serializable {
     public String toString() {
         return "ApiCallLogsCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
-                (name != null ? "name=" + name + ", " : "") +
-                (code != null ? "code=" + code + ", " : "") +
                 (status != null ? "status=" + status + ", " : "") +
+                (projectName != null ? "projectName=" + projectName + ", " : "") +
+                (apiName != null ? "apiName=" + apiName + ", " : "") +
+                (profile != null ? "profile=" + profile + ", " : "") +
+                (requestDate != null ? "requestDate=" + requestDate + ", " : "") +
+                (responseDate != null ? "responseDate=" + responseDate + ", " : "") +
             "}";
     }
 

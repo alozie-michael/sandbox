@@ -4,6 +4,8 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { of } from 'rxjs';
 import { take, map } from 'rxjs/operators';
+import * as moment from 'moment';
+import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { ApiCallLogsService } from 'app/entities/api-call-logs/api-call-logs.service';
 import { IApiCallLogs, ApiCallLogs, ApiCallLogsStatus } from 'app/shared/model/api-call-logs.model';
 
@@ -13,6 +15,7 @@ describe('Service Tests', () => {
         let service: ApiCallLogsService;
         let httpMock: HttpTestingController;
         let elemDefault: IApiCallLogs;
+        let currentDate: moment.Moment;
         beforeEach(() => {
             TestBed.configureTestingModule({
                 imports: [HttpClientTestingModule]
@@ -20,13 +23,20 @@ describe('Service Tests', () => {
             injector = getTestBed();
             service = injector.get(ApiCallLogsService);
             httpMock = injector.get(HttpTestingController);
+            currentDate = moment();
 
-            elemDefault = new ApiCallLogs(0, 'AAAAAAA', 'AAAAAAA', ApiCallLogsStatus.SUCESS);
+            elemDefault = new ApiCallLogs(0, ApiCallLogsStatus.SUCESS, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', currentDate, currentDate);
         });
 
         describe('Service methods', async () => {
             it('should find an element', async () => {
-                const returnedFromService = Object.assign({}, elemDefault);
+                const returnedFromService = Object.assign(
+                    {
+                        requestDate: currentDate.format(DATE_TIME_FORMAT),
+                        responseDate: currentDate.format(DATE_TIME_FORMAT)
+                    },
+                    elemDefault
+                );
                 service
                     .find(123)
                     .pipe(take(1))
@@ -39,11 +49,19 @@ describe('Service Tests', () => {
             it('should create a ApiCallLogs', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        id: 0
+                        id: 0,
+                        requestDate: currentDate.format(DATE_TIME_FORMAT),
+                        responseDate: currentDate.format(DATE_TIME_FORMAT)
                     },
                     elemDefault
                 );
-                const expected = Object.assign({}, returnedFromService);
+                const expected = Object.assign(
+                    {
+                        requestDate: currentDate,
+                        responseDate: currentDate
+                    },
+                    returnedFromService
+                );
                 service
                     .create(new ApiCallLogs(null))
                     .pipe(take(1))
@@ -55,14 +73,23 @@ describe('Service Tests', () => {
             it('should update a ApiCallLogs', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        name: 'BBBBBB',
-                        code: 'BBBBBB',
-                        status: 'BBBBBB'
+                        status: 'BBBBBB',
+                        projectName: 'BBBBBB',
+                        apiName: 'BBBBBB',
+                        profile: 'BBBBBB',
+                        requestDate: currentDate.format(DATE_TIME_FORMAT),
+                        responseDate: currentDate.format(DATE_TIME_FORMAT)
                     },
                     elemDefault
                 );
 
-                const expected = Object.assign({}, returnedFromService);
+                const expected = Object.assign(
+                    {
+                        requestDate: currentDate,
+                        responseDate: currentDate
+                    },
+                    returnedFromService
+                );
                 service
                     .update(expected)
                     .pipe(take(1))
@@ -74,13 +101,22 @@ describe('Service Tests', () => {
             it('should return a list of ApiCallLogs', async () => {
                 const returnedFromService = Object.assign(
                     {
-                        name: 'BBBBBB',
-                        code: 'BBBBBB',
-                        status: 'BBBBBB'
+                        status: 'BBBBBB',
+                        projectName: 'BBBBBB',
+                        apiName: 'BBBBBB',
+                        profile: 'BBBBBB',
+                        requestDate: currentDate.format(DATE_TIME_FORMAT),
+                        responseDate: currentDate.format(DATE_TIME_FORMAT)
                     },
                     elemDefault
                 );
-                const expected = Object.assign({}, returnedFromService);
+                const expected = Object.assign(
+                    {
+                        requestDate: currentDate,
+                        responseDate: currentDate
+                    },
+                    returnedFromService
+                );
                 service
                     .query(expected)
                     .pipe(

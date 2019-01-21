@@ -1,5 +1,6 @@
 package com.apifuze.cockpit.service.dto;
 
+import java.time.Instant;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -13,13 +14,22 @@ public class ApiCallLogsDTO implements Serializable {
     private Long id;
 
     @NotNull
-    private String name;
-
-    @NotNull
-    private String code;
-
-    @NotNull
     private ApiCallLogsStatus status;
+
+    @NotNull
+    private String projectName;
+
+    @NotNull
+    private String apiName;
+
+    @NotNull
+    private String profile;
+
+    @NotNull
+    private Instant requestDate;
+
+    @NotNull
+    private Instant responseDate;
 
     public Long getId() {
         return id;
@@ -29,28 +39,52 @@ public class ApiCallLogsDTO implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
     public ApiCallLogsStatus getStatus() {
         return status;
     }
 
     public void setStatus(ApiCallLogsStatus status) {
         this.status = status;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public String getApiName() {
+        return apiName;
+    }
+
+    public void setApiName(String apiName) {
+        this.apiName = apiName;
+    }
+
+    public String getProfile() {
+        return profile;
+    }
+
+    public void setProfile(String profile) {
+        this.profile = profile;
+    }
+
+    public Instant getRequestDate() {
+        return requestDate;
+    }
+
+    public void setRequestDate(Instant requestDate) {
+        this.requestDate = requestDate;
+    }
+
+    public Instant getResponseDate() {
+        return responseDate;
+    }
+
+    public void setResponseDate(Instant responseDate) {
+        this.responseDate = responseDate;
     }
 
     @Override
@@ -78,9 +112,12 @@ public class ApiCallLogsDTO implements Serializable {
     public String toString() {
         return "ApiCallLogsDTO{" +
             "id=" + getId() +
-            ", name='" + getName() + "'" +
-            ", code='" + getCode() + "'" +
             ", status='" + getStatus() + "'" +
+            ", projectName='" + getProjectName() + "'" +
+            ", apiName='" + getApiName() + "'" +
+            ", profile='" + getProfile() + "'" +
+            ", requestDate='" + getRequestDate() + "'" +
+            ", responseDate='" + getResponseDate() + "'" +
             "}";
     }
 }

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import * as moment from 'moment';
+import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 
 import { IApiCallLogs } from 'app/shared/model/api-call-logs.model';
 import { ApiCallLogsService } from './api-call-logs.service';
@@ -13,6 +15,8 @@ import { ApiCallLogsService } from './api-call-logs.service';
 export class ApiCallLogsUpdateComponent implements OnInit {
     apiCallLogs: IApiCallLogs;
     isSaving: boolean;
+    requestDate: string;
+    responseDate: string;
 
     constructor(private apiCallLogsService: ApiCallLogsService, private activatedRoute: ActivatedRoute) {}
 
@@ -20,6 +24,8 @@ export class ApiCallLogsUpdateComponent implements OnInit {
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ apiCallLogs }) => {
             this.apiCallLogs = apiCallLogs;
+            this.requestDate = this.apiCallLogs.requestDate != null ? this.apiCallLogs.requestDate.format(DATE_TIME_FORMAT) : null;
+            this.responseDate = this.apiCallLogs.responseDate != null ? this.apiCallLogs.responseDate.format(DATE_TIME_FORMAT) : null;
         });
     }
 
@@ -29,6 +35,8 @@ export class ApiCallLogsUpdateComponent implements OnInit {
 
     save() {
         this.isSaving = true;
+        this.apiCallLogs.requestDate = this.requestDate != null ? moment(this.requestDate, DATE_TIME_FORMAT) : null;
+        this.apiCallLogs.responseDate = this.responseDate != null ? moment(this.responseDate, DATE_TIME_FORMAT) : null;
         if (this.apiCallLogs.id !== undefined) {
             this.subscribeToSaveResponse(this.apiCallLogsService.update(this.apiCallLogs));
         } else {

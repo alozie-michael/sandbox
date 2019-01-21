@@ -4,15 +4,14 @@ enum ApiCallLogsStatus {
 }
 
 entity ApiCallLogs {
-	status ApiCallLogsStatus required
+	status ApiCallLogsStatus required,
+	projectName String required,
+	apiName String required,
+	profile String required,
+	requestDate Instant required,
+	responseDate Instant required
 }
 
-
-relationship ManyToOne {
-    ApiCallLogs {project(name)}  to ApiProject
-    ApiCallLogs {apiService(name)}  to ApiProjectService
-    ApiCallLogs {profile(name)}  to ApiConsumerProfile
-}
 
 // Set pagination options
 paginate ApiCallLogs with pagination

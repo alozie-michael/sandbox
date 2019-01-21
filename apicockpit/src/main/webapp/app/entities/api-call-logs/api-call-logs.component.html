@@ -15,18 +15,24 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="name"><span jhiTranslate="apicockpitApp.apiCallLogs.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="code"><span jhiTranslate="apicockpitApp.apiCallLogs.code">Code</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="status"><span jhiTranslate="apicockpitApp.apiCallLogs.status">Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="projectName"><span jhiTranslate="apicockpitApp.apiCallLogs.projectName">Project Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="apiName"><span jhiTranslate="apicockpitApp.apiCallLogs.apiName">Api Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="profile"><span jhiTranslate="apicockpitApp.apiCallLogs.profile">Profile</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="requestDate"><span jhiTranslate="apicockpitApp.apiCallLogs.requestDate">Request Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="responseDate"><span jhiTranslate="apicockpitApp.apiCallLogs.responseDate">Response Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let apiCallLogs of apiCallLogs ;trackBy: trackId">
                 <td><a [routerLink]="['/api-call-logs', apiCallLogs.id, 'view' ]">{{apiCallLogs.id}}</a></td>
-                <td>{{apiCallLogs.name}}</td>
-                <td>{{apiCallLogs.code}}</td>
                 <td jhiTranslate="{{'apicockpitApp.ApiCallLogsStatus.' + apiCallLogs.status}}">{{apiCallLogs.status}}</td>
+                <td>{{apiCallLogs.projectName}}</td>
+                <td>{{apiCallLogs.apiName}}</td>
+                <td>{{apiCallLogs.profile}}</td>
+                <td>{{apiCallLogs.requestDate | date:'medium'}}</td>
+                <td>{{apiCallLogs.responseDate | date:'medium'}}</td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

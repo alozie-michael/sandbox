@@ -26,6 +26,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 
@@ -45,14 +47,23 @@ import com.apifuze.cockpit.domain.enumeration.ApiCallLogsStatus;
 @SpringBootTest(classes = ApicockpitApp.class)
 public class ApiCallLogsResourceIntTest {
 
-    private static final String DEFAULT_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_NAME = "BBBBBBBBBB";
-
-    private static final String DEFAULT_CODE = "AAAAAAAAAA";
-    private static final String UPDATED_CODE = "BBBBBBBBBB";
-
     private static final ApiCallLogsStatus DEFAULT_STATUS = ApiCallLogsStatus.SUCESS;
     private static final ApiCallLogsStatus UPDATED_STATUS = ApiCallLogsStatus.FAILED;
+
+    private static final String DEFAULT_PROJECT_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_PROJECT_NAME = "BBBBBBBBBB";
+
+    private static final String DEFAULT_API_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_API_NAME = "BBBBBBBBBB";
+
+    private static final String DEFAULT_PROFILE = "AAAAAAAAAA";
+    private static final String UPDATED_PROFILE = "BBBBBBBBBB";
+
+    private static final Instant DEFAULT_REQUEST_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_REQUEST_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final Instant DEFAULT_RESPONSE_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_RESPONSE_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     @Autowired
     private ApiCallLogsRepository apiCallLogsRepository;
@@ -101,9 +112,12 @@ public class ApiCallLogsResourceIntTest {
      */
     public static ApiCallLogs createEntity(EntityManager em) {
         ApiCallLogs apiCallLogs = new ApiCallLogs()
-            .name(DEFAULT_NAME)
-            .code(DEFAULT_CODE)
-            .status(DEFAULT_STATUS);
+            .status(DEFAULT_STATUS)
+            .projectName(DEFAULT_PROJECT_NAME)
+            .apiName(DEFAULT_API_NAME)
+            .profile(DEFAULT_PROFILE)
+            .requestDate(DEFAULT_REQUEST_DATE)
+            .responseDate(DEFAULT_RESPONSE_DATE);
         return apiCallLogs;
     }
 
@@ -128,9 +142,12 @@ public class ApiCallLogsResourceIntTest {
         List<ApiCallLogs> apiCallLogsList = apiCallLogsRepository.findAll();
         assertThat(apiCallLogsList).hasSize(databaseSizeBeforeCreate + 1);
         ApiCallLogs testApiCallLogs = apiCallLogsList.get(apiCallLogsList.size() - 1);
-        assertThat(testApiCallLogs.getName()).isEqualTo(DEFAULT_NAME);
-        assertThat(testApiCallLogs.getCode()).isEqualTo(DEFAULT_CODE);
         assertThat(testApiCallLogs.getStatus()).isEqualTo(DEFAULT_STATUS);
+        assertThat(testApiCallLogs.getProjectName()).isEqualTo(DEFAULT_PROJECT_NAME);
+        assertThat(testApiCallLogs.getApiName()).isEqualTo(DEFAULT_API_NAME);
+        assertThat(testApiCallLogs.getProfile()).isEqualTo(DEFAULT_PROFILE);
+        assertThat(testApiCallLogs.getRequestDate()).isEqualTo(DEFAULT_REQUEST_DATE);
+        assertThat(testApiCallLogs.getResponseDate()).isEqualTo(DEFAULT_RESPONSE_DATE);
     }
 
     @Test
@@ -155,48 +172,105 @@ public class ApiCallLogsResourceIntTest {
 
     @Test
     @Transactional
-    public void checkNameIsRequired() throws Exception {
-        int databaseSizeBeforeTest = apiCallLogsRepository.findAll().size();
-        // set the field null
-        apiCallLogs.setName(null);
-
-        // Create the ApiCallLogs, which fails.
-        ApiCallLogsDTO apiCallLogsDTO = apiCallLogsMapper.toDto(apiCallLogs);
-
-        restApiCallLogsMockMvc.perform(post("/api/api-call-logs")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(apiCallLogsDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<ApiCallLogs> apiCallLogsList = apiCallLogsRepository.findAll();
-        assertThat(apiCallLogsList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    public void checkCodeIsRequired() throws Exception {
-        int databaseSizeBeforeTest = apiCallLogsRepository.findAll().size();
-        // set the field null
-        apiCallLogs.setCode(null);
-
-        // Create the ApiCallLogs, which fails.
-        ApiCallLogsDTO apiCallLogsDTO = apiCallLogsMapper.toDto(apiCallLogs);
-
-        restApiCallLogsMockMvc.perform(post("/api/api-call-logs")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(apiCallLogsDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<ApiCallLogs> apiCallLogsList = apiCallLogsRepository.findAll();
-        assertThat(apiCallLogsList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void checkStatusIsRequired() throws Exception {
         int databaseSizeBeforeTest = apiCallLogsRepository.findAll().size();
         // set the field null
         apiCallLogs.setStatus(null);
+
+        // Create the ApiCallLogs, which fails.
+        ApiCallLogsDTO apiCallLogsDTO = apiCallLogsMapper.toDto(apiCallLogs);
+
+        restApiCallLogsMockMvc.perform(post("/api/api-call-logs")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(apiCallLogsDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<ApiCallLogs> apiCallLogsList = apiCallLogsRepository.findAll();
+        assertThat(apiCallLogsList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkProjectNameIsRequired() throws Exception {
+        int databaseSizeBeforeTest = apiCallLogsRepository.findAll().size();
+        // set the field null
+        apiCallLogs.setProjectName(null);
+
+        // Create the ApiCallLogs, which fails.
+        ApiCallLogsDTO apiCallLogsDTO = apiCallLogsMapper.toDto(apiCallLogs);
+
+        restApiCallLogsMockMvc.perform(post("/api/api-call-logs")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(apiCallLogsDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<ApiCallLogs> apiCallLogsList = apiCallLogsRepository.findAll();
+        assertThat(apiCallLogsList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkApiNameIsRequired() throws Exception {
+        int databaseSizeBeforeTest = apiCallLogsRepository.findAll().size();
+        // set the field null
+        apiCallLogs.setApiName(null);
+
+        // Create the ApiCallLogs, which fails.
+        ApiCallLogsDTO apiCallLogsDTO = apiCallLogsMapper.toDto(apiCallLogs);
+
+        restApiCallLogsMockMvc.perform(post("/api/api-call-logs")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(apiCallLogsDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<ApiCallLogs> apiCallLogsList = apiCallLogsRepository.findAll();
+        assertThat(apiCallLogsList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkProfileIsRequired() throws Exception {
+        int databaseSizeBeforeTest = apiCallLogsRepository.findAll().size();
+        // set the field null
+        apiCallLogs.setProfile(null);
+
+        // Create the ApiCallLogs, which fails.
+        ApiCallLogsDTO apiCallLogsDTO = apiCallLogsMapper.toDto(apiCallLogs);
+
+        restApiCallLogsMockMvc.perform(post("/api/api-call-logs")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(apiCallLogsDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<ApiCallLogs> apiCallLogsList = apiCallLogsRepository.findAll();
+        assertThat(apiCallLogsList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkRequestDateIsRequired() throws Exception {
+        int databaseSizeBeforeTest = apiCallLogsRepository.findAll().size();
+        // set the field null
+        apiCallLogs.setRequestDate(null);
+
+        // Create the ApiCallLogs, which fails.
+        ApiCallLogsDTO apiCallLogsDTO = apiCallLogsMapper.toDto(apiCallLogs);
+
+        restApiCallLogsMockMvc.perform(post("/api/api-call-logs")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(apiCallLogsDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<ApiCallLogs> apiCallLogsList = apiCallLogsRepository.findAll();
+        assertThat(apiCallLogsList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkResponseDateIsRequired() throws Exception {
+        int databaseSizeBeforeTest = apiCallLogsRepository.findAll().size();
+        // set the field null
+        apiCallLogs.setResponseDate(null);
 
         // Create the ApiCallLogs, which fails.
         ApiCallLogsDTO apiCallLogsDTO = apiCallLogsMapper.toDto(apiCallLogs);
@@ -221,9 +295,12 @@ public class ApiCallLogsResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(apiCallLogs.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
-            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE.toString())))
-            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].projectName").value(hasItem(DEFAULT_PROJECT_NAME.toString())))
+            .andExpect(jsonPath("$.[*].apiName").value(hasItem(DEFAULT_API_NAME.toString())))
+            .andExpect(jsonPath("$.[*].profile").value(hasItem(DEFAULT_PROFILE.toString())))
+            .andExpect(jsonPath("$.[*].requestDate").value(hasItem(DEFAULT_REQUEST_DATE.toString())))
+            .andExpect(jsonPath("$.[*].responseDate").value(hasItem(DEFAULT_RESPONSE_DATE.toString())));
     }
     
     @Test
@@ -237,87 +314,12 @@ public class ApiCallLogsResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(apiCallLogs.getId().intValue()))
-            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
-            .andExpect(jsonPath("$.code").value(DEFAULT_CODE.toString()))
-            .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()));
-    }
-
-    @Test
-    @Transactional
-    public void getAllApiCallLogsByNameIsEqualToSomething() throws Exception {
-        // Initialize the database
-        apiCallLogsRepository.saveAndFlush(apiCallLogs);
-
-        // Get all the apiCallLogsList where name equals to DEFAULT_NAME
-        defaultApiCallLogsShouldBeFound("name.equals=" + DEFAULT_NAME);
-
-        // Get all the apiCallLogsList where name equals to UPDATED_NAME
-        defaultApiCallLogsShouldNotBeFound("name.equals=" + UPDATED_NAME);
-    }
-
-    @Test
-    @Transactional
-    public void getAllApiCallLogsByNameIsInShouldWork() throws Exception {
-        // Initialize the database
-        apiCallLogsRepository.saveAndFlush(apiCallLogs);
-
-        // Get all the apiCallLogsList where name in DEFAULT_NAME or UPDATED_NAME
-        defaultApiCallLogsShouldBeFound("name.in=" + DEFAULT_NAME + "," + UPDATED_NAME);
-
-        // Get all the apiCallLogsList where name equals to UPDATED_NAME
-        defaultApiCallLogsShouldNotBeFound("name.in=" + UPDATED_NAME);
-    }
-
-    @Test
-    @Transactional
-    public void getAllApiCallLogsByNameIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        apiCallLogsRepository.saveAndFlush(apiCallLogs);
-
-        // Get all the apiCallLogsList where name is not null
-        defaultApiCallLogsShouldBeFound("name.specified=true");
-
-        // Get all the apiCallLogsList where name is null
-        defaultApiCallLogsShouldNotBeFound("name.specified=false");
-    }
-
-    @Test
-    @Transactional
-    public void getAllApiCallLogsByCodeIsEqualToSomething() throws Exception {
-        // Initialize the database
-        apiCallLogsRepository.saveAndFlush(apiCallLogs);
-
-        // Get all the apiCallLogsList where code equals to DEFAULT_CODE
-        defaultApiCallLogsShouldBeFound("code.equals=" + DEFAULT_CODE);
-
-        // Get all the apiCallLogsList where code equals to UPDATED_CODE
-        defaultApiCallLogsShouldNotBeFound("code.equals=" + UPDATED_CODE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllApiCallLogsByCodeIsInShouldWork() throws Exception {
-        // Initialize the database
-        apiCallLogsRepository.saveAndFlush(apiCallLogs);
-
-        // Get all the apiCallLogsList where code in DEFAULT_CODE or UPDATED_CODE
-        defaultApiCallLogsShouldBeFound("code.in=" + DEFAULT_CODE + "," + UPDATED_CODE);
-
-        // Get all the apiCallLogsList where code equals to UPDATED_CODE
-        defaultApiCallLogsShouldNotBeFound("code.in=" + UPDATED_CODE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllApiCallLogsByCodeIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        apiCallLogsRepository.saveAndFlush(apiCallLogs);
-
-        // Get all the apiCallLogsList where code is not null
-        defaultApiCallLogsShouldBeFound("code.specified=true");
-
-        // Get all the apiCallLogsList where code is null
-        defaultApiCallLogsShouldNotBeFound("code.specified=false");
+            .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
+            .andExpect(jsonPath("$.projectName").value(DEFAULT_PROJECT_NAME.toString()))
+            .andExpect(jsonPath("$.apiName").value(DEFAULT_API_NAME.toString()))
+            .andExpect(jsonPath("$.profile").value(DEFAULT_PROFILE.toString()))
+            .andExpect(jsonPath("$.requestDate").value(DEFAULT_REQUEST_DATE.toString()))
+            .andExpect(jsonPath("$.responseDate").value(DEFAULT_RESPONSE_DATE.toString()));
     }
 
     @Test
@@ -358,6 +360,201 @@ public class ApiCallLogsResourceIntTest {
         // Get all the apiCallLogsList where status is null
         defaultApiCallLogsShouldNotBeFound("status.specified=false");
     }
+
+    @Test
+    @Transactional
+    public void getAllApiCallLogsByProjectNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        apiCallLogsRepository.saveAndFlush(apiCallLogs);
+
+        // Get all the apiCallLogsList where projectName equals to DEFAULT_PROJECT_NAME
+        defaultApiCallLogsShouldBeFound("projectName.equals=" + DEFAULT_PROJECT_NAME);
+
+        // Get all the apiCallLogsList where projectName equals to UPDATED_PROJECT_NAME
+        defaultApiCallLogsShouldNotBeFound("projectName.equals=" + UPDATED_PROJECT_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllApiCallLogsByProjectNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        apiCallLogsRepository.saveAndFlush(apiCallLogs);
+
+        // Get all the apiCallLogsList where projectName in DEFAULT_PROJECT_NAME or UPDATED_PROJECT_NAME
+        defaultApiCallLogsShouldBeFound("projectName.in=" + DEFAULT_PROJECT_NAME + "," + UPDATED_PROJECT_NAME);
+
+        // Get all the apiCallLogsList where projectName equals to UPDATED_PROJECT_NAME
+        defaultApiCallLogsShouldNotBeFound("projectName.in=" + UPDATED_PROJECT_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllApiCallLogsByProjectNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        apiCallLogsRepository.saveAndFlush(apiCallLogs);
+
+        // Get all the apiCallLogsList where projectName is not null
+        defaultApiCallLogsShouldBeFound("projectName.specified=true");
+
+        // Get all the apiCallLogsList where projectName is null
+        defaultApiCallLogsShouldNotBeFound("projectName.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllApiCallLogsByApiNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        apiCallLogsRepository.saveAndFlush(apiCallLogs);
+
+        // Get all the apiCallLogsList where apiName equals to DEFAULT_API_NAME
+        defaultApiCallLogsShouldBeFound("apiName.equals=" + DEFAULT_API_NAME);
+
+        // Get all the apiCallLogsList where apiName equals to UPDATED_API_NAME
+        defaultApiCallLogsShouldNotBeFound("apiName.equals=" + UPDATED_API_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllApiCallLogsByApiNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        apiCallLogsRepository.saveAndFlush(apiCallLogs);
+
+        // Get all the apiCallLogsList where apiName in DEFAULT_API_NAME or UPDATED_API_NAME
+        defaultApiCallLogsShouldBeFound("apiName.in=" + DEFAULT_API_NAME + "," + UPDATED_API_NAME);
+
+        // Get all the apiCallLogsList where apiName equals to UPDATED_API_NAME
+        defaultApiCallLogsShouldNotBeFound("apiName.in=" + UPDATED_API_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllApiCallLogsByApiNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        apiCallLogsRepository.saveAndFlush(apiCallLogs);
+
+        // Get all the apiCallLogsList where apiName is not null
+        defaultApiCallLogsShouldBeFound("apiName.specified=true");
+
+        // Get all the apiCallLogsList where apiName is null
+        defaultApiCallLogsShouldNotBeFound("apiName.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllApiCallLogsByProfileIsEqualToSomething() throws Exception {
+        // Initialize the database
+        apiCallLogsRepository.saveAndFlush(apiCallLogs);
+
+        // Get all the apiCallLogsList where profile equals to DEFAULT_PROFILE
+        defaultApiCallLogsShouldBeFound("profile.equals=" + DEFAULT_PROFILE);
+
+        // Get all the apiCallLogsList where profile equals to UPDATED_PROFILE
+        defaultApiCallLogsShouldNotBeFound("profile.equals=" + UPDATED_PROFILE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllApiCallLogsByProfileIsInShouldWork() throws Exception {
+        // Initialize the database
+        apiCallLogsRepository.saveAndFlush(apiCallLogs);
+
+        // Get all the apiCallLogsList where profile in DEFAULT_PROFILE or UPDATED_PROFILE
+        defaultApiCallLogsShouldBeFound("profile.in=" + DEFAULT_PROFILE + "," + UPDATED_PROFILE);
+
+        // Get all the apiCallLogsList where profile equals to UPDATED_PROFILE
+        defaultApiCallLogsShouldNotBeFound("profile.in=" + UPDATED_PROFILE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllApiCallLogsByProfileIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        apiCallLogsRepository.saveAndFlush(apiCallLogs);
+
+        // Get all the apiCallLogsList where profile is not null
+        defaultApiCallLogsShouldBeFound("profile.specified=true");
+
+        // Get all the apiCallLogsList where profile is null
+        defaultApiCallLogsShouldNotBeFound("profile.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllApiCallLogsByRequestDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        apiCallLogsRepository.saveAndFlush(apiCallLogs);
+
+        // Get all the apiCallLogsList where requestDate equals to DEFAULT_REQUEST_DATE
+        defaultApiCallLogsShouldBeFound("requestDate.equals=" + DEFAULT_REQUEST_DATE);
+
+        // Get all the apiCallLogsList where requestDate equals to UPDATED_REQUEST_DATE
+        defaultApiCallLogsShouldNotBeFound("requestDate.equals=" + UPDATED_REQUEST_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllApiCallLogsByRequestDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        apiCallLogsRepository.saveAndFlush(apiCallLogs);
+
+        // Get all the apiCallLogsList where requestDate in DEFAULT_REQUEST_DATE or UPDATED_REQUEST_DATE
+        defaultApiCallLogsShouldBeFound("requestDate.in=" + DEFAULT_REQUEST_DATE + "," + UPDATED_REQUEST_DATE);
+
+        // Get all the apiCallLogsList where requestDate equals to UPDATED_REQUEST_DATE
+        defaultApiCallLogsShouldNotBeFound("requestDate.in=" + UPDATED_REQUEST_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllApiCallLogsByRequestDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        apiCallLogsRepository.saveAndFlush(apiCallLogs);
+
+        // Get all the apiCallLogsList where requestDate is not null
+        defaultApiCallLogsShouldBeFound("requestDate.specified=true");
+
+        // Get all the apiCallLogsList where requestDate is null
+        defaultApiCallLogsShouldNotBeFound("requestDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllApiCallLogsByResponseDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        apiCallLogsRepository.saveAndFlush(apiCallLogs);
+
+        // Get all the apiCallLogsList where responseDate equals to DEFAULT_RESPONSE_DATE
+        defaultApiCallLogsShouldBeFound("responseDate.equals=" + DEFAULT_RESPONSE_DATE);
+
+        // Get all the apiCallLogsList where responseDate equals to UPDATED_RESPONSE_DATE
+        defaultApiCallLogsShouldNotBeFound("responseDate.equals=" + UPDATED_RESPONSE_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllApiCallLogsByResponseDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        apiCallLogsRepository.saveAndFlush(apiCallLogs);
+
+        // Get all the apiCallLogsList where responseDate in DEFAULT_RESPONSE_DATE or UPDATED_RESPONSE_DATE
+        defaultApiCallLogsShouldBeFound("responseDate.in=" + DEFAULT_RESPONSE_DATE + "," + UPDATED_RESPONSE_DATE);
+
+        // Get all the apiCallLogsList where responseDate equals to UPDATED_RESPONSE_DATE
+        defaultApiCallLogsShouldNotBeFound("responseDate.in=" + UPDATED_RESPONSE_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllApiCallLogsByResponseDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        apiCallLogsRepository.saveAndFlush(apiCallLogs);
+
+        // Get all the apiCallLogsList where responseDate is not null
+        defaultApiCallLogsShouldBeFound("responseDate.specified=true");
+
+        // Get all the apiCallLogsList where responseDate is null
+        defaultApiCallLogsShouldNotBeFound("responseDate.specified=false");
+    }
     /**
      * Executes the search, and checks that the default entity is returned
      */
@@ -366,9 +563,12 @@ public class ApiCallLogsResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(apiCallLogs.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
-            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE.toString())))
-            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].projectName").value(hasItem(DEFAULT_PROJECT_NAME.toString())))
+            .andExpect(jsonPath("$.[*].apiName").value(hasItem(DEFAULT_API_NAME.toString())))
+            .andExpect(jsonPath("$.[*].profile").value(hasItem(DEFAULT_PROFILE.toString())))
+            .andExpect(jsonPath("$.[*].requestDate").value(hasItem(DEFAULT_REQUEST_DATE.toString())))
+            .andExpect(jsonPath("$.[*].responseDate").value(hasItem(DEFAULT_RESPONSE_DATE.toString())));
 
         // Check, that the count call also returns 1
         restApiCallLogsMockMvc.perform(get("/api/api-call-logs/count?sort=id,desc&" + filter))
@@ -416,9 +616,12 @@ public class ApiCallLogsResourceIntTest {
         // Disconnect from session so that the updates on updatedApiCallLogs are not directly saved in db
         em.detach(updatedApiCallLogs);
         updatedApiCallLogs
-            .name(UPDATED_NAME)
-            .code(UPDATED_CODE)
-            .status(UPDATED_STATUS);
+            .status(UPDATED_STATUS)
+            .projectName(UPDATED_PROJECT_NAME)
+            .apiName(UPDATED_API_NAME)
+            .profile(UPDATED_PROFILE)
+            .requestDate(UPDATED_REQUEST_DATE)
+            .responseDate(UPDATED_RESPONSE_DATE);
         ApiCallLogsDTO apiCallLogsDTO = apiCallLogsMapper.toDto(updatedApiCallLogs);
 
         restApiCallLogsMockMvc.perform(put("/api/api-call-logs")
@@ -430,9 +633,12 @@ public class ApiCallLogsResourceIntTest {
         List<ApiCallLogs> apiCallLogsList = apiCallLogsRepository.findAll();
         assertThat(apiCallLogsList).hasSize(databaseSizeBeforeUpdate);
         ApiCallLogs testApiCallLogs = apiCallLogsList.get(apiCallLogsList.size() - 1);
-        assertThat(testApiCallLogs.getName()).isEqualTo(UPDATED_NAME);
-        assertThat(testApiCallLogs.getCode()).isEqualTo(UPDATED_CODE);
         assertThat(testApiCallLogs.getStatus()).isEqualTo(UPDATED_STATUS);
+        assertThat(testApiCallLogs.getProjectName()).isEqualTo(UPDATED_PROJECT_NAME);
+        assertThat(testApiCallLogs.getApiName()).isEqualTo(UPDATED_API_NAME);
+        assertThat(testApiCallLogs.getProfile()).isEqualTo(UPDATED_PROFILE);
+        assertThat(testApiCallLogs.getRequestDate()).isEqualTo(UPDATED_REQUEST_DATE);
+        assertThat(testApiCallLogs.getResponseDate()).isEqualTo(UPDATED_RESPONSE_DATE);
     }
 
     @Test

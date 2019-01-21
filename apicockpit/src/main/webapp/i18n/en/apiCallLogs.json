@@ -15,9 +15,12 @@
             "detail": {
                 "title": "Api Call Logs"
             },
-            "name": "Name",
-            "code": "Code",
-            "status": "Status"
+            "status": "Status",
+            "projectName": "Project Name",
+            "apiName": "Api Name",
+            "profile": "Profile",
+            "requestDate": "Request Date",
+            "responseDate": "Response Date"
         }
     }
 }
