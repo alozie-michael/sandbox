@@ -1,0 +1,106 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-api-call-logs-heading" jhiTranslate="apicockpitApp.apiCallLogs.home.createOrEditLabel">Create or edit a Api Call Logs</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!apiCallLogs.id">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="apiCallLogs.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="apicockpitApp.apiCallLogs.status" for="field_status">Status</label>
+                    <select class="form-control" name="status" [(ngModel)]="apiCallLogs.status" id="field_status"  required>
+                        <option value="SUCESS">{{'apicockpitApp.ApiCallLogsStatus.SUCESS' | translate}}</option>
+                        <option value="FAILED">{{'apicockpitApp.ApiCallLogsStatus.FAILED' | translate}}</option>
+                        <option value="ERROR">{{'apicockpitApp.ApiCallLogsStatus.ERROR' | translate}}</option>
+                        <option value="UNKNOWN">{{'apicockpitApp.ApiCallLogsStatus.UNKNOWN' | translate}}</option>
+                    </select>
+                    <div [hidden]="!(editForm.controls.status?.dirty && editForm.controls.status?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.status?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="apicockpitApp.apiCallLogs.projectName" for="field_projectName">Project Name</label>
+                    <input type="text" class="form-control" name="projectName" id="field_projectName"
+                        [(ngModel)]="apiCallLogs.projectName" required/>
+                    <div [hidden]="!(editForm.controls.projectName?.dirty && editForm.controls.projectName?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.projectName?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="apicockpitApp.apiCallLogs.apiName" for="field_apiName">Api Name</label>
+                    <input type="text" class="form-control" name="apiName" id="field_apiName"
+                        [(ngModel)]="apiCallLogs.apiName" required/>
+                    <div [hidden]="!(editForm.controls.apiName?.dirty && editForm.controls.apiName?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.apiName?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="apicockpitApp.apiCallLogs.profile" for="field_profile">Profile</label>
+                    <input type="text" class="form-control" name="profile" id="field_profile"
+                        [(ngModel)]="apiCallLogs.profile" required/>
+                    <div [hidden]="!(editForm.controls.profile?.dirty && editForm.controls.profile?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.profile?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="apicockpitApp.apiCallLogs.requestDate" for="field_requestDate">Request Date</label>
+                    <div class="d-flex">
+                        <input id="field_requestDate" type="datetime-local" class="form-control" name="requestDate" [(ngModel)]="requestDate"
+                        required/>
+                    </div>
+                    <div [hidden]="!(editForm.controls.requestDate?.dirty && editForm.controls.requestDate?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.requestDate?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.requestDate?.errors?.ZonedDateTimelocal" jhiTranslate="entity.validation.ZonedDateTimelocal">
+                            This field should be a date and time.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="apicockpitApp.apiCallLogs.responseDate" for="field_responseDate">Response Date</label>
+                    <div class="d-flex">
+                        <input id="field_responseDate" type="datetime-local" class="form-control" name="responseDate" [(ngModel)]="responseDate"
+                        required/>
+                    </div>
+                    <div [hidden]="!(editForm.controls.responseDate?.dirty && editForm.controls.responseDate?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.responseDate?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.controls.responseDate?.errors?.ZonedDateTimelocal" jhiTranslate="entity.validation.ZonedDateTimelocal">
+                            This field should be a date and time.
+                        </small>
+                    </div>
+                </div>
+
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

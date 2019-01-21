@@ -1,0 +1,26 @@
+{
+    "apicockpitApp": {
+        "apiCallLogs": {
+            "home": {
+                "title": "Api Call Logs",
+                "createLabel": "Create a new Api Call Logs",
+                "createOrEditLabel": "Create or edit a Api Call Logs"
+            },
+            "created": "A new Api Call Logs is created with identifier {{ param }}",
+            "updated": "A Api Call Logs is updated with identifier {{ param }}",
+            "deleted": "A Api Call Logs is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Api Call Logs {{ id }}?"
+            },
+            "detail": {
+                "title": "Api Call Logs"
+            },
+            "status": "Status",
+            "projectName": "Project Name",
+            "apiName": "Api Name",
+            "profile": "Profile",
+            "requestDate": "Request Date",
+            "responseDate": "Response Date"
+        }
+    }
+}

@@ -1,0 +1,11 @@
+{
+    "apicockpitApp": {
+        "ApiCallLogsStatus": {
+            "null": "",
+            "SUCESS": "SUCESS",
+            "FAILED": "FAILED",
+            "ERROR": "ERROR",
+            "UNKNOWN": "UNKNOWN"
+        }
+    }
+}

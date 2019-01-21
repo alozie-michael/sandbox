@@ -1,0 +1,47 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="apiCallLogs">
+            <h2><span jhiTranslate="apicockpitApp.apiCallLogs.detail.title">Api Call Logs</span> {{apiCallLogs.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="apicockpitApp.apiCallLogs.status">Status</span></dt>
+                <dd>
+                    <span jhiTranslate="{{'apicockpitApp.ApiCallLogsStatus.' + apiCallLogs.status}}">{{apiCallLogs.status}}</span>
+                </dd>
+                <dt><span jhiTranslate="apicockpitApp.apiCallLogs.projectName">Project Name</span></dt>
+                <dd>
+                    <span>{{apiCallLogs.projectName}}</span>
+                </dd>
+                <dt><span jhiTranslate="apicockpitApp.apiCallLogs.apiName">Api Name</span></dt>
+                <dd>
+                    <span>{{apiCallLogs.apiName}}</span>
+                </dd>
+                <dt><span jhiTranslate="apicockpitApp.apiCallLogs.profile">Profile</span></dt>
+                <dd>
+                    <span>{{apiCallLogs.profile}}</span>
+                </dd>
+                <dt><span jhiTranslate="apicockpitApp.apiCallLogs.requestDate">Request Date</span></dt>
+                <dd>
+                    <span>{{apiCallLogs.requestDate}}</span>
+                </dd>
+                <dt><span jhiTranslate="apicockpitApp.apiCallLogs.responseDate">Response Date</span></dt>
+                <dd>
+                    <span>{{apiCallLogs.responseDate}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/api-call-logs', apiCallLogs.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

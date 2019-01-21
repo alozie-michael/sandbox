@@ -11,6 +11,7 @@ import { ApicockpitApiProjectAuthConfigModule } from './api-project-auth-config/
 import { ApicockpitApiSvcProcConfigModule } from './api-svc-proc-config/api-svc-proc-config.module';
 import { ApicockpitDbProcConfigModule } from './db-proc-config/db-proc-config.module';
 import { ApicockpitGrovyProcConfigModule } from './grovy-proc-config/grovy-proc-config.module';
+import { ApicockpitApiCallLogsModule } from './api-call-logs/api-call-logs.module';
 /* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -27,6 +28,7 @@ import { ApicockpitGrovyProcConfigModule } from './grovy-proc-config/grovy-proc-
         ApicockpitApiSvcProcConfigModule,
         ApicockpitDbProcConfigModule,
         ApicockpitGrovyProcConfigModule,
+        ApicockpitApiCallLogsModule,
         /* jhipster-needle-add-entity-module - JHipster will add entity modules here */
     ],
     declarations: [],

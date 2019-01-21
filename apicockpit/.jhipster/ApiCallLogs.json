@@ -1,0 +1,58 @@
+{
+    "name": "ApiCallLogs",
+    "fields": [
+        {
+            "fieldName": "status",
+            "fieldType": "ApiCallLogsStatus",
+            "fieldValues": "SUCESS,FAILED,ERROR,UNKNOWN",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "projectName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "apiName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "profile",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "requestDate",
+            "fieldType": "Instant",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "responseDate",
+            "fieldType": "Instant",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [],
+    "changelogDate": "20190121190044",
+    "entityTableName": "api_call_logs",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}
