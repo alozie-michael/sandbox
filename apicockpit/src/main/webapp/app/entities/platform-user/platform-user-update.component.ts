@@ -14,7 +14,8 @@ import { ApiConsumerProfileService } from 'app/entities/api-consumer-profile';
 
 @Component({
     selector: 'jhi-platform-user-update',
-    templateUrl: './platform-user-update.component.html'
+    templateUrl: './platform-user-update.component.html',
+    styleUrls: ['./platform-user-update.component.scss']
 })
 export class PlatformUserUpdateComponent implements OnInit {
     platformUser: IPlatformUser;
