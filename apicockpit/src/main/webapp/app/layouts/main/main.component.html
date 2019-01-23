@@ -1,13 +1,11 @@
 <div class="wrapper">
-    <router-outlet name="sidebar" *ngIf="isAuthenticated()"></router-outlet>
-    <div class="main-panel" [ngClass]="{ 'main-panel-alt':isAuthenticated() == false }">
+    <jhi-sidebar *ngIf="isAuthenticated()"></jhi-sidebar>
+    <div class="main-panel" [ngClass]="{ 'main-panel-alt': isAuthenticated() == false }">
         <router-outlet name="navbar"></router-outlet>
-            <div class="content">
-                <div class="router-outlet-wrapper">
-                     <router-outlet></router-outlet>
-                </div>
-                <router-outlet name="popup"></router-outlet>
-            </div>
+        <div class="content">
+            <div class="router-outlet-wrapper"><router-outlet></router-outlet></div>
+            <router-outlet name="popup"></router-outlet>
         </div>
+    </div>
 </div>
 <jhi-footer></jhi-footer>

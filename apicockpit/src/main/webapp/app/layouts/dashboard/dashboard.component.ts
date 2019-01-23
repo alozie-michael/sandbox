@@ -20,10 +20,8 @@ export class DashboardComponent implements OnInit {
         scaleShowVerticalLines: false,
         responsive: true
     };
-
-    pieChartLabels: string[] = ['Error Count', 'API Calls'];
-    pieChartData: number[] = [10, 60];
-    pieChartType: string = 'pie';
+    public barChartLabels: string[] = [];
+    barChartData: any[] = [{ data: [] }];
 
     constructor(private dashboardService: DashboardService) {}
 
@@ -34,33 +32,22 @@ export class DashboardComponent implements OnInit {
                 this.totalApiCalls = response.body.totalApiCalls;
                 this.totalApiErrorCalls = response.body.totalApiErrorCalls;
                 this.apiCallGraph = response.body.apiCallGraph;
-                this.userActivities = response.body.userActivityDTOList.slice(0, 10);
+                this.userActivities = response.body.userActivityDTOList.slice(0, 4);
             },
             null,
             () => {
-                this.generateDataForPie();
                 this.generateDataForBar();
             }
         );
     }
-    public barChartLabels: string[] = [];
-    barChartData: any[] = [{ data: [], label: '' }];
 
-    generateDataForPie() {
-        let dataForPie = [this.totalApiErrorCalls.count, this.totalApiCalls.count];
-        this.pieChartData = dataForPie;
-    }
     generateDataForBar() {
-        let barChartDataClone = [];
-        let barlabelClone = [];
+        this.barChartData = [];
+        this.barChartLabels = [];
 
         this.apiCallGraph.forEach(element => {
-            barChartDataClone.push({ data: [element.count], label: element.name });
-            barlabelClone.push(element.name);
+            this.barChartLabels.push(element.name);
+            this.barChartData.push({ data: [element.count], label: element.name });
         });
-        this.barChartLabels = barlabelClone;
-        setTimeout(() => {
-            this.barChartData = barChartDataClone;
-        }, 50);
     }
 }

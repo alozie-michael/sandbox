@@ -18,7 +18,7 @@
                 </div>
                 <div class="card-footer ">
                     <hr />
-                    <div class="d-flex justify-content-start">
+                    <div class="d-flex justify-content-end">
                         <a [routerLink]="['#']" class="stats"> <i class="fa fa-eye"></i> View</a>
                     </div>
                 </div>
@@ -42,9 +42,8 @@
                 </div>
                 <div class="card-footer ">
                     <hr />
-                    <div class="d-flex justify-content-between">
-                        <a [routerLink]="['#']" class="stats"> <i class="fa fa-refresh"></i> Update Now</a>
-                        <a [routerLink]="['#']" class="stats"> <i class="fa fa-clock-o"></i> View Logs</a>
+                    <div class="d-flex justify-content-end">
+                        <a [routerLink]="['/api-call-logs']" class="stats"> <i class="fa fa-clock-o"></i> View Logs</a>
                     </div>
                 </div>
             </div>
@@ -67,8 +66,7 @@
                 </div>
                 <div class="card-footer ">
                     <hr />
-                    <div class="d-flex justify-content-between">
-                        <a [routerLink]="['#']" class="stats"> <i class="fa fa-refresh"></i> Update Now</a>
+                    <div class="d-flex justify-content-end">
                         <a [routerLink]="['#']" class="stats"> <i class="fa fa-clock-o"></i> View Logs</a>
                     </div>
                 </div>
@@ -76,40 +74,23 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12">
-            <div class="card ">
+        <div class="col-md-8">
+            <div class="card call-graph ">
                 <div class="card-header "><h5 class="card-title">Subscribed API VS API Calls</h5></div>
                 <div class="card-body ">
                     <div style="display: block">
                         <canvas
                             baseChart
                             [datasets]="barChartData"
-                            [labels]="barChartLabels"
                             [options]="barChartOptions"
                             [legend]="barChartLegend"
                             [chartType]="barChartType"
                         ></canvas>
                     </div>
                 </div>
-                <div class="card-footer ">
-                    <hr />
-                    <div class="stats"><i class="fa fa-refresh"></i> Updated 3 minutes ago</div>
-                </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-7">
-            <div class="card card-chart">
-                <div class="card-header"><h5 class="card-title">Error Count VS API Calls</h5></div>
-                <div class="card-body">
-                    <div style="display: block">
-                        <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-5">
+        <div class="col-md-4 activity-wrapper">
             <div class="card user-activity">
                 <div class="card-header "><h5 class="card-title m-0">User Activity</h5></div>
                 <div class="card-body ">

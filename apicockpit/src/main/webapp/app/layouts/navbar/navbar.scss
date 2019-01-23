@@ -28,6 +28,10 @@ Navbar
         width: 40px;
         border-radius: 50%;
     }
+    ul.dropdown-menu {
+        top: 42px;
+        left: -117px;
+    }
     .dropdown-item {
         color: #fff;
     }
@@ -43,6 +47,7 @@ Navbar
     }
     ul.navbar-nav {
         padding: 0.5em;
+
         .nav-item {
             margin-left: 1.5rem;
         }

@@ -17,6 +17,10 @@
     .wrapper {
         flex-grow: 5;
         height: inherit;
+
+        div.main-panel {
+            padding-bottom: 100px;
+        }
     }
 
     jhi-footer {

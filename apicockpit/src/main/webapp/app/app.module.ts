@@ -22,7 +22,7 @@ import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
 import { SidebarComponent } from './layouts/sidebar/sidebar.component';
 import { DashboardComponent } from './layouts/dashboard/dashboard.component';
 import { TimeAgoPipe } from 'time-ago-pipe';
-import { ChartsModule } from 'ng2-charts';
+import { ChartsModule } from 'ng4-charts/ng4-charts';
 import { MenuComponent } from 'app/layouts/menu/menu.component';
 import { AppRoutingModule } from 'app/app-routing.module';
 import { TocModule } from 'app/toc/toc.module';
