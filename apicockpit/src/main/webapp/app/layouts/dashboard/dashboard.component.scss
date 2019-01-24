@@ -2,6 +2,7 @@
     border-radius: 12px;
     &.user-activity {
         min-height: 380px;
+        margin-bottom: 0;
         p,
         span {
             color: #9a9a9a;
@@ -37,4 +38,12 @@ a {
 .card-category {
     min-height: 44px;
     margin-bottom: 0;
+}
+.call-graph {
+    height: 100%;
+}
+@media screen and (max-width: 768px) {
+    .activity-wrapper {
+        margin-top: 20px;
+    }
 }

@@ -9,8 +9,6 @@ import { ApiCallLogs } from 'app/shared/model/api-call-logs.model';
 import { ApiCallLogsService } from './api-call-logs.service';
 import { ApiCallLogsComponent } from './api-call-logs.component';
 import { ApiCallLogsDetailComponent } from './api-call-logs-detail.component';
-import { ApiCallLogsUpdateComponent } from './api-call-logs-update.component';
-import { ApiCallLogsDeletePopupComponent } from './api-call-logs-delete-dialog.component';
 import { IApiCallLogs } from 'app/shared/model/api-call-logs.model';
 
 @Injectable({ providedIn: 'root' })
@@ -54,45 +52,5 @@ export const apiCallLogsRoute: Routes = [
             pageTitle: 'apicockpitApp.apiCallLogs.home.title'
         },
         canActivate: [UserRouteAccessService]
-    },
-    {
-        path: 'api-call-logs/new',
-        component: ApiCallLogsUpdateComponent,
-        resolve: {
-            apiCallLogs: ApiCallLogsResolve
-        },
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'apicockpitApp.apiCallLogs.home.title'
-        },
-        canActivate: [UserRouteAccessService]
-    },
-    {
-        path: 'api-call-logs/:id/edit',
-        component: ApiCallLogsUpdateComponent,
-        resolve: {
-            apiCallLogs: ApiCallLogsResolve
-        },
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'apicockpitApp.apiCallLogs.home.title'
-        },
-        canActivate: [UserRouteAccessService]
-    }
-];
-
-export const apiCallLogsPopupRoute: Routes = [
-    {
-        path: 'api-call-logs/:id/delete',
-        component: ApiCallLogsDeletePopupComponent,
-        resolve: {
-            apiCallLogs: ApiCallLogsResolve
-        },
-        data: {
-            authorities: ['ROLE_USER'],
-            pageTitle: 'apicockpitApp.apiCallLogs.home.title'
-        },
-        canActivate: [UserRouteAccessService],
-        outlet: 'popup'
     }
 ];

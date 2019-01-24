@@ -1,3 +1,6 @@
+.sidebar {
+    z-index: 1;
+}
 .logo-image-big {
     width: 100%;
 
@@ -9,6 +12,8 @@
 }
 
 .sidebar-wrapper {
+    overflow-y: auto;
+    overflow-x: hidden;
     .nav-link.dropdown-toggle {
         padding-top: 10px;
         padding-bottom: 10px;
